@@ -16,45 +16,57 @@ public class User {
 	private Boolean isAdmin = false;
 	private UserStatus status = UserStatus.ENABLED;
 	
-	public User setIsAdmin(Boolean isAdmin) {
+	public User(){
+		
+	}
+	
+	
+	
+	public User(Long id, String login, String email, String password,
+			Boolean isAdmin, UserStatus status) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.email = email;
+		this.password = password;
 		this.isAdmin = isAdmin;
-		return this;
+		this.status = status;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public User setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
-		return this;
 	}
 
 	public String getLogin() {
 		return login;
 	}
 
-	public User setLogin(String login) {
+	public void setLogin(String login) {
 		this.login = login;
-		return this;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public User setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
-		return this;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public User setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
-		return this;
 	}
 
 	public Boolean getIsAdmin() {

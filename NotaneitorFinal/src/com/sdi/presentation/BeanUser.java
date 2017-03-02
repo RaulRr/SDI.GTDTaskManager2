@@ -52,6 +52,7 @@ public class BeanUser implements Serializable{
 			userService = Services.getUserService();
 			user = userService.findLoggableUser(user.getLogin(),
 					user.getPassword());
+		
 		}catch(BusinessException e){
 			return "error";
 		}

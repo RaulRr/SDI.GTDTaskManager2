@@ -8,13 +8,12 @@ import com.sdi.dto.User;
 public class Cloner {
 
 	public static User clone(User u) {
-		return new User()
-			.setId( 		u.getId() )
-			.setEmail( 		u.getEmail() )
-			.setIsAdmin(	u.getIsAdmin() )
-			.setLogin( 		u.getLogin() )
-			.setPassword( 	u.getPassword() )
-			.setStatus( 	u.getStatus() );
+		return new User(u.getId(),
+				u.getLogin(),
+				u.getPassword(),
+				u.getEmail(),
+				u.getIsAdmin(),
+				u.getStatus() );
 	}
 	
 	public static Task clone(Task t) {
