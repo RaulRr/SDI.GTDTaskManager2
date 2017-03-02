@@ -2,8 +2,10 @@
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14881860222760" configfile="/Task2.V1.0/WebContent/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14884505255530" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14884505255531" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14884505255532" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14884505255531" path="/error.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="562" id="pf14884505255533" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14884505255534" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14884505255534" path="/exito.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="754" id="pf14884505255533" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf14884505255534 pf14884795331220" path="/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf14884505255534" path="/listaUsuarios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="listaTareas.xhtml" x="338" y="946" id="pf14884795331221" referenceLink="//@navigationRule.1/@navigationCase.1/@toViewId|" inlinks="pf14884795331220" path="/listaTareas.xhtml"/>
   <links id="pf14884505255531" target="pf14884505255532" source="pf14884505255530" outcome="error"/>
-  <links id="pf14884505255534" target="pf14884505255535" source="pf14884505255533" outcome="exito" fromaction="#{controller.validar}"/>
+  <links id="pf14884505255534" target="pf14884505255535" source="pf14884505255533" outcome="admin" fromaction="#{controller.validar}"/>
+  <links id="pf14884795331220" target="pf14884795331221" source="pf14884505255533" outcome="user" fromaction="#{controller.validar}"/>
 </pageflow:Pageflow>

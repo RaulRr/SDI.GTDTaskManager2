@@ -9,12 +9,12 @@
 <h:body>
 
 	<h:form>
-		Login:
+		#{msgs.rellenaUsuario}
 		<h:inputText value ="#{controller.user.login}"></h:inputText>
 		<br></br>
-		Contraseña:
+		#{msgs.rellenaContraseña}
 		<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
-		<h:commandButton value="Validar"
+		<h:commandButton value="#{msgs.botonValidar}"
  			action="#{controller.validar}"/>
 	</h:form>
 

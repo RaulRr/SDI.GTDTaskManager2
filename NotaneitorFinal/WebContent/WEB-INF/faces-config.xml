@@ -5,6 +5,13 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
     
+    <application>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
+    
     <managed-bean>
  		<managed-bean-name>controller</managed-bean-name>
  		<managed-bean-class>com.sdi.presentation.BeanUser</managed-bean-class>
@@ -22,12 +29,20 @@
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{controller.validar}</from-action>
-			<from-outcome>exito</from-outcome>
-			<to-view-id>/exito.xhtml</to-view-id>
+			<from-outcome>admin</from-outcome>
+			<to-view-id>/listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.validar}</from-action>
+			<from-outcome>user</from-outcome>
+			<to-view-id>/listaTareas.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
-		<from-view-id>/exito.xhtml</from-view-id>
+		<from-view-id>/listaUsuarios.xhtml</from-view-id>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/listaTareas.xhtml</from-view-id>
 	</navigation-rule>
 
 </faces-config>
