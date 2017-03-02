@@ -21,6 +21,10 @@ public class FindLoggableUSerCommand<T> implements Command<User> {
 		User user = Persistence.getUserDao()
 						.findByLoginAndPassword(login, password);
 		
+		if(user == null){
+			throw new BusinessException("El usuario no existe");
+		}
+		
 		return (user != null && user.getStatus().equals( UserStatus.ENABLED ))
 				? user
 				: null;
