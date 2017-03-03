@@ -41,7 +41,7 @@
 	<navigation-rule>
 		<from-view-id>/listaUsuarios.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{controller.cambiarEstado(user)}</from-action>
+			<from-action>#{controller.cambiarEstado(vuser)}</from-action>
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
 		</navigation-case>

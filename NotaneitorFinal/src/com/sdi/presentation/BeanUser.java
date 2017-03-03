@@ -91,6 +91,7 @@ public class BeanUser implements Serializable {
 			else{
 				adminService.enableUser(user.getId());
 			}
+			listadoUsuarios(); //Actualizamos la lista de usuarios
 			return "exito"; //Nos volvemos al listado
 		}catch(BusinessException b){
 			return "error";

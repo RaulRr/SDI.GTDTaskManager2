@@ -17,8 +17,8 @@ public class UserDaoJdbcImpl implements UserDao {
 		public User toObject(ResultSet rs) throws SQLException {
 			return new User( rs.getLong("id"), 
 					rs.getString("login"),
-					rs.getString("password"),
 					rs.getString("email"),
+					rs.getString("password"),
 					rs.getBoolean("isAdmin"),
 					UserStatus.valueOf( rs.getString("status") ));
 		}

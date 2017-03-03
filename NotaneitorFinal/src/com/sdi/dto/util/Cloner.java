@@ -10,8 +10,8 @@ public class Cloner {
 	public static User clone(User u) {
 		return new User(u.getId(),
 				u.getLogin(),
-				u.getPassword(),
 				u.getEmail(),
+				u.getPassword(),
 				u.getIsAdmin(),
 				u.getStatus() );
 	}
