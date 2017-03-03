@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.faces.bean.*;
 import javax.faces.event.ActionEvent;
 
+import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
 import com.sdi.business.exception.BusinessException;
@@ -71,11 +72,29 @@ public class BeanUser implements Serializable {
 				return "admin";
 			}
 
-		} catch (BusinessException e) {
+		} catch (BusinessException b) {
 			return "error"; //Se produjo algún error al validar
 		}
 
 		return "user"; //Es un usario normal
+	}
+	
+	public String cambiarEstado(User user){
+		AdminService adminService;
+		if(user == null)
+			return "error";
+		try{
+			adminService= Services.getAdminService();
+			if(user !=null && user.getStatus().equals(UserStatus.ENABLED)){
+				adminService.disableUser(user.getId());
+			}
+			else{
+				adminService.enableUser(user.getId());
+			}
+			return "exito"; //Nos volvemos al listado
+		}catch(BusinessException b){
+			return "error";
+		}
 	}
 
 	private void listadoUsuarios() throws BusinessException {

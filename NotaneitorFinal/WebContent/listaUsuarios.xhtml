@@ -12,15 +12,19 @@
 <!-- Aqu� va tu c�digo -->
 	<h:form>
 		<p:panel header="#{msgs.tituloListadoUsuarios}">
-			<p:dataTable var="user" value="#{controller.users}" border="1">
+			<p:dataTable var="vuser" id="tablalistado" value="#{controller.users}" border="1">
 				<p:column>
-					<f:facet name="header">#{msgs.usuarioId}</f:facet>#{user.id}</p:column>
+					<f:facet name="header">#{msgs.usuarioId}</f:facet>#{vuser.id}</p:column>
 				<p:column>
-					<f:facet name="header">#{msgs.usuarioLogin}</f:facet>#{user.login}</p:column>
+					<f:facet name="header">#{msgs.usuarioLogin}</f:facet>#{vuser.login}</p:column>
 				<p:column>
-					<f:facet name="header">#{msgs.usuarioEmail}</f:facet>#{user.email}</p:column>
+					<f:facet name="header">#{msgs.usuarioEmail}</f:facet>#{vuser.email}</p:column>
 				<p:column>
-					<f:facet name="header">#{msgs.usuarioStatus}</f:facet>#{user.status}</p:column>
+					<f:facet name="header">#{msgs.usuarioStatus}</f:facet>
+					<p:commandLink rendered="#{vuser.isAdmin==false}" reaction="#{controller.cambiarEstado(vuser)}" type="submit"
+							value="#{vuser.status}" immediate="true" update = "tablalistado"> 
+					</p:commandLink>
+				</p:column>
 			</p:dataTable>
 		</p:panel>
 	</h:form>
