@@ -97,6 +97,20 @@ public class BeanUser implements Serializable {
 			return "error";
 		}
 	}
+	
+	public String eliminar(User user){
+		AdminService adminService;
+		if(user == null)
+			return "error";
+		try{
+			adminService = Services.getAdminService();
+			adminService.deepDeleteUser(user.getId());
+			listadoUsuarios();
+			return "exito"; //Nos volvemos al listado
+		} catch (BusinessException b){
+			return "error";
+		}
+	}
 
 	private void listadoUsuarios() throws BusinessException {
 		users = (User[]) Services.getAdminService().findAllUsers()

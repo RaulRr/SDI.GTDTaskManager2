@@ -26,7 +26,17 @@
 						type="submit"
 						value="#{vuser.status}" 
 						immediate="true"
-						update = "tablalistado"> 
+						update="tablalistado"> 
+					</p:commandLink>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs.usuarioEliminar}</f:facet>
+					<p:commandLink action="#{controller.eliminar(vuser)}"
+						rendered="#{vuser.isAdmin==false}"
+						type="submit"
+						value="#{msgs.usuarioEliminar}"
+						inmediate="true"
+						update="tablalistado">
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
