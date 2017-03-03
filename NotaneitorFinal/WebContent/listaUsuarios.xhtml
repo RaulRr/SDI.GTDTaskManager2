@@ -2,7 +2,8 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
 <title>#{msgs.cabeceraAdministrador}</title> 
 </h:head>
@@ -10,16 +11,18 @@
 
 <!-- Aqu� va tu c�digo -->
 	<h:form>
-		<h:dataTable var="user" value="#{controller.users}" border="1">
-			<h:column>
-				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}</h:column>
-		</h:dataTable>
+		<p:panel header="#{msgs.tituloListadoUsuarios}">
+			<p:dataTable var="user" value="#{controller.users}" border="1">
+				<p:column>
+					<f:facet name="header">#{msgs.usuarioId}</f:facet>#{user.id}</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs.usuarioLogin}</f:facet>#{user.login}</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs.usuarioEmail}</f:facet>#{user.email}</p:column>
+				<p:column>
+					<f:facet name="header">#{msgs.usuarioStatus}</f:facet>#{user.status}</p:column>
+			</p:dataTable>
+		</p:panel>
 	</h:form>
 </h:body>
 </html>
