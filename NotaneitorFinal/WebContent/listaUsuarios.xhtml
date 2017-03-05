@@ -13,14 +13,16 @@
 	<h:form>
 		<p:panel header="#{msgs.tituloListadoUsuarios}">
 			<p:dataTable var="vuser" id="tablalistado" value="#{controller.users}" border="1">
-				<p:column>
-					<f:facet name="header">#{msgs.usuarioId}</f:facet>#{vuser.id}</p:column>
-				<p:column>
-					<f:facet name="header">#{msgs.usuarioLogin}</f:facet>#{vuser.login}</p:column>
-				<p:column>
-					<f:facet name="header">#{msgs.usuarioEmail}</f:facet>#{vuser.email}</p:column>
-				<p:column>
-					<f:facet name="header">#{msgs.usuarioStatus}</f:facet>
+				<p:column headerText="#{msgs.usuarioId}">
+					<h:outputText value="#{vuser.id}" />
+				</p:column>
+				<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}">
+					<h:outputText value="#{vuser.login}" />
+				</p:column>
+				<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}">
+					<h:outputText value="#{vuser.email}" />
+				</p:column>
+				<p:column headerText="#{msgs.usuarioStatus}" sortBy="#{vuser.status}">
 					<p:commandLink action="#{controller.cambiarEstado(vuser)}"
 						rendered="#{vuser.isAdmin==false}" 
 						type="submit"
@@ -29,8 +31,7 @@
 						update="tablalistado"> 
 					</p:commandLink>
 				</p:column>
-				<p:column>
-					<f:facet name="header">#{msgs.usuarioEliminar}</f:facet>
+				<p:column headerText="#{msgs.usuarioEliminar}">
 					<p:commandLink action="#{controller.eliminar(vuser)}"
 						rendered="#{vuser.isAdmin==false}"
 						type="submit"

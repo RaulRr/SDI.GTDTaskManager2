@@ -1,6 +1,7 @@
 package com.sdi.presentation;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.bean.*;
 import javax.faces.event.ActionEvent;
@@ -28,7 +29,7 @@ public class BeanUser implements Serializable {
 
 	private User user = new User();
 
-	private User[] users = null;
+	private List<User> users = null;
 
 	public BeanUser() {
 		iniciaUser(null);
@@ -52,11 +53,11 @@ public class BeanUser implements Serializable {
 		this.user = alumno;
 	}
 
-	public User[] getUsers() {
+	public List<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(User[] users) {
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
@@ -113,8 +114,7 @@ public class BeanUser implements Serializable {
 	}
 
 	private void listadoUsuarios() throws BusinessException {
-		users = (User[]) Services.getAdminService().findAllUsers()
-				.toArray(new User[0]);
+		users =  Services.getAdminService().findAllUsers();
 	}
 
 }
