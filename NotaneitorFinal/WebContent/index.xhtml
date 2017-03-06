@@ -1,21 +1,40 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<title>Cabecera</title>
 </h:head>
 <h:body>
 
 	<h:form>
-		#{msgs.rellenaUsuario}
-		<h:inputText value ="#{controller.user.login}"></h:inputText>
-		<br></br>
-		#{msgs.rellenaContraseña}
-		<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
-		<h:commandButton value="#{msgs.botonValidar}"
- 			action="#{controller.validar}"/>
+		<p:panel header="#{msgs.tituloLogin}">
+			<table>
+				<tr>
+					<td><h:outputText styleClass="fa fa-user" rendered="#{not empty skillst}"/><p:outputLabel value = "#{msgs.rellenaUsuario}"></p:outputLabel></td>
+					<td>
+						<h:inputText value="#{controller.user.login}"></h:inputText>
+					</td>
+				</tr>
+				<tr>
+					<td>#{msgs.rellenaContraseña}</td>
+					<td>
+						<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
+					</td>
+				</tr>
+				<tr>
+					<td><h:commandButton value="#{msgs.botonRegistro}"
+							action="#{controller.registro}" />
+					</td>
+					<td>
+						<h:commandButton value="#{msgs.botonValidar}"
+							action="#{controller.validar}" />
+					</td>
+				</tr>
+			</table>
+		</p:panel>
 	</h:form>
 
 </h:body>

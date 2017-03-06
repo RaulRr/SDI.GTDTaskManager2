@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Cabecera</title>
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:panel header="#{msgs.tituloRegistro}">
+			<table>
+				<tr>
+					<td><p:outputLabel value="#{msgs.rellenaUsuario}"></p:outputLabel></td>
+					<td><h:inputText id="login" value="#{controller.user.login}">
+							<p:watermark for="login" value="#{msgs.login}" />
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel value="#{msgs.rellenaEmail}"></p:outputLabel></td>
+					<td><h:inputText id="email" value="#{controller.user.email}">
+							<p:watermark for="email" value="#{msgs.email}" />
+						</h:inputText></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel value="#{msgs.rellenaContraseña}"></p:outputLabel></td>
+					<td><p:password id="pass" value="#{controller.user.password}"
+							feedback="true">
+							<p:watermark for="pass" value="#{msgs.pass}" />
+							<f:validateLength minimum="8" />
+						</p:password></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><h:commandButton value="#{msgs.botonRegistrar}"
+							action="#{controller.registrar}" /></td>
+				</tr>
+			</table>
+		</p:panel>
+	</h:form>
+
+</h:body>
+</html>
+

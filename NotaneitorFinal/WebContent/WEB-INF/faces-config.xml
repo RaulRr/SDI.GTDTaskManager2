@@ -25,6 +25,14 @@
  			<to-view-id>/error.xhtml</to-view-id>
  		</navigation-case>
  	</navigation-rule>
+ 	<navigation-rule>
+ 		<from-view-id>/registroUsuario.xhtml</from-view-id>
+ 		<navigation-case>
+ 			<from-action>#{controller.registrar}</from-action>
+ 			<from-outcome>true</from-outcome>
+ 			<to-view-id>/index.xhtml</to-view-id>
+ 		</navigation-case>
+ 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
@@ -36,6 +44,11 @@
 			<from-action>#{controller.validar}</from-action>
 			<from-outcome>user</from-outcome>
 			<to-view-id>/listaTareas.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.registro}</from-action>
+			<from-outcome>true</from-outcome>
+			<to-view-id>/registroUsuario.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>

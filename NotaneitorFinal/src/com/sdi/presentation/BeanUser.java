@@ -131,4 +131,24 @@ public class BeanUser implements Serializable {
 	private void listadoTareas() throws BusinessException{
 		tasks = Services.getTaskService().findInboxTasksByUserId(user.getId());
 	}
+	
+	public String registro(){
+		return "true";
+	}
+	
+	public String registrar() {
+		UserService userService;
+
+		try {
+			userService = Services.getUserService();
+			user.setIsAdmin(false);
+			user.setStatus(UserStatus.ENABLED);
+			userService.registerUser(user);
+			
+		} catch (BusinessException b) {
+			return "error"; //Se produjo algún error al validar
+		}
+		
+		return "true"; //Es un usario normal
+	}
 }
