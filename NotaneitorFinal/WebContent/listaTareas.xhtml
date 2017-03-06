@@ -12,21 +12,21 @@
 <!-- Aqu� va tu c�digo -->
 	<h:form>
 		<p:panel header="#{msgs.tituloListadoTareas}">
-			<p:dataTable var="task" id="tablalistado" value="#{controller.tasks}" border="1">
+			<p:dataTable var="vtask" id="tablalistado" value="#{controller.tasks}" border="1">
 				<p:column headerText="#{msgs.tareaId}">
-					<h:outputText value="#{task.id}" />
+					
 				</p:column>
 				<p:column headerText="#{msgs.tareaTitulo}">
-					<h:outputText value="#{task.title}" />
+					
 				</p:column>
 				<p:column headerText="#{msgs.tareaComentarios}">
-					<h:outputText value="#{task.comments}" />
+					
 				</p:column>
 				<p:column headerText="#{msgs.tareaCreada}">
-					<h:outputText value="#{task.created}" />
+					
 				</p:column>
 				<p:column headerText="#{msgs.tareaPlaneada}">
-					<h:outputText value="#{task.planned}" />
+					
 				</p:column>
 			</p:dataTable>
 		</p:panel>
