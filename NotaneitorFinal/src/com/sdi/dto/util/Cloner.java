@@ -17,15 +17,14 @@ public class Cloner {
 	}
 	
 	public static Task clone(Task t) {
-		return new Task()
-			.setCategoryId( t.getCategoryId() )
-			.setComments( 	t.getComments() )
-			.setCreated( 	t.getCreated() )
-			.setFinished( 	t.getFinished() )
-			.setId( 		t.getId() )
-			.setPlanned( 	t.getPlanned() )
-			.setTitle( 		t.getTitle() )
-			.setUserId( 	t.getUserId() );
+		return new Task(t.getId(),
+				t.getTitle(),
+				t.getComments(),
+				t.getCreated(),
+				t.getPlanned(),
+				t.getFinished(),
+				t.getCategoryId(),
+				t.getUserId());
 	}
 
 	public static Category clone(Category c) {

@@ -2,24 +2,34 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core">
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>#{msgs.cabeceraAdministrador}</title> 
+<title>#{msgs.cabeceraTareas}</title> 
 </h:head>
 <h:body>
 
 <!-- Aqu� va tu c�digo -->
 	<h:form>
-		<h:dataTable var="user" value="#{controller.users}" border="1">
-			<h:column>
-				<f:facet name="header">#{usuarioId}</f:facet>#{user.id}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioLogin}</f:facet>#{user.login}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioEmail}</f:facet>#{user.email}</h:column>
-			<h:column>
-				<f:facet name="header">#{usuarioStatus}</f:facet>#{user.status}</h:column>
-		</h:dataTable>
+		<p:panel header="#{msgs.tituloListadoTareas}">
+			<p:dataTable var="task" id="tablalistado" value="#{controller.tasks}" border="1">
+				<p:column headerText="#{msgs.tareaId}">
+					<h:outputText value="#{task.id}" />
+				</p:column>
+				<p:column headerText="#{msgs.tareaTitulo}">
+					<h:outputText value="#{task.title}" />
+				</p:column>
+				<p:column headerText="#{msgs.tareaComentarios}">
+					<h:outputText value="#{task.comments}" />
+				</p:column>
+				<p:column headerText="#{msgs.tareaCreada}">
+					<h:outputText value="#{task.created}" />
+				</p:column>
+				<p:column headerText="#{msgs.tareaPlaneada}">
+					<h:outputText value="#{task.planned}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
 	</h:form>
 </h:body>
 </html>

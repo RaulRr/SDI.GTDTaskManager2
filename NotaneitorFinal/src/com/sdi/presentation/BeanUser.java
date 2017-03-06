@@ -2,14 +2,13 @@ package com.sdi.presentation;
 
 import java.io.Serializable;
 import java.util.List;
-
 import javax.faces.bean.*;
 import javax.faces.event.ActionEvent;
-
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
 import com.sdi.business.exception.BusinessException;
+import com.sdi.dto.Task;
 import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
@@ -30,6 +29,8 @@ public class BeanUser implements Serializable {
 	private User user = new User();
 
 	private List<User> users = null;
+	
+	private List<Task> tasks = null;
 
 	public BeanUser() {
 		iniciaUser(null);
@@ -61,6 +62,14 @@ public class BeanUser implements Serializable {
 		this.users = users;
 	}
 
+	public List<Task> getTasks() {
+		return tasks;
+	}
+	
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
+	}
+	
 	public String validar() {
 		UserService userService;
 
@@ -72,11 +81,13 @@ public class BeanUser implements Serializable {
 				listadoUsuarios();
 				return "admin";
 			}
-
+			
+			listadoTareas();//Si usuario cargamos las tareas desde el inbox
+			
 		} catch (BusinessException b) {
 			return "error"; //Se produjo algún error al validar
 		}
-
+		
 		return "user"; //Es un usario normal
 	}
 	
@@ -116,5 +127,8 @@ public class BeanUser implements Serializable {
 	private void listadoUsuarios() throws BusinessException {
 		users =  Services.getAdminService().findAllUsers();
 	}
-
+	
+	private void listadoTareas() throws BusinessException{
+		tasks = Services.getTaskService().findInboxTasksByUserId(user.getId());
+	}
 }
