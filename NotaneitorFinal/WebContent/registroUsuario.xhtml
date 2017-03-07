@@ -29,13 +29,21 @@
 					<td><p:password id="pass" value="#{controller.user.password}"
 							feedback="true">
 							<p:watermark for="pass" value="#{msgs.pass}" />
-							<f:validateLength minimum="8" />
+						</p:password></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel value="#{msgs.rellenaContraseña2}"></p:outputLabel></td>
+					<td><p:password id="pass2" value="#{controller.pass}"
+							feedback="true">
+							<p:watermark for="pass2" value="#{msgs.pass2}" />
 						</p:password></td>
 				</tr>
 				<tr>
 					<td></td>
-					<td><h:commandButton value="#{msgs.botonRegistrar}"
-							action="#{controller.registrar}" /></td>
+					<td><h:commandButton value="#{msgs.botonCancelar}"
+							action="#{controller.atras}"/>
+						<h:commandButton value="#{msgs.botonRegistrar}"
+							action="#{controller.registrar}" style="margin-left: 10px;"/></td>
 				</tr>
 			</table>
 		</p:panel>

@@ -13,25 +13,23 @@
 		<p:panel header="#{msgs.tituloLogin}">
 			<table>
 				<tr>
-					<td><h:outputText styleClass="fa fa-user" rendered="#{not empty skillst}"/><p:outputLabel value = "#{msgs.rellenaUsuario}"></p:outputLabel></td>
-					<td>
-						<h:inputText value="#{controller.user.login}"></h:inputText>
+					<td><h:outputText styleClass="fa fa-user"
+							rendered="#{not empty skillst}" /> <p:outputLabel
+							value="#{msgs.rellenaUsuario}"></p:outputLabel></td>
+					<td><h:inputText value="#{controller.user.login}"></h:inputText>
 					</td>
 				</tr>
 				<tr>
 					<td>#{msgs.rellenaContraseña}</td>
-					<td>
-						<h:inputSecret value="#{controller.user.password}"></h:inputSecret>
+					<td><h:inputSecret value="#{controller.user.password}"></h:inputSecret>
 					</td>
 				</tr>
 				<tr>
+					<td></td>
 					<td><h:commandButton value="#{msgs.botonRegistro}"
-							action="#{controller.registro}" />
-					</td>
-					<td>
-						<h:commandButton value="#{msgs.botonValidar}"
-							action="#{controller.validar}" />
-					</td>
+							action="#{controller.registro}" /> <h:commandButton
+							value="#{msgs.botonValidar}" action="#{controller.validar}"
+							style="margin-left: 10px;" /></td>
 				</tr>
 			</table>
 		</p:panel>
