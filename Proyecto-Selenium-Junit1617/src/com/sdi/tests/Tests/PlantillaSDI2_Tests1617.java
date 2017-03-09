@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -113,12 +114,57 @@ public class PlantillaSDI2_Tests1617 {
 	//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de entrar con el usuario que se desactivado.
 	@Test
     public void prueba06() {
-		assertTrue(false);
+		//Estamos en el login-validamos como admin
+		validarUsuario("admin", "admin");
+
+		//Esperamos a que se cargue la pagina del admin
+		//concretamente la tabla listado usuarios del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+
+		//Comprobamos que existe el user a cambiar
+		SeleniumUtils.textoPresentePagina(driver, "john");
+		SeleniumUtils.textoPresentePagina(driver, "john@mail.com");
+		
+		//Editamos el estado del usuario que se encuantra enabled
+		By enlace = By.xpath("//td[contains(text(), 'john@mail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();//Ahora estaria disabled
+		
+		enlace = By.xpath("//input[contains(@id, 'atras')]");
+		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
+		
+		//Intentamos acceder como el usuario
+		//validarUsuario("john", "john");
+		//Falta implementacion!!!!!!!!!!!!!!!!
     }
 	//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de entrar con el usuario que se ha activado.
 	@Test
     public void prueba07() {
-		assertTrue(false);
+		//Estamos en el login-validamos como admin
+		validarUsuario("admin", "admin");
+
+		//Esperamos a que se cargue la pagina del admin
+		//concretamente la tabla listado usuarios del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+
+		//Comprobamos que existe el user a cambiar
+		SeleniumUtils.textoPresentePagina(driver, "ian");
+		SeleniumUtils.textoPresentePagina(driver, "ian@mail.com");
+
+		//Editamos el estado del usuario que se encuantra disabled
+		By enlace = By.xpath("//td[contains(text(), 'ian@mail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();//Ahora estaria disabled
+
+		enlace = By.xpath("//input[contains(@id, 'atras')]");
+		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
+
+		//Intentamos acceder como el usuario
+		validarUsuario("ian", "ian");
+		
+		//Esperamos a que se cargue la pagina del usuario
+		//concretamente la tabla listado tareas del user
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-task:tablalistado", 10); 
+		
+		//Abria que seguir haciendo cosas!!!!!!
     }
 	//PR08: Ordenar por Login
 	@Test

@@ -25,7 +25,7 @@
 				</p:column>
 				<p:column headerText="#{msgs.usuarioStatus}"
 					sortBy="#{vuser.status}">
-					<p:commandLink action="#{controller.cambiarEstado(vuser)}"
+					<p:commandLink id="editarstatus" action="#{controller.cambiarEstado(vuser)}"
 						rendered="#{vuser.isAdmin==false}" type="submit"
 						value="#{vuser.status}" immediate="true" update="tablalistado">
 					</p:commandLink>
@@ -47,7 +47,7 @@
 				</p:column>
 			</p:dataTable>
 		</p:panel>
-		<h:commandButton value="#{msgs.botonAtras}"
+		<h:commandButton id="atras" value="#{msgs.botonAtras}"
 							action="#{controller.atras}"/>
 	</h:form>
 </h:body>
