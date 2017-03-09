@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 
-public class PO_AltaForm {
+public class PO_Form {
 
 	
 	

@@ -15,7 +15,7 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import com.sdi.tests.pageobjects.PO_AltaForm;
+import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
 //Ordenamos las pruebas por el nombre del método
@@ -53,7 +53,7 @@ public class PlantillaSDI2_Tests1617 {
 
 		//Estamos en el login
 		//Vamos a rellenar el formulario
-		new PO_AltaForm().rellenaLogin(driver, ulogin, upassword);
+		new PO_Form().rellenaLogin(driver, ulogin, upassword);
 	}
 
 	//PRUEBAS
@@ -72,12 +72,21 @@ public class PlantillaSDI2_Tests1617 {
 	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
 	@Test
     public void prueba02() {
-		assertTrue(false);
+		//Estamos en el login-introducimos mal el login
+		validarUsuario("admn", "admin");
+		
+		//No accedemos al listado por tanto no podemos eal admin1!
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
+		
     }
 	//PR03: Fallo en la autenticación del administrador por introducir mal la password.
 	@Test
     public void prueba03() {
-		assertTrue(false);
+		//Estamos en el login-introducimos mal la password
+		validarUsuario("admin", "adn");
+				
+		//No accedemos al listado por tanto no podemos eal admin1!
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
     }
 	//PR04: Probar que la base de datos contiene los datos insertados con conexión correcta a la base de datos.
 	@Test
@@ -87,7 +96,19 @@ public class PlantillaSDI2_Tests1617 {
 	//PR05: Visualizar correctamente la lista de usuarios normales. 
 	@Test
     public void prueba05() {
-		assertTrue(false);
+		//Estamos en el login-validamos como admin
+		validarUsuario("admin", "admin");
+
+		//Esperamos a que se cargue la pagina del admin
+		//concretamente la tabla listado usuarios del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+		
+		//Comprobamos que existen los usuarios por el login e email
+		SeleniumUtils.textoPresentePagina(driver, "john");
+		SeleniumUtils.textoPresentePagina(driver, "john@mail.com");
+		
+		SeleniumUtils.textoPresentePagina(driver, "mary");
+		SeleniumUtils.textoPresentePagina(driver, "mary@mail.com");
     }
 	//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de entrar con el usuario que se desactivado.
 	@Test

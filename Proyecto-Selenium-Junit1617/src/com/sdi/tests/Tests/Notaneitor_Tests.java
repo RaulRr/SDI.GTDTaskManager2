@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import com.sdi.tests.pageobjects.PO_AltaForm;
+import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
 
@@ -64,7 +64,7 @@ public class Notaneitor_Tests {
 		SeleniumUtils.EsperaCargaPagina(driver, "text", nombreform, 10); 
 
 		//Vamos a rellenar el formulario
-		new PO_AltaForm().rellenaFormulario(driver, nombre, apellidos, iduser, email);
+		new PO_Form().rellenaFormulario(driver, nombre, apellidos, iduser, email);
 
 		//Esperamos a que se cargue la pagina de listado
 		//concretamente la tabla "tablalistado"
@@ -125,7 +125,7 @@ public class Notaneitor_Tests {
 		SeleniumUtils.EsperaCargaPagina(driver, "text", "Edición de un alumno", 10); 
 
 		//Vamos a rellenar el formulario
-		new PO_AltaForm().rellenaFormulario(driver, "manolo3", "Suarez3 modif", "idmano3", "manolomodif@correo.com");
+		new PO_Form().rellenaFormulario(driver, "manolo3", "Suarez3 modif", "idmano3", "manolomodif@correo.com");
 
 		//Esperamos a que se cargue la pagina de listado
 		//concretamente la tabla "tablalistado"
