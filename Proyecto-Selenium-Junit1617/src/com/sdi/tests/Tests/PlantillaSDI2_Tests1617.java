@@ -15,6 +15,9 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import com.sdi.tests.pageobjects.PO_AltaForm;
+import com.sdi.tests.utils.SeleniumUtils;
+
 //Ordenamos las pruebas por el nombre del método
 @FixMethodOrder(MethodSorters.NAME_ASCENDING) 
 public class PlantillaSDI2_Tests1617 {
@@ -34,7 +37,7 @@ public class PlantillaSDI2_Tests1617 {
 		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
 		FirefoxProfile firefoxProfile = new FirefoxProfile();       
 		driver = new FirefoxDriver(ffBinary,firefoxProfile);
-		driver.get("http://localhost:8180/sdi2-20");
+		driver.get("http://localhost:8280/sdi2-20");
 		//Este código es para ejecutar con una versión instalada de Firex 46.0 
 		//driver = new FirefoxDriver();
 		//driver.get("http://localhost:8180/sdi2-n");			
@@ -43,7 +46,14 @@ public class PlantillaSDI2_Tests1617 {
 	public void end()
 	{
 		//Cerramos el navegador
-		//driver.quit();
+		driver.quit();
+	}
+	
+	private void validarUsuario(String ulogin, String upassword) {
+
+		//Estamos en el login
+		//Vamos a rellenar el formulario
+		new PO_AltaForm().rellenaLogin(driver, ulogin, upassword);
 	}
 
 	//PRUEBAS
@@ -51,7 +61,13 @@ public class PlantillaSDI2_Tests1617 {
 	//PR01: Autentificar correctamente al administrador.
 	@Test
     public void prueba01() {
-		assertTrue(false);	
+		//Estamos en el login-validamos al admin
+		validarUsuario("admin", "admin");
+		
+		//Esperamos a que se cargue la pagina del admin
+		//concretamente la tablalistado del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+		
     }
 	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
 	@Test

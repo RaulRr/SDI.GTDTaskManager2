@@ -9,27 +9,27 @@
 </h:head>
 <h:body>
 
-	<h:form>
+	<h:form id="form-login">
 		<p:panel header="#{msgs.tituloLogin}">
 			<table>
 				<tr>
 					<td><h:outputText styleClass="fa fa-user"
 							rendered="#{not empty skillst}" /> <p:outputLabel
 							value="#{msgs.rellenaUsuario}"></p:outputLabel></td>
-					<td><h:inputText value="#{user.login}"></h:inputText>
+					<td><h:inputText value="#{user.login}" id ="login-text"></h:inputText>
 					</td>
 				</tr>
 				<tr>
 					<td>#{msgs.rellenaContraseña}</td>
-					<td><h:inputSecret value="#{user.password}"></h:inputSecret>
+					<td><h:inputSecret id = "password-text" value="#{user.password}"></h:inputSecret>
 					</td>
 				</tr>
 				<tr>
 					<td></td>
 					<td><h:commandButton value="#{msgs.botonRegistro}"
 							action="#{controller.registro}" /> <h:commandButton
-							value="#{msgs.botonValidar}" action="#{controller.validar}"
-							style="margin-left: 10px;" /></td>
+							id="validation-button" value="#{msgs.botonValidar}"
+							action="#{controller.validar}" style="margin-left: 10px;" /></td>
 				</tr>
 			</table>
 		</p:panel>
