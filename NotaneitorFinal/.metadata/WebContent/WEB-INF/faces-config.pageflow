@@ -3,7 +3,7 @@
   <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="178" id="pf14884505255530" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14884505255531" path="*"/>
   <nodes xsi:type="pageflow:PFPage" name="error.xhtml" x="338" y="178" id="pf14884505255532" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14884505255531" path="/error.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="122" y="754" id="pf14884505255533" referenceLink="//@navigationRule.2/@fromViewId|" outlinks="pf14884505255534 pf14884795331220 pf14888027781760" inlinks="pf14888031775783" path="/index.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.3/@navigationCase.2/@toViewId|" outlinks="pf14885602656282 pf14888027781761 pf14889131637096" inlinks="pf14884505255534 pf14885602656282 pf14888027781761" path="/listaUsuarios.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="exito.xhtml" x="338" y="562" id="pf14884505255535" referenceLink="//@navigationRule.3/@navigationCase.3/@toViewId|" outlinks="pf14885602656282 pf14888027781761 pf14889131637096 pf14890964040860" inlinks="pf14884505255534 pf14885602656282 pf14888027781761 pf14890964040860" path="/listaUsuarios.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="listaTareas.xhtml" x="338" y="946" id="pf14884795331221" referenceLink="//@navigationRule.4/@fromViewId|" outlinks="pf14889131637097" inlinks="pf14884795331220" path="/listaTareas.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="registroUsuario.xhtml" id="pf14888027781762" referenceLink="//@navigationRule.2/@navigationCase.2/@toViewId|" outlinks="pf14888031775783 pf14889099250220 pf14889124082164" inlinks="pf14888027781760 pf14889099250220" path="/registroUsuario.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="index.html" id="pf14889124082165" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf14889124082164 pf14889131637096 pf14889131637097" path="/index.html"/>
@@ -26,4 +26,5 @@
   <links id="pf14889124082164" target="pf14889124082165" source="pf14888027781762" outcome="true" fromaction="#{controller.atras}"/>
   <links id="pf14889131637096" target="pf14889124082165" source="pf14884505255535" outcome="true" fromaction="#{controller.atras}"/>
   <links id="pf14889131637097" target="pf14889124082165" source="pf14884795331221" outcome="true" fromaction="#{controller.atras}"/>
+  <links id="pf14890964040860" target="pf14884505255535" source="pf14884505255535" outcome="exito" fromaction="#{controller.reiniciarBD}"/>
 </pageflow:Pageflow>

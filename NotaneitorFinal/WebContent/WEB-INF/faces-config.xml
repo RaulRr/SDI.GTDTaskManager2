@@ -78,6 +78,11 @@
 			<from-outcome>exito</from-outcome>
 			<to-view-id>/listaUsuarios.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{controller.reiniciarBD}</from-action>
+			<from-outcome>exito</from-outcome>
+			<to-view-id>/listaUsuarios.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>/listaTareas.xhtml</from-view-id>

@@ -204,6 +204,26 @@ public class BeanUsers implements Serializable {
 
 		return "true"; // Es un usario normal
 	}
+	
+	/*
+	 * Método del administrador que devuelve la BD a su estado original
+	 */
+	public String reiniciarBD(){
+		AdminService adminService;
+		try{
+			adminService = Services.getAdminService();
+			users = adminService.findAllUsers();
+			for(User u : users){
+				if(!u.getIsAdmin())
+					adminService.deepDeleteUser(u.getId());
+			}
+			
+		}catch(BusinessException b){
+			return "error";
+		}
+		return pass;
+		
+	}
 
 	public String atras() {
 		System.out.println("Pulsado atras");
