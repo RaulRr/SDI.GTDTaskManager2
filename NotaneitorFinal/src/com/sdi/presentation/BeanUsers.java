@@ -12,7 +12,6 @@ import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
 import com.sdi.business.exception.BusinessException;
-import com.sdi.dto.Task;
 import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
@@ -27,8 +26,9 @@ public class BeanUsers implements Serializable {
 	private BeanUser user;
 
 	private List<User> users = null;
-
-	private List<Task> tasks = null;
+	
+	@ManagedProperty(value="#{btasks}")
+	private BeanTasks tasks = null;
 
 	private String pass = "";
 	
@@ -55,7 +55,7 @@ public class BeanUsers implements Serializable {
 		
 		@PreDestroy
 		public void end() {
-			System.out.println("BeanUser - PreDestroy");
+			System.out.println("BeanUsers - PreDestroy");
 		}
 
 	
@@ -84,11 +84,11 @@ public class BeanUsers implements Serializable {
 		this.users = users;
 	}
 
-	public List<Task> getTasks() {
+	public BeanTasks getTasks() {
 		return tasks;
 	}
 
-	public void setTasks(List<Task> tasks) {
+	public void setTasks(BeanTasks tasks) {
 		this.tasks = tasks;
 	}
 
@@ -106,7 +106,7 @@ public class BeanUsers implements Serializable {
 				return "admin";
 			}
 			
-			listadoTareas();// Si usuario cargamos las tareas desde el inbox
+			tasks = new BeanTasks();// Si usuario cargamos las tareas desde el inbox
 
 		} catch (BusinessException b) {
 			return "error"; // Se produjo algún error al validar
@@ -149,10 +149,6 @@ public class BeanUsers implements Serializable {
 
 	private void listadoUsuarios() throws BusinessException {
 		users = Services.getAdminService().findAllUsers();
-	}
-
-	private void listadoTareas() throws BusinessException {
-		tasks = Services.getTaskService().findInboxTasksByUserId(user.getId());
 	}
 
 	public String registro() {
