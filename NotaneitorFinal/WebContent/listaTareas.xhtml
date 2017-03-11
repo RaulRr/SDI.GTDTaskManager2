@@ -11,6 +11,14 @@
 
 <!-- Aqu� va tu c�digo -->
 	<h:form id="form-task">
+		<p:megaMenu id="categoriamenu" orientation="horizontal" style="width: 25%; margin-left:auto; margin-right:auto;">
+			<p:menuitem value="Inbox"/>
+			<p:menuitem value="Hoy"/>
+			<p:menuitem value="Semana"/>
+			<p:menuitem value="Categoria1"/>
+			<p:menuitem value="Categoria2"/>
+			<p:menuitem value="Categoria3"/>
+		</p:megaMenu>
 		<p:panel header="#{msgs.tituloListadoTareas}">
 			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}" border="1">
 				<p:column headerText="#{msgs.tareaId}">
