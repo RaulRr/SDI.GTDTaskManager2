@@ -13,6 +13,11 @@
 	</application>
     
     <managed-bean>
+		<managed-bean-name>settings</managed-bean-name>
+		<managed-bean-class>com.sdi.presentation.BeanSettings</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+    <managed-bean>
  		<managed-bean-name>controller</managed-bean-name>
  		<managed-bean-class>com.sdi.presentation.BeanUsers</managed-bean-class>
  		<managed-bean-scope>session</managed-bean-scope>
