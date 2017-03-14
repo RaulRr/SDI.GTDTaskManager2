@@ -12,13 +12,22 @@
 	<!-- Aqu� va tu c�digo -->
 	<h:form id="form-task">
 		<table>
-			<p:column>
-				<h:inputText id="taskNombre">
-				</h:inputText>
-			</p:column>
-			<p:column>
-				<h:commandButton value="AñadirTarea"></h:commandButton>
-			</p:column>
+			<p:row>
+				<p:column>
+					<h:inputText id="taskNombre" placeholder="Name">
+					</h:inputText>
+				</p:column>
+				<p:column>
+					<p:calendar id="taskPlanned" />
+				</p:column>
+				<p:column>
+					<h:inputText id="taskCategory" placeholder="Category">
+					</h:inputText>
+				</p:column>
+				<p:column>
+					<h:commandButton value="AñadirTarea"></h:commandButton>
+				</p:column>
+			</p:row>
 		</table>
 		<p:megaMenu id="categoriamenu" orientation="horizontal"
 			style="width: 18%; margin-left:auto; margin-right:auto;">
@@ -37,9 +46,9 @@
 		</p:megaMenu>
 		<p:panel header="#{msgs.tituloListadoTareas}">
 			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
-				border="1" rows="1" paginator="true"
+				border="1" rows="5" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="5,10,15">
+				rowsPerPageTemplate="5,10,15,30">
 				<p:column headerText="#{msgs.tareaId}">
 					<h:outputText value="#{vtask.id}" />
 				</p:column>
@@ -56,8 +65,9 @@
 					<h:outputText value="#{vtask.planned}" />
 				</p:column>
 				<p:column headerText="#{msgs.cerrarTarea}">
-					<p:commandLink value="#{msgs.cerrarTarea}" action="#{btasks.cerrarTarea(vtask.id)}"
-						inmediate="true" update="tablalistado" />
+					<p:commandLink value="#{msgs.cerrarTarea}"
+						action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
+						update="tablalistado" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
