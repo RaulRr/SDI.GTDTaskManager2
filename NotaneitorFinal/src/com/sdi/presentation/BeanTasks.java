@@ -27,6 +27,15 @@ public class BeanTasks implements Serializable {
 
 	private List<Task> tasks;
 	private Task task;
+	private String listaSeleccionada = "Inbox";
+	
+	public String getListaSeleccionada() {
+		return listaSeleccionada;
+	}
+
+	public void setListaSeleccionada(String listaSeleccionada) {
+		this.listaSeleccionada = listaSeleccionada;
+	}
 
 	public BeanTasks() {
 		user = (BeanUser) FacesContext.getCurrentInstance()
@@ -64,6 +73,7 @@ public class BeanTasks implements Serializable {
 		try {
 			tasks = Services.getTaskService().findInboxTasksByUserId(
 					user.getId());
+			listaSeleccionada="Inbox";
 			System.out.println("Obtenidas tareas INBOX");
 		} catch (BusinessException b) {
 
@@ -75,6 +85,7 @@ public class BeanTasks implements Serializable {
 		try {
 			tasks = Services.getTaskService().findTodayTasksByUserId(
 					user.getId());
+			listaSeleccionada="Today";
 			System.out.println("Obtenidas tareas TODAY");
 		} catch (BusinessException b) {
 
@@ -86,6 +97,7 @@ public class BeanTasks implements Serializable {
 		try {
 			tasks = Services.getTaskService().findWeekTasksByUserId(
 					user.getId());
+			listaSeleccionada="Week";
 			System.out.println("Obtenidas tareas WEEK");
 		} catch (BusinessException b) {
 
