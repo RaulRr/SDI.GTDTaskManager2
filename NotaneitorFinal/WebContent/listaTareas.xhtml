@@ -45,7 +45,7 @@
 				rowsPerPageTemplate="5,10,15,30">
 				<p:column headerText="#{msgs.tareaId}">
 					<h:outputText value="#{vtask.id} " />
-					<p:commandLink value="#msgs.editarTarea" action="#{btasks.editarTarea(vtask)}" />
+					<p:commandLink value="#{msgs.tareaEditar}" action="#{btasks.editarTarea(vtask)}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaTitulo}">
 					<h:outputText value="#{vtask.title}" />

@@ -5,17 +5,35 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
-	<title>Cabecera</title>
+	<title>#{msgs.cabeceraEditar}</title>
 </h:head>
 <h:body>
 
 	<h:form>
-		<p:panel header="#{msgs.tituloEditar}">
+		<p:panel header="#{msgs.tablaEditar}">
 			<table>
 				<tr>
-					<td><p:outputLabel value="#{msgs.tituloTarea}"></p:outputLabel></td>
-					<td><h:inputText id="title" value="#{task.title}">
+					<td><p:outputLabel value="#{msgs.tituloEditar}"/></td>
+					<td><h:inputText id="title_input" value="#{task.title}">
 						</h:inputText></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel value="#{msgs.comentarioEditar}"/></td>
+					<td><p:inputTextarea id="comments_area" value="#{task.comments}" rows="7" cols="50" /></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel value="#{msgs.planeadaEditar}"/></td>
+					<td><p:calendar value="#{task.planned}"></p:calendar></td>
+				</tr>
+				<tr>
+					<td><p:outputLabel for="categorias"
+							value="#{msgs.categoriaEditar}" /></td>
+					<td><p:selectOneListbox id="categorias"
+							value="#{selectOneView.option}">
+							<f:selectItem itemLabel="Option 1" itemValue="1" />
+							<f:selectItem itemLabel="Option 2" itemValue="2" />
+							<f:selectItem itemLabel="Option 3" itemValue="3" />
+						</p:selectOneListbox></td>
 				</tr>
 			</table>
 		</p:panel>
