@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -24,10 +26,34 @@ public class BeanTasks implements Serializable {
 
 	@ManagedProperty(value = "#{user}")
 	private BeanUser user = null;
-
+	
+	@ManagedProperty(value = "#{task}")
+	private BeanTask task = null;
+	
 	private List<Task> tasks;
-	private Task task;
+	
 	private String listaSeleccionada = "Inbox";
+	
+	@PostConstruct
+	public void init() {
+		System.out.println("BeanTasks - PostConstruct");
+		
+		task = (BeanTask)
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(new
+						String("task"));
+		//si no existe lo creamos e inicializamos
+		if (task == null) {
+			System.out.println("BeanTask-No existia");
+			user = new BeanUser();
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
+					"task", task);
+		}
+	}
+	
+	@PreDestroy
+	public void end() {
+		System.out.println("BeanUsers - PreDestroy");
+	}
 	
 	public String getListaSeleccionada() {
 		return listaSeleccionada;
@@ -64,7 +90,7 @@ public class BeanTasks implements Serializable {
 		return task;
 	}
 
-	public void setTask(Task task) {
+	public void setTask(BeanTask task) {
 		this.task = task;
 	}
 
@@ -110,7 +136,7 @@ public class BeanTasks implements Serializable {
 
 	public void cerrarTarea(Long id) {
 		try {
-			task = Services.getTaskService().findTaskById(id);
+			task = (BeanTask)Services.getTaskService().findTaskById(id);
 			task.setFinished(new Date());
 			Services.getTaskService().updateTask(task);
 			System.out.println("Tarea: " + id + " cerrada correctamente");

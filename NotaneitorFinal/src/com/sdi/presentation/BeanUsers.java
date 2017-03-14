@@ -39,7 +39,7 @@ public class BeanUsers implements Serializable {
 		
 		@PostConstruct
 		public void init() {
-			System.out.println("BeanUser - PostConstruct");
+			System.out.println("BeanUsers - PostConstruct");
 			//Buscamos el alumno en la sesión. Esto es un patrón factoría claramente.
 			user = (BeanUser)
 					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(new

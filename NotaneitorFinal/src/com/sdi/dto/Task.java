@@ -16,7 +16,7 @@ public class Task {
 	private Long categoryId;
 	private Long userId;
 	
-	
+	public Task(){}
 	
 	public Task(Long id, String title, String comments, Date created,
 			Date planned, Date finished, Long categoryId, Long userId) {

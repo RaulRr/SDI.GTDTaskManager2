@@ -16,9 +16,7 @@ public class User {
 	private Boolean isAdmin = false;
 	private UserStatus status = UserStatus.ENABLED;
 	
-	public User(){
-		
-	}
+	public User(){}
 	
 	
 	
