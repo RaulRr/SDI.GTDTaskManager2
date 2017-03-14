@@ -1,55 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core"
-       xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
-<title>#{msgs.cabeceraTareas}</title> 
+	<title>#{msgs.cabeceraTareas}</title>
 </h:head>
 <h:body>
 
-<!-- Aqu� va tu c�digo -->
+	<!-- Aqu� va tu c�digo -->
 	<h:form id="form-task">
 		<table>
 			<p:column>
-			<h:inputText id="taskNombre" >
-			</h:inputText>
+				<h:inputText id="taskNombre">
+				</h:inputText>
 			</p:column>
 			<p:column>
 				<h:commandButton value="AñadirTarea"></h:commandButton>
 			</p:column>
 		</table>
-		<p:megaMenu id="categoriamenu" orientation="horizontal" style="width: 18%; margin-left:auto; margin-right:auto;">
-			<p:menuitem value="#{msgs.inbox}"/>
-			<p:menuitem value="#{msgs.hoy}"/>
-			<p:menuitem value="#{msgs.semana}"/>
+		<p:megaMenu id="categoriamenu" orientation="horizontal"
+			style="width: 18%; margin-left:auto; margin-right:auto;">
+			<p:menuitem>
+				<p:commandLink value="#{msgs.inbox}" action="#{btasks.inboxTask}"
+					inmediate="true" update="tablalistado" />
+			</p:menuitem>
+			<p:menuitem>
+				<p:commandLink value="#{msgs.hoy}" action="#{btasks.todayTask}"
+					inmediate="true" update="tablalistado" />
+			</p:menuitem>
+			<p:menuitem>
+				<p:commandLink value="#{msgs.semana}" action="#{btasks.weekTask}"
+					inmediate="true" update="tablalistado" />
+			</p:menuitem>
 		</p:megaMenu>
 		<p:panel header="#{msgs.tituloListadoTareas}">
-			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}" border="1"
-					     rows="1"
-                         paginator="true"
-                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="5,10,15">
+			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
+				border="1" rows="1" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15">
 				<p:column headerText="#{msgs.tareaId}">
-					<h:outputText value ="#{vtask.id}" />
+					<h:outputText value="#{vtask.id}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaTitulo}">
-					<h:outputText value ="#{vtask.title}" />
+					<h:outputText value="#{vtask.title}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaComentarios}">
-					<h:outputText value ="#{vtask.comments}" />
+					<h:outputText value="#{vtask.comments}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaCreada}">
-					<h:outputText value ="#{vtask.created}" />
+					<h:outputText value="#{vtask.created}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaPlaneada}">
-					<h:outputText value ="#{vtask.planned}" />
+					<h:outputText value="#{vtask.planned}" />
+				</p:column>
+				<p:column headerText="#{msgs.cerrarTarea}">
+					<p:commandLink value="#{msgs.cerrarTarea}" action="#{btasks.cerrarTarea(vtask.id)}"
+						inmediate="true" update="tablalistado" />
 				</p:column>
 			</p:dataTable>
 		</p:panel>
 		<h:commandButton value="#{msgs.botonAtras}"
-							action="#{controller.atras}"/>
+			action="#{controller.atras}" />
 	</h:form>
 </h:body>
 </html>
