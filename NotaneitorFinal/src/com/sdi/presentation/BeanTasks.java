@@ -38,13 +38,28 @@ public class BeanTasks implements Serializable {
 	public void init() {
 		System.out.println("BeanTasks - PostConstruct");
 		
+		user = (BeanUser)
+				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(new
+						String("user"));
+		
+		if(user != null){
+			try {
+				tasks = Services.getTaskService().findTasksByCategoryId(((Integer)1).longValue());
+				listaSeleccionada="Inbox";
+				System.out.println("Obtenidas tareas INBOX");
+			} catch (BusinessException b) {
+
+			}
+		}
+		
 		task = (BeanTask)
 				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(new
 						String("task"));
+		
 		//si no existe lo creamos e inicializamos
 		if (task == null) {
 			System.out.println("BeanTask-No existia");
-			user = new BeanUser();
+			task = new BeanTask();
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
 					"task", task);
 		}
@@ -143,6 +158,15 @@ public class BeanTasks implements Serializable {
 		} catch (BusinessException b) {
 
 		}
+	}
+	
+	public String editarTarea(Task editar){
+		try{
+			task.setTask(editar);
+		}catch(Exception e){
+			return "error";
+		}
+		return "exito";
 	}
 
 }
