@@ -184,16 +184,24 @@ public class BeanTasks implements Serializable {
 		return "exito";
 	}
 	
-	public List<Category> listaCategorias() {
-		List<Category> categorias = null;
+	/*
+	 * Este es el método que modifica la tarea a los nuevos valores. Nos
+	 * devuelve al listado
+	 */
+	public String modificarTarea() {
 		try {
-			categorias = Services.getTaskService().findCategoriesByUserId(
-					user.getId());
+			if (task.getCategoryId() <= 0) { // Se selecciono ninguna
+				task.setCategoryId(null);
+			}
+			Services.getTaskService().updateTask(task);
 		} catch (BusinessException b) {
-			System.out.println("Se ha producido algun error al consultar la "
-					+ "lista de categorias");
+			System.out
+					.println("Algo ha ocurrido editando la tarea seleccionada");
+			return "error";
 		}
-		return categorias;
+		
+		System.out.println("Se ha modificado la tarea con EXITO");
+		return "exito";
 	}
 
 }

@@ -14,7 +14,7 @@
 			<table>
 				<tr>
 					<td><p:outputLabel value="#{msgs.tituloEditar}"/></td>
-					<td><h:inputText id="title_input" value="#{task.title}">
+					<td><h:inputText id="title_input" value="#{task.title}" style="width:300px">
 						</h:inputText></td>
 				</tr>
 				<tr>
@@ -23,18 +23,23 @@
 				</tr>
 				<tr>
 					<td><p:outputLabel value="#{msgs.planeadaEditar}"/></td>
-					<td><p:calendar value="#{task.planned}"></p:calendar></td>
+					<td><p:calendar id="planned_calendar" value="#{task.planned}"></p:calendar></td>
 				</tr>
 				<tr>
-					<td><p:outputLabel for="categorias"
+					<td><p:outputLabel for="categorias_menu"
 							value="#{msgs.categoriaEditar}" /></td>
-					<td><p:selectOneMenu id="categorias" style="width:125px"
+					<td><p:selectOneMenu id="categorias_menu" style="width:125px;"
 							value="#{task.categoryId}" >
 							<f:selectItem itemLabel="#{msgs.noCategoria}" itemVaule="0" />
 							<f:selectItem itemLabel="#{msgs.categoria1}" itemValue="#{btasks.categories[0].id}" />
 							<f:selectItem itemLabel="#{msgs.categoria2}" itemValue="#{btasks.categories[1].id}" />
 							<f:selectItem itemLabel="#{msgs.categoria3}" itemValue="#{btasks.categories[2].id}" />
 						</p:selectOneMenu></td>
+				</tr>
+				<tr>
+					<td><p:commandButton id="editar_button" value="#{msgs.botonEditar}" 
+						action="#{btasks.modificarTarea}"/>
+					</td>
 				</tr>
 			</table>
 		</p:panel>

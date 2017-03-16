@@ -117,5 +117,13 @@
  			<to-view-id>/formTarea.xhtml</to-view-id>
  		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/formTarea.xhtml</from-view-id>
+		<navigation-case>
+ 			<from-action>#{btasks.modificarTarea}</from-action>
+ 			<from-outcome>exito</from-outcome>
+ 			<to-view-id>/listaTareas.xhtml</to-view-id>
+ 		</navigation-case>
+	</navigation-rule>
 
 </faces-config>

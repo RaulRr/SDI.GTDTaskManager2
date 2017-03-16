@@ -8,3 +8,40 @@ DISCONNECT
 DISCONNECT
 /*C27*/SET SCHEMA PUBLIC
 DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DELETE FROM TTASKS WHERE ID=50
+INSERT INTO TTASKS VALUES(50,'Aenean vehicula mattis dui. Praesent vel risus sed tellus aliquet aliquam. Integer bibendum eros lorem, ut feugiat justo luctus eu.  ','2017-01-18',NULL,'2017-01-21','Task 4 for category Waiting event',1,4)
+COMMIT
+DELETE FROM TTASKS WHERE ID=50
+INSERT INTO TTASKS VALUES(50,'Aenean vehicula mattis dui. Praesent vel risus sed tellus aliquet aliquam. Integer bibendum eros lorem, ut feugiat justo luctus eu.','2017-01-18',NULL,'2017-01-21','Task 4 for category Waiting event',1,4)
+COMMIT
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DELETE FROM TTASKS WHERE ID=62
+INSERT INTO TTASKS VALUES(62,'Aenean vehicula mattis dui. Praesent vel risus sed tellus aliquet aliquam. Integer bibendum eros lorem, ut feugiat justo luctus eu. ','2017-01-18',NULL,NULL,'Task 8080',1,4)
+COMMIT
+DELETE FROM TTASKS WHERE ID=62
+INSERT INTO TTASKS VALUES(62,'Aenean vehicula mattis dui. Praesent vel risus sed tellus aliquet aliquam. Integer bibendum eros lorem, ut feugiat justo luctus eu. Praesent pharetra tincidunt scelerisque. ','2017-01-18',NULL,NULL,'Task 8 for category Waiting event',1,4)
+COMMIT
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DELETE FROM TTASKS WHERE ID=50
+INSERT INTO TTASKS VALUES(50,'Aenean vehicula mattis dui. Praesent vel risus sed tellus ','2017-01-18',NULL,'2017-01-21','Task 4 for category Waiting event',1,4)
+COMMIT
+DISCONNECT
