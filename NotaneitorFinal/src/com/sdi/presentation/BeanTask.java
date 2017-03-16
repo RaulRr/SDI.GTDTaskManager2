@@ -31,4 +31,6 @@ public class BeanTask extends Task implements Serializable {
 		setId(null);
 		setTitle("new Task");
 	}
+	
+	
 }

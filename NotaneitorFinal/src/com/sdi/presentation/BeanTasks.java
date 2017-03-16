@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 
 import com.sdi.business.Services;
 import com.sdi.business.exception.BusinessException;
+import com.sdi.dto.Category;
 import com.sdi.dto.Task;
 
 @ManagedBean(name = "btasks")
@@ -32,6 +33,8 @@ public class BeanTasks implements Serializable {
 	
 	private List<Task> tasks;
 	
+	private List<Category> categories;
+	
 	private String listaSeleccionada = "Inbox";
 	
 	@PostConstruct
@@ -47,8 +50,12 @@ public class BeanTasks implements Serializable {
 				tasks = Services.getTaskService().findTasksByCategoryId(((Integer)1).longValue());
 				listaSeleccionada="Inbox";
 				System.out.println("Obtenidas tareas INBOX");
+				
+				categories = Services.getTaskService().findCategoriesByUserId(user.getId());
+				System.out.println("Obtenidas categorias");
 			} catch (BusinessException b) {
-
+				System.out.println("Se ha producido algún error en la capa de"
+						+ "persistencia buscando las tareas y categorias");
 			}
 		}
 		
@@ -109,6 +116,14 @@ public class BeanTasks implements Serializable {
 		this.task = task;
 	}
 
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
 	public void inboxTask() {
 
 		try {
@@ -167,6 +182,18 @@ public class BeanTasks implements Serializable {
 			return "error";
 		}
 		return "exito";
+	}
+	
+	public List<Category> listaCategorias() {
+		List<Category> categorias = null;
+		try {
+			categorias = Services.getTaskService().findCategoriesByUserId(
+					user.getId());
+		} catch (BusinessException b) {
+			System.out.println("Se ha producido algun error al consultar la "
+					+ "lista de categorias");
+		}
+		return categorias;
 	}
 
 }

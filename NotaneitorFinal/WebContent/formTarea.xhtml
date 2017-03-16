@@ -28,12 +28,13 @@
 				<tr>
 					<td><p:outputLabel for="categorias"
 							value="#{msgs.categoriaEditar}" /></td>
-					<td><p:selectOneListbox id="categorias"
-							value="#{selectOneView.option}">
-							<f:selectItem itemLabel="Option 1" itemValue="1" />
-							<f:selectItem itemLabel="Option 2" itemValue="2" />
-							<f:selectItem itemLabel="Option 3" itemValue="3" />
-						</p:selectOneListbox></td>
+					<td><p:selectOneMenu id="categorias" style="width:125px"
+							value="#{task.categoryId}" >
+							<f:selectItem itemLabel="#{msgs.noCategoria}" itemVaule="0" />
+							<f:selectItem itemLabel="#{msgs.categoria1}" itemValue="#{btasks.categories[0].id}" />
+							<f:selectItem itemLabel="#{msgs.categoria2}" itemValue="#{btasks.categories[1].id}" />
+							<f:selectItem itemLabel="#{msgs.categoria3}" itemValue="#{btasks.categories[2].id}" />
+						</p:selectOneMenu></td>
 				</tr>
 			</table>
 		</p:panel>
