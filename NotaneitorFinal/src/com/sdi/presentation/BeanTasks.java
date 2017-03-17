@@ -47,7 +47,8 @@ public class BeanTasks implements Serializable {
 		
 		if(user != null){
 			try {
-				tasks = Services.getTaskService().findTasksByCategoryId(((Integer)1).longValue());
+				tasks = Services.getTaskService().
+						findFinishedInboxTasksByUserId(user.getId());
 				listaSeleccionada="Inbox";
 				System.out.println("Obtenidas tareas INBOX");
 				
@@ -194,12 +195,14 @@ public class BeanTasks implements Serializable {
 				task.setCategoryId(null);
 			}
 			Services.getTaskService().updateTask(task);
+			
 		} catch (BusinessException b) {
 			System.out
 					.println("Algo ha ocurrido editando la tarea seleccionada");
 			return "error";
 		}
 		
+		task = new BeanTask();
 		System.out.println("Se ha modificado la tarea con EXITO");
 		return "exito";
 	}

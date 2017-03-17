@@ -147,10 +147,6 @@ public class BeanUsers implements Serializable {
 		}
 	}
 
-	private void listadoUsuarios() throws BusinessException {
-		users = Services.getAdminService().findAllUsers();
-	}
-
 	public String registro() {
 		return "true";
 	}
@@ -202,27 +198,28 @@ public class BeanUsers implements Serializable {
 	}
 	
 	/*
-	 * Método del administrador que devuelve la BD a su estado original
+	 * Método del administrador que inicaliza la BD a su estado original
 	 */
 	public String reiniciarBD(){
 		AdminService adminService;
 		try{
 			adminService = Services.getAdminService();
-			users = adminService.findAllUsers();
-			for(User u : users){
-				if(!u.getIsAdmin())
-					adminService.deepDeleteUser(u.getId());
-			}
+			adminService.initiateDB();
+			listadoUsuarios();
 			
 		}catch(BusinessException b){
 			return "error";
 		}
-		return pass;
+		return "exito";
 		
 	}
 
 	public String atras() {
 		System.out.println("Pulsado atras");
 		return "true";
+	}
+	
+	private void listadoUsuarios() throws BusinessException {
+		users = Services.getAdminService().findAllUsers();
 	}
 }
