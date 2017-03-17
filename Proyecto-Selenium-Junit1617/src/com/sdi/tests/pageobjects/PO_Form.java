@@ -31,20 +31,21 @@ public class PO_Form {
 		driver.findElement(boton).click();	   
    }
    
-   public void rellenaLogin(WebDriver driver, String ulogin, String upassword)
-   {
-	   WebElement login = driver.findElement(By.id("form-login:login-text"));
-	   login.click();
-	   login.clear();
-	   login.sendKeys(ulogin);
-	   WebElement password = driver.findElement(By.id("form-login:password-text"));
-	   password.click();
-	   password.clear();
-	   password.sendKeys(ulogin);
-	   //Pulsar el boton de validacion
-	   By boton = By.id("form-login:validation-button");
-	   driver.findElement(boton).click();
-   }
+	public void rellenaLogin(WebDriver driver, String ulogin, String upassword) {
+		WebElement login = driver.findElement(By
+				.id("form-template:form-login:login-text"));
+		login.click();
+		login.clear();
+		login.sendKeys(ulogin);
+		WebElement password = driver.findElement(By
+				.id("form-template:form-login:password-text"));
+		password.click();
+		password.clear();
+		password.sendKeys(ulogin);
+		// Pulsar el boton de validacion
+		By boton = By.id("form-template:form-login:validation-button");
+		driver.findElement(boton).click();
+	}
 	
 	
 	

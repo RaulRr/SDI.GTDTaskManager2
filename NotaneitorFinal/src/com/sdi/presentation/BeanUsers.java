@@ -108,10 +108,10 @@ public class BeanUsers implements Serializable {
 			
 			tasks = new BeanTasks();// Si usuario cargamos las tareas desde el inbox
 
-		} catch (BusinessException b) {
+		} catch (Exception e) {
 			return "error"; // Se produjo algún error al validar
 		}
-
+		
 		return "user"; // Es un usario normal
 	}
 

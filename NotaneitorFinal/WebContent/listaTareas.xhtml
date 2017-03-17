@@ -5,74 +5,74 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/templates/template-general.xhtml">
 
-<<<<<<< HEAD
 	<!-- Aqu� va tu c�digo -->
-	<h:form id="form-task">
-		<table>
-			<p:row>
-				<p:column>
-					<h:inputText id="taskNombre" placeholder="Name"
-						value="#{btasks.task.title}" required = "true">
-					</h:inputText>
-				</p:column>
-				<p:column>
-					<p:calendar id="taskPlanned" value="#{btasks.task.planned}"/>
-				</p:column>
-				<p:column>
-					<p:selectOneMenu id="taskCategory" value="#{btasks.category}">
-						<f:selectItem itemLabel="#{msg.none}" itemValue=""/>
-						<f:selectItems value="#{btasks.categories}" var="cat" 
-						itemLabel="#{cat.name}" itemValue="#{cat.id}" />
-					</p:selectOneMenu>
-				</p:column>
-				<p:column>
-					<h:commandButton value="#{msgs.createTask}"
-						action="#{btasks.createTask}" inmediate="true"
-						update="tablalistado,header"></h:commandButton>
-				</p:column>
-			</p:row>
-		</table>
-		<p:megaMenu id="categoriamenu" orientation="horizontal"
-			style="width: 18%; margin-left:auto; margin-right:auto;">
-			<p:menuitem value="#{msgs.inbox}" action="#{btasks.inboxTask}"
-				inmediate="true" update="tablalistado,header" />
-			<p:menuitem value="#{msgs.hoy}" action="#{btasks.todayTask}"
-				inmediate="true" update="tablalistado,header" />
-			<p:menuitem value="#{msgs.semana}" action="#{btasks.weekTask}"
-				inmediate="true" update="tablalistado,header" />
-		</p:megaMenu>
-		<p:panel id="header"
-			header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
-			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
-				border="1" rows="8" paginator="true"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="8,16,24,32">
-				<p:column headerText="#{msgs.tareaId}">
-					<h:outputText value="#{vtask.id} " />
-					<p:commandLink value="#{msgs.tareaEditar}"
-						action="#{btasks.editarTarea(vtask)}" />
-				</p:column>
-				<p:column headerText="#{msgs.tareaTitulo}">
-					<h:outputText value="#{vtask.title}" />
-				</p:column>
-				<p:column headerText="#{msgs.tareaComentarios}">
-					<h:outputText value="#{vtask.comments}" />
-				</p:column>
-				<p:column headerText="#{msgs.tareaCreada}">
-					<h:outputText value="#{vtask.created}" />
-				</p:column>
-				<p:column headerText="#{msgs.tareaPlaneada}">
-					<h:outputText value="#{vtask.planned}" />
-				</p:column>
-				<p:column headerText="#{msgs.cerrarTarea}">
-					<p:commandLink value="#{msgs.cerrarTarea}"
-						action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
-						update="tablalistado" />
-				</p:column>
-			</p:dataTable>
-		</p:panel>
-		<h:commandButton value="#{msgs.botonAtras}"
-			action="#{controller.atras}" />
-	</h:form>
-</h:body>
-</html>
+	<ui:define name="cuerpo">
+		<h:form id="form-task">
+			<table>
+				<p:row>
+					<p:column>
+						<h:inputText id="taskNombre" placeholder="Name"
+							value="#{btasks.task.title}" required="true">
+						</h:inputText>
+					</p:column>
+					<p:column>
+						<p:calendar id="taskPlanned" value="#{btasks.task.planned}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="taskCategory" value="#{btasks.category}">
+							<f:selectItem itemLabel="#{msg.none}" itemValue="" />
+							<f:selectItems value="#{btasks.categories}" var="cat"
+								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<h:commandButton value="#{msgs.createTask}"
+							action="#{btasks.createTask}" inmediate="true"
+							update="tablalistado,header"></h:commandButton>
+					</p:column>
+				</p:row>
+			</table>
+			<p:megaMenu id="categoriamenu" orientation="horizontal"
+				style="width: 18%; margin-left:auto; margin-right:auto;">
+				<p:menuitem value="#{msgs.inbox}" action="#{btasks.inboxTask}"
+					inmediate="true" update="tablalistado,header" />
+				<p:menuitem value="#{msgs.hoy}" action="#{btasks.todayTask}"
+					inmediate="true" update="tablalistado,header" />
+				<p:menuitem value="#{msgs.semana}" action="#{btasks.weekTask}"
+					inmediate="true" update="tablalistado,header" />
+			</p:megaMenu>
+			<p:panel id="header"
+				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
+				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
+					border="1" rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="8,16,24,32">
+					<p:column headerText="#{msgs.tareaId}">
+						<h:outputText value="#{vtask.id} " />
+						<p:commandLink value="#{msgs.tareaEditar}"
+							action="#{btasks.editarTarea(vtask)}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaTitulo}">
+						<h:outputText value="#{vtask.title}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaComentarios}">
+						<h:outputText value="#{vtask.comments}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaCreada}">
+						<h:outputText value="#{vtask.created}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaPlaneada}">
+						<h:outputText value="#{vtask.planned}" />
+					</p:column>
+					<p:column headerText="#{msgs.cerrarTarea}">
+						<p:commandLink value="#{msgs.cerrarTarea}"
+							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
+							update="tablalistado" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<h:commandButton value="#{msgs.botonAtras}"
+				action="#{controller.atras}" />
+		</h:form>
+	</ui:define>
+</ui:composition>

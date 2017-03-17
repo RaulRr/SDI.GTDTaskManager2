@@ -61,30 +61,33 @@ public class PlantillaSDI2_Tests1617 {
 	//ADMINISTRADOR
 	//PR01: Autentificar correctamente al administrador.
 	@Test
-    public void prueba01() {
-		//Estamos en el login-validamos al admin
-		validarUsuario("admin", "admin");
-		
-		//Esperamos a que se cargue la pagina del admin
-		//concretamente la tablalistado del admin
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
-		
-    }
-	//PR02: Fallo en la autenticación del administrador por introducir mal el login.
+	public void prueba01() {
+		// Estamos en el login-validamos al admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente la tablalistado del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado", 10);
+		//En el listado podremos ver al admin
+		SeleniumUtils.textoPresentePagina(driver, "admin1");
+
+	}
+	//PR02: Fallo en la autenticación del administrador por introducir mal el 
+	//login.
 	@Test
-    public void prueba02() {
-		//Estamos en el login-introducimos mal el login
-		validarUsuario("admn", "admin");
-		
-		//No accedemos al listado por tanto no podemos eal admin1!
+	public void prueba02() {
+		// Estamos en el login-introducimos mal el login
+		validarUsuario("admn", "admin1");
+
+		// No accedemos al listado por tanto no podemos ver al admin1!
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
-		
-    }
+	}
 	//PR03: Fallo en la autenticación del administrador por introducir mal la password.
 	@Test
     public void prueba03() {
 		//Estamos en el login-introducimos mal la password
-		validarUsuario("admin", "adn");
+		validarUsuario("admin1", "adn");
 				
 		//No accedemos al listado por tanto no podemos eal admin1!
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
@@ -92,79 +95,105 @@ public class PlantillaSDI2_Tests1617 {
 	//PR04: Probar que la base de datos contiene los datos insertados con conexión correcta a la base de datos.
 	@Test
     public void prueba04() {
-		assertTrue(false);
+		
+		assertTrue(false); //NO ESTA ACABADO!!!!
+		
+		// Estamos en el login-validamos al admin
+		validarUsuario("admin1", "admin1");
+		
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+	
+		
+		//Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
     }
 	//PR05: Visualizar correctamente la lista de usuarios normales. 
 	@Test
     public void prueba05() {
 		//Estamos en el login-validamos como admin
-		validarUsuario("admin", "admin");
+		validarUsuario("admin1", "admin1");
 
 		//Esperamos a que se cargue la pagina del admin
 		//concretamente la tabla listado usuarios del admin
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-admin:tablalistado", 10); 
 		
 		//Comprobamos que existen los usuarios por el login e email
-		SeleniumUtils.textoPresentePagina(driver, "john");
-		SeleniumUtils.textoPresentePagina(driver, "john@mail.com");
-		
-		SeleniumUtils.textoPresentePagina(driver, "mary");
-		SeleniumUtils.textoPresentePagina(driver, "mary@mail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user1");
+		SeleniumUtils.textoPresentePagina(driver, "user1@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user2");
+		SeleniumUtils.textoPresentePagina(driver, "user2@gmail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user3");
+		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
     }
 	//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de entrar con el usuario que se desactivado.
 	@Test
     public void prueba06() {
 		//Estamos en el login-validamos como admin
-		validarUsuario("admin", "admin");
+		validarUsuario("admin1", "admin1");
 
 		//Esperamos a que se cargue la pagina del admin
 		//concretamente la tabla listado usuarios del admin
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-admin:tablalistado", 10); 
 
 		//Comprobamos que existe el user a cambiar
-		SeleniumUtils.textoPresentePagina(driver, "john");
-		SeleniumUtils.textoPresentePagina(driver, "john@mail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user2");
+		SeleniumUtils.textoPresentePagina(driver, "user2@gmail.com");
 		
-		//Editamos el estado del usuario que se encuantra enabled
-		By enlace = By.xpath("//td[contains(text(), 'john@mail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		//Pulsamos sobre el hiperbinculo de estado del usuario que se encuantra enabled
+		By enlace = By.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();//Ahora estaria disabled
 		
+		//Volvemos al login
 		enlace = By.xpath("//input[contains(@id, 'atras')]");
 		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
 		
 		//Intentamos acceder como el usuario
-		//validarUsuario("john", "john");
-		//Falta implementacion!!!!!!!!!!!!!!!!
-    }
+		validarUsuario("user2", "user2");
+		
+		//Seguimos en login. No accedimos al listado tareas del usuario.
+		//Buscamos el boton de validar
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-login:validation-button", 10);
+		
+		//Deshacemos los cambios
+		validarUsuario("admin1", "admin1");
+		enlace = By.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();//Ahora volveria a estar enabled
+	}
 	//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de entrar con el usuario que se ha activado.
 	@Test
     public void prueba07() {
 		//Estamos en el login-validamos como admin
-		validarUsuario("admin", "admin");
+		validarUsuario("admin1", "admin1");
 
 		//Esperamos a que se cargue la pagina del admin
 		//concretamente la tabla listado usuarios del admin
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
 
 		//Comprobamos que existe el user a cambiar
-		SeleniumUtils.textoPresentePagina(driver, "ian");
-		SeleniumUtils.textoPresentePagina(driver, "ian@mail.com");
+		SeleniumUtils.textoPresentePagina(driver, "user3");
+		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
 
-		//Editamos el estado del usuario que se encuantra disabled
-		By enlace = By.xpath("//td[contains(text(), 'ian@mail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		//Editamos el estado del usuario que se encuantra enabled a disabled
+		By enlace = By.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();//Ahora estaria disabled
+		enlace = By.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();//Ahora volveria a estar enabled
 
 		enlace = By.xpath("//input[contains(@id, 'atras')]");
 		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
 
 		//Intentamos acceder como el usuario
-		validarUsuario("ian", "ian");
+		validarUsuario("user3", "user3");
 		
 		//Esperamos a que se cargue la pagina del usuario
 		//concretamente la tabla listado tareas del user
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-task:tablalistado", 10); 
-		
-		//Abria que seguir haciendo cosas!!!!!!
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-task:tablalistado", 10); 
     }
 	//PR08: Ordenar por Login
 	@Test
