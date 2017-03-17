@@ -1,58 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<title>#{msgs.cabeceraAdministrador}</title>
-</h:head>
-<h:body>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
 
+	<h:head>
+		<title>#{msgs.cabeceraAdministrador}</title>
+	</h:head>
 	<!-- Aqu� va tu c�digo -->
-	<h:form id="form-admin">
-		<p:panel header="#{msgs.tituloListadoUsuarios}">
-			<p:dataTable var="vuser" id="tablalistado"
-				value="#{controller.users}" border="1">
-				<p:column headerText="#{msgs.usuarioId}">
-					<h:outputText value="#{vuser.id}" />
-				</p:column>
-				<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}">
-					<h:outputText value="#{vuser.login}" />
-				</p:column>
-				<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}">
-					<h:outputText value="#{vuser.email}" />
-				</p:column>
-				<p:column headerText="#{msgs.usuarioStatus}"
-					sortBy="#{vuser.status}">
-					<p:commandLink id="editarstatus" action="#{controller.cambiarEstado(vuser)}"
-						rendered="#{vuser.isAdmin==false}" type="submit"
-						value="#{vuser.status}" immediate="true" update="tablalistado">
-					</p:commandLink>
-				</p:column>
-				<p:column headerText="#{msgs.usuarioEliminar}">
-					<p:commandButton actionListener="#{controller.eliminar(vuser)}"
-						rendered="#{vuser.isAdmin==false}" type="submit"
-						value="#{msgs.usuarioEliminar}" inmediate="true"
-						update="tablalistado">
-						<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
-					</p:commandButton>
+	<ui:define name="cuerpo">
+		<h:form id="form-admin">
+			<p:panel header="#{msgs.tituloListadoUsuarios}">
+				<p:dataTable var="vuser" id="tablalistado"
+					value="#{controller.users}" border="1">
+					<p:column headerText="#{msgs.usuarioId}">
+						<h:outputText value="#{vuser.id}" />
+					</p:column>
+					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}">
+						<h:outputText value="#{vuser.login}" />
+					</p:column>
+					<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}">
+						<h:outputText value="#{vuser.email}" />
+					</p:column>
+					<p:column headerText="#{msgs.usuarioStatus}"
+						sortBy="#{vuser.status}">
+						<p:commandLink id="editarstatus"
+							action="#{controller.cambiarEstado(vuser)}"
+							rendered="#{vuser.isAdmin==false}" type="submit"
+							value="#{vuser.status}" immediate="true" update="tablalistado">
+						</p:commandLink>
+					</p:column>
+					<p:column headerText="#{msgs.usuarioEliminar}">
+						<p:commandButton actionListener="#{controller.eliminar(vuser)}"
+							rendered="#{vuser.isAdmin==false}" type="submit"
+							value="#{msgs.usuarioEliminar}" inmediate="true"
+							update="tablalistado">
+							<p:confirm header="Confirmation" message="Are you sure?"
+								icon="ui-icon-alert" />
+						</p:commandButton>
 
-					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-						<p:commandButton value="Yes" type="button"
-							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-						<p:commandButton value="No" type="button"
-							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-					</p:confirmDialog>
-				</p:column>
-			</p:dataTable>
-		</p:panel>
-		<p:commandLink id="reiniciarbd" action="#{controller.reiniciarBD}"
-			type="submit" value="#{msgs.reiniciarBD}" inmediate="true"
-			update="tablalistado">
-		</p:commandLink>
-		<h:commandButton id="atras" value="#{msgs.botonAtras}"
-							action="#{controller.atras}"/>
-	</h:form>
-</h:body>
-</html>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="No" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<p:commandLink id="reiniciarbd" action="#{controller.reiniciarBD}"
+				type="submit" value="#{msgs.reiniciarBD}" inmediate="true"
+				update="tablalistado">
+			</p:commandLink>
+			<h:commandButton id="atras" value="#{msgs.botonAtras}"
+				action="#{controller.atras}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
