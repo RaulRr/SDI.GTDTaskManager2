@@ -198,7 +198,29 @@ public class PlantillaSDI2_Tests1617 {
 	//PR08: Ordenar por Login
 	@Test
     public void prueba08() {
-		assertTrue(false);
+		//Estamos en el login-validamos como admin
+		validarUsuario("admin1", "admin1");
+		
+		//Obtenemos la lista de usuarios ordenados inicialmente
+		List<WebElement> logins = driver.findElements(By.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user2"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+		
+		By button = By.xpath("//th[contains(@id, 'ordenar_login')]");
+		driver.findElement(button).click();//El primero no ordena
+		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
+		driver.findElement(button).click();//Este cambio el orden por logins
+		
+		//SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-admin:tablalistado", 10); 
+		
+		//Obtenemos la nueva ordenacion
+		logins = driver.findElements(By.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("user3"));
+		assertTrue(logins.get(1).getText().equals("user2"));
+		assertTrue(logins.get(2).getText().equals("user1"));
+		assertTrue(logins.get(3).getText().equals("admin1"));
     }
 	//PR09: Ordenar por Email
 	@Test

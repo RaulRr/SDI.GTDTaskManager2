@@ -17,14 +17,14 @@
 					<p:column headerText="#{msgs.usuarioId}">
 						<h:outputText value="#{vuser.id}"/>
 					</p:column>
-					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}">
-						<h:outputText value="#{vuser.login}" />
+					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}" id="ordenar_login">
+						<h:outputText value="#{vuser.login}" id="td_login" />
 					</p:column>
-					<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}">
+					<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}" id="ordenar_email">
 						<h:outputText value="#{vuser.email}" />
 					</p:column>
 					<p:column headerText="#{msgs.usuarioStatus}"
-						sortBy="#{vuser.status}">
+						sortBy="#{vuser.status}" id="ordenar_status">
 						<p:commandLink id="editarstatus"
 							action="#{controller.cambiarEstado(vuser)}"
 							rendered="#{vuser.isAdmin==false}" type="submit"
