@@ -186,6 +186,8 @@ public class BeanUsers implements Serializable {
 			user.setIsAdmin(false);
 			user.setStatus(UserStatus.ENABLED);
 			userService.registerUser(user);
+			
+			//Vaciamos el bean
 			user.setEmail(null);
 			user.setPassword(null);
 			user.setIsAdmin(false);

@@ -14,38 +14,46 @@
 		<table>
 			<p:row>
 				<p:column>
-					<h:inputText id="taskNombre" placeholder="Name">
+					<h:inputText id="taskNombre" placeholder="Name"
+						value="#{btasks.task.title}" required = "true">
 					</h:inputText>
 				</p:column>
 				<p:column>
-					<p:calendar id="taskPlanned" />
+					<p:calendar id="taskPlanned" value="#{btasks.task.planned}"/>
 				</p:column>
 				<p:column>
-					<h:inputText id="taskCategory" placeholder="Category">
-					</h:inputText>
+					<p:selectOneMenu id="taskCategory" value="#{btasks.category}">
+						<f:selectItem itemLabel="#{msg.none}" itemValue=""/>
+						<f:selectItems value="#{btasks.categories}" var="cat" 
+						itemLabel="#{cat.name}" itemValue="#{cat.id}" />
+					</p:selectOneMenu>
 				</p:column>
 				<p:column>
-					<h:commandButton value="AñadirTarea"></h:commandButton>
+					<h:commandButton value="#{msgs.createTask}"
+						action="#{btasks.createTask}" inmediate="true"
+						update="tablalistado,header"></h:commandButton>
 				</p:column>
 			</p:row>
 		</table>
 		<p:megaMenu id="categoriamenu" orientation="horizontal"
 			style="width: 18%; margin-left:auto; margin-right:auto;">
 			<p:menuitem value="#{msgs.inbox}" action="#{btasks.inboxTask}"
-					inmediate="true" update="tablalistado,header"/>
-			<p:menuitem  value="#{msgs.hoy}" action="#{btasks.todayTask}"
-					inmediate="true" update="tablalistado,header"/>
+				inmediate="true" update="tablalistado,header" />
+			<p:menuitem value="#{msgs.hoy}" action="#{btasks.todayTask}"
+				inmediate="true" update="tablalistado,header" />
 			<p:menuitem value="#{msgs.semana}" action="#{btasks.weekTask}"
-					inmediate="true" update="tablalistado,header"/>
+				inmediate="true" update="tablalistado,header" />
 		</p:megaMenu>
-		<p:panel id="header" header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
+		<p:panel id="header"
+			header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
 			<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
 				border="1" rows="8" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="8,16,24,32">
 				<p:column headerText="#{msgs.tareaId}">
 					<h:outputText value="#{vtask.id} " />
-					<p:commandLink value="#{msgs.tareaEditar}" action="#{btasks.editarTarea(vtask)}" />
+					<p:commandLink value="#{msgs.tareaEditar}"
+						action="#{btasks.editarTarea(vtask)}" />
 				</p:column>
 				<p:column headerText="#{msgs.tareaTitulo}">
 					<h:outputText value="#{vtask.title}" />

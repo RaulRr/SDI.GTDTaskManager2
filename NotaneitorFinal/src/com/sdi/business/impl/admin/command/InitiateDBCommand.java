@@ -121,10 +121,12 @@ public class InitiateDBCommand implements Command<Void> {
 		for(int i=1; i<=6; i++){
 			task.setTitle("Semana:" + i);
 			task.setPlanned(DateUtil.addDays(DateUtil.today(), i));
+			tDao.save(task);
 		}
 		for(int i=1; i<=4; i++){
 			task.setTitle("Semana:" + (6+i));
 			task.setPlanned(DateUtil.addDays(DateUtil.today(), i));
+			tDao.save(task);
 		}	
 	}
 	
