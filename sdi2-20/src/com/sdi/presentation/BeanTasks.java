@@ -224,9 +224,8 @@ public class BeanTasks implements Serializable {
 
 	public void cerrarTarea(Long id) {
 		try {
-			task = (BeanTask) Services.getTaskService().findTaskById(id);
-			task.setFinished(new Date());
-			Services.getTaskService().updateTask(task);
+			Services.getTaskService().markTaskAsFinished(id);
+			inboxTask();
 			System.out.println("Tarea: " + id + " cerrada correctamente");
 		} catch (BusinessException b) {
 

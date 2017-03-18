@@ -57,8 +57,7 @@
 				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
 				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
 					border="1" rows="8" paginator="true"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="8,16,24,32">
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 					<p:column headerText="#{msgs.tareaId}">
 						<h:outputText value="#{vtask.id} " />
 						<p:commandLink value="#{msgs.tareaEditar}"
@@ -76,8 +75,8 @@
 					<p:column headerText="#{msgs.tareaPlaneada}">
 						<h:outputText value="#{vtask.planned}" />
 					</p:column>
-					<p:column headerText="#{msgs.cerrarTarea}">
-						<p:commandLink value="#{msgs.cerrarTarea}"
+					<p:column headerText="#{msgs.tareaFinalizar}">
+						<p:commandLink value="#{msgs.tareaFinalizar}"
 							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
 							update="tablalistado" />
 					</p:column>
