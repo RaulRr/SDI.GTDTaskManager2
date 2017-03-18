@@ -71,6 +71,7 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-admin:tablalistado", 10);
 		//En el listado podremos ver al admin
 		SeleniumUtils.textoPresentePagina(driver, "admin1");
+		SeleniumUtils.textoPresentePagina(driver, "me@system.gtd");
 
 	}
 	//PR02: Fallo en la autenticación del administrador por introducir mal el 
@@ -82,6 +83,7 @@ public class PlantillaSDI2_Tests1617 {
 
 		// No accedemos al listado por tanto no podemos ver al admin1!
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
+		SeleniumUtils.textoNoPresentePagina(driver, "me@system.gtd");
 	}
 	//PR03: Fallo en la autenticación del administrador por introducir mal la password.
 	@Test
@@ -90,7 +92,7 @@ public class PlantillaSDI2_Tests1617 {
 		validarUsuario("admin1", "adn");
 				
 		//No accedemos al listado por tanto no podemos eal admin1!
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
+		SeleniumUtils.textoNoPresentePagina(driver, "me@system.gtd");
     }
 	//PR04: Probar que la base de datos contiene los datos insertados con conexión correcta a la base de datos.
 	@Test
@@ -197,41 +199,149 @@ public class PlantillaSDI2_Tests1617 {
     }
 	//PR08: Ordenar por Login
 	@Test
-    public void prueba08() {
-		//Estamos en el login-validamos como admin
+	public void prueba08() {
+		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
-		
-		//Obtenemos la lista de usuarios ordenados inicialmente
-		List<WebElement> logins = driver.findElements(By.xpath("//span[contains(@id, 'td_login')]"));
+
+		// Obtenemos la lista de usuarios ordenados inicialmente
+		List<WebElement> logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
 		assertTrue(logins.get(0).getText().equals("admin1"));
 		assertTrue(logins.get(1).getText().equals("user1"));
 		assertTrue(logins.get(2).getText().equals("user2"));
 		assertTrue(logins.get(3).getText().equals("user3"));
-		
+
 		By button = By.xpath("//th[contains(@id, 'ordenar_login')]");
-		driver.findElement(button).click();//El primero no ordena
+		driver.findElement(button).click();// El primero no ordena
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_login')]", 10);
 		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
-		driver.findElement(button).click();//Este cambio el orden por logins
-		
-		//SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-admin:tablalistado", 10); 
-		
-		//Obtenemos la nueva ordenacion
-		logins = driver.findElements(By.xpath("//span[contains(@id, 'td_login')]"));
+		driver.findElement(button).click();// Este cambio el orden por logins
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_login')]", 10);
+
+		// Obtenemos la nueva ordenacion
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		System.out.println(logins.get(0).getText());
 		assertTrue(logins.get(0).getText().equals("user3"));
 		assertTrue(logins.get(1).getText().equals("user2"));
 		assertTrue(logins.get(2).getText().equals("user1"));
 		assertTrue(logins.get(3).getText().equals("admin1"));
-    }
-	//PR09: Ordenar por Email
+
+		// Volvemos al original
+		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
+		driver.findElement(button).click();// Este cambio el orden por logins
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_login')]", 10);
+
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user2"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+
+	}
+
+	// PR09: Ordenar por Email
 	@Test
-    public void prueba09() {
-		assertTrue(false);
-    }
-	//PR10: Ordenar por Status
+	public void prueba09() {
+		// Estamos en el login-validamos como admin
+		validarUsuario("admin1", "admin1");
+
+		// Obtenemos la lista de usuarios ordenados inicialmente
+		List<WebElement> logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user2"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+
+		By button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+		driver.findElement(button).click();// El primero no ordena
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_email')]", 10);
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+		driver.findElement(button).click();// Este cambio el orden por emails
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_email')]", 10);
+
+		// Obtenemos la nueva ordenacion
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		System.out.println(logins.get(0).getText());
+		assertTrue(logins.get(0).getText().equals("user3"));
+		assertTrue(logins.get(1).getText().equals("user2"));
+		assertTrue(logins.get(2).getText().equals("user1"));
+		assertTrue(logins.get(3).getText().equals("admin1"));
+
+		// Volvemos al original
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+		driver.findElement(button).click();// Este cambio el orden por emails
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_email')]", 10);
+
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user2"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+	}
+
+	// PR10: Ordenar por Status
 	@Test
-    public void prueba10() {
-		assertTrue(false);
-    }
+	public void prueba10() {
+		// Estamos en el login-validamos como admin
+		validarUsuario("admin1", "admin1");
+
+		// Pasamos al user2 de enabled a disabled
+		By enlace = By
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();// Ahora estaria disabled
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]", 10);
+		
+		// Obtenemos la lista de usuarios ordenados inicialmente
+		List<WebElement> logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user2"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+
+		By button = By.xpath("//th[contains(@id, 'ordenar_status')]");
+		driver.findElement(button).click();// El primero ordena
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_status')]", 10);
+
+		// Obtenemos la nueva ordenacion-Ultimos disabled
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("admin1"));
+		assertTrue(logins.get(1).getText().equals("user1"));
+		assertTrue(logins.get(2).getText().equals("user3"));
+		assertTrue(logins.get(3).getText().equals("user2"));
+
+		// Volvemos a pinchar-Primeros disabled
+		button = By.xpath("//th[contains(@id, 'ordenar_status')]");
+		driver.findElement(button).click();// Este cambio el orden por status
+		SeleniumUtils.EsperaCargaPaginaxpath(driver,
+				"//th[contains(@id, 'ordenar_status')]", 10);
+
+		logins = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_login')]"));
+		assertTrue(logins.get(0).getText().equals("user2"));
+		assertTrue(logins.get(1).getText().equals("admin1"));
+		assertTrue(logins.get(2).getText().equals("user1"));
+		assertTrue(logins.get(3).getText().equals("user3"));
+
+		// Pasamos al user2 a enabled
+		enlace = By
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();// Ahora estaria enabled
+	}
 	//PR11: Borrar  una cuenta de usuario normal y datos relacionados.
 	@Test
     public void prueba11() {
