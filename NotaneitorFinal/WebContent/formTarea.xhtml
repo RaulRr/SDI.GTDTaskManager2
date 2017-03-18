@@ -33,7 +33,8 @@
 								value="#{msgs.categoriaEditar}" /></td>
 						<td><p:selectOneMenu id="categorias_menu"
 								style="width:125px;" value="#{task.categoryId}">
-								<f:selectItem itemLabel="#{msgs.noCategoria}" itemVaule="0" />
+								<f:selectItem itemLabel="#{msgs.noCategoria}" 
+									itemVaule="null" />
 								<f:selectItem itemLabel="#{msgs.categoria1}"
 									itemValue="#{btasks.categories[0].id}" />
 								<f:selectItem itemLabel="#{msgs.categoria2}"

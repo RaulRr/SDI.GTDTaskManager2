@@ -248,9 +248,6 @@ public class BeanTasks implements Serializable {
 	 */
 	public String modificarTarea() {
 		try {
-			if (task.getCategoryId() <= 0) { // Se selecciono ninguna
-				task.setCategoryId(null);
-			}
 			Services.getTaskService().updateTask(task);
 
 		} catch (BusinessException b) {
@@ -260,6 +257,7 @@ public class BeanTasks implements Serializable {
 		}
 
 		task = new BeanTask();
+		
 		System.out.println("Se ha modificado la tarea con EXITO");
 		return "exito";
 	}
