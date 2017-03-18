@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
+
+	<!-- Aqu� va tu c�digo -->
+	<ui:define name="cuerpo">
+		<h:form id="form-task">
+			<table>
+				<p:row>
+					<p:column>
+						<h:inputText id="taskNombre" placeholder="Name"
+							value="#{btasks.task.title}" required="true" style="width:300px">
+						</h:inputText>
+					</p:column>
+					<p:column>
+						<p:calendar id="taskPlanned" value="#{btasks.task.planned}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="taskCategory" value="#{btasks.category}" style="width:125px" >
+							<f:selectItem itemLabel="#{msg.none}" itemValue="" />
+							<f:selectItems value="#{btasks.categories}" var="cat"
+								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
+						</p:selectOneMenu>
+					</p:column>
+					<p:column>
+						<h:commandButton value="#{msgs.createTask}"
+							action="#{btasks.createTask}" inmediate="true"
+							update="tablalistado,header"></h:commandButton>
+					</p:column>
+				</p:row>
+			</table>
+
+			<table id="menu" style="align:center;">
+				<p:row>
+					<p:column>
+						<p:commandButton value="#{msgs.inbox}"
+							actionListener="#{btasks.inboxTask}" inmediate="true"
+							update="tablalistado,header" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{msgs.hoy}"
+							actionListener="#{btasks.todayTask}" inmediate="true"
+							update="tablalistado,header" />
+					</p:column>
+					<p:column>
+						<p:commandButton value="#{msgs.semana}"
+							actionListener="#{btasks.weekTask}" inmediate="true"
+							update="tablalistado,header" />
+					</p:column>
+				</p:row>
+			</table>
+			
+			<p:panel id="header"
+				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
+				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
+					border="1" rows="8" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="8,16,24,32">
+					<p:column headerText="#{msgs.tareaId}">
+						<h:outputText value="#{vtask.id} " />
+						<p:commandLink value="#{msgs.tareaEditar}"
+							action="#{btasks.editarTarea(vtask)}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaTitulo}">
+						<h:outputText value="#{vtask.title}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaComentarios}">
+						<h:outputText value="#{vtask.comments}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaCreada}">
+						<h:outputText value="#{vtask.created}" />
+					</p:column>
+					<p:column headerText="#{msgs.tareaPlaneada}">
+						<h:outputText value="#{vtask.planned}" />
+					</p:column>
+					<p:column headerText="#{msgs.cerrarTarea}">
+						<p:commandLink value="#{msgs.cerrarTarea}"
+							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
+							update="tablalistado" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
