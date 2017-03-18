@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <f:view locale="#{settings.locale}">
 	<h:head>
 		<title>#{msgs.tituloHead}</title>
@@ -13,6 +13,8 @@
 	<h:body>
 		<h:form id="form-template">
 			<p:menubar>
+				<p:menuitem value="#{msgs.cerrarSesion}"
+					action="#{controller.cerrarSesion}" />
 				<p:submenu style="float:right" label="#{msgs.textoIdioma}"
 					icon="ui-icon-document">
 					<p:menuitem value="#{msgs.enlaceIdiomaES}"
@@ -21,8 +23,9 @@
 						actionListener="#{settings.setEnglish}" update="@all" />
 				</p:submenu>
 			</p:menubar>
-			
-			<ui:insert name="cuerpo"> </ui:insert>
+
+			<ui:insert name="cuerpo">
+			</ui:insert>
 		</h:form>
 	</h:body>
 </f:view>

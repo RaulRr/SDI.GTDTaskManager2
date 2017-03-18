@@ -32,6 +32,7 @@
 					</p:column>
 				</p:row>
 			</table>
+			
 			<p:megaMenu id="categoriamenu" orientation="horizontal"
 				style="width: 18%; margin-left:auto; margin-right:auto;">
 				<p:menuitem value="#{msgs.inbox}" action="#{btasks.inboxTask}"
@@ -41,6 +42,7 @@
 				<p:menuitem value="#{msgs.semana}" action="#{btasks.weekTask}"
 					inmediate="true" update="tablalistado,header" />
 			</p:megaMenu>
+			
 			<p:panel id="header"
 				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
 				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
@@ -71,8 +73,6 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
-			<h:commandButton value="#{msgs.botonAtras}"
-				action="#{controller.atras}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

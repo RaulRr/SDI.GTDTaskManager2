@@ -2,6 +2,7 @@ package com.sdi.presentation;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -21,44 +22,43 @@ public class BeanUsers implements Serializable {
 
 	private static final long serialVersionUID = 55555L;
 
-	
-	@ManagedProperty(value="#{user}")
+	@ManagedProperty(value = "#{user}")
 	private BeanUser user;
 
 	private List<User> users = null;
-	
-	@ManagedProperty(value="#{btasks}")
+
+	@ManagedProperty(value = "#{btasks}")
 	private BeanTasks tasks = null;
 
 	private String pass = "";
-	
-	//Se inicia correctamente el MBean inyectado si JSF lo hubiera crea
-		//y en caso contrario se crea. (hay que tener en cuenta que es un Bean de sesión)
-		//Se usa @PostConstruct, ya que en el contructor no se sabe todavía si el ManagedBean
-		//ya estaba construido y en @PostConstruct SI.
-		
-		@PostConstruct
-		public void init() {
-			System.out.println("BeanUsers - PostConstruct");
-			//Buscamos el alumno en la sesión. Esto es un patrón factoría claramente.
-			user = (BeanUser)
-					FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(new
-							String("user"));
-			//si no existe lo creamos e inicializamos
-			if (user == null) {
-				System.out.println("BeanUser - No existia");
-				user = new BeanUser();
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(
-						"user", user);
-			}
-		}
-		
-		@PreDestroy
-		public void end() {
-			System.out.println("BeanUsers - PreDestroy");
-		}
 
-	
+	// Se inicia correctamente el MBean inyectado si JSF lo hubiera crea
+	// y en caso contrario se crea. (hay que tener en cuenta que es un Bean de
+	// sesión)
+	// Se usa @PostConstruct, ya que en el contructor no se sabe todavía si el
+	// ManagedBean
+	// ya estaba construido y en @PostConstruct SI.
+
+	@PostConstruct
+	public void init() {
+		System.out.println("BeanUsers - PostConstruct");
+		// Buscamos el alumno en la sesión. Esto es un patrón factoría
+		// claramente.
+		user = (BeanUser) FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap().get(new String("user"));
+		// si no existe lo creamos e inicializamos
+		if (user == null) {
+			System.out.println("BeanUser - No existia");
+			user = new BeanUser();
+			FacesContext.getCurrentInstance().getExternalContext()
+					.getSessionMap().put("user", user);
+		}
+	}
+
+	@PreDestroy
+	public void end() {
+		System.out.println("BeanUsers - PreDestroy");
+	}
 
 	public String getPass() {
 		return pass;
@@ -99,19 +99,21 @@ public class BeanUsers implements Serializable {
 			userService = Services.getUserService();
 			user.setUser(userService.findLoggableUser(user.getLogin(),
 					user.getPassword()));
-			user.setPassword(null);//Por seguridad
-			
+			user.setPassword(null);// Por seguridad
+
 			if (user.getIsAdmin()) { // Si es admin muestra la lista usuarios
 				listadoUsuarios();
+				putUserInSession(user);
 				return "admin";
 			}
-			
-			tasks = new BeanTasks();// Si usuario cargamos las tareas desde el inbox
+
+			tasks = new BeanTasks();// Si usuario cargamos las tareas desde el
+									// inbox
 
 		} catch (Exception e) {
 			return "error"; // Se produjo algún error al validar
 		}
-		
+		putUserInSession(user);
 		return "user"; // Es un usario normal
 	}
 
@@ -166,13 +168,13 @@ public class BeanUsers implements Serializable {
 		}
 
 		else {
-			if (pass.length()<8) {
+			if (pass.length() < 8) {
 				System.out
 						.println("Las contraseñas deben medir al menos 8 caracteres "
 								+ pass);
 				return "false";
 			}
-			
+
 			if (!pass.matches(".*[a-zA-Z].*") || !pass.matches(".*[0-9].*")) {
 				System.out
 						.println("Las contraseñas no contiene letras y números "
@@ -186,8 +188,8 @@ public class BeanUsers implements Serializable {
 			user.setIsAdmin(false);
 			user.setStatus(UserStatus.ENABLED);
 			userService.registerUser(user);
-			
-			//Vaciamos el bean
+
+			// Vaciamos el bean
 			user.setEmail(null);
 			user.setPassword(null);
 			user.setIsAdmin(false);
@@ -198,30 +200,45 @@ public class BeanUsers implements Serializable {
 
 		return "true"; // Es un usario normal
 	}
-	
+
 	/*
 	 * Método del administrador que inicaliza la BD a su estado original
 	 */
-	public String reiniciarBD(){
+	public String reiniciarBD() {
 		AdminService adminService;
-		try{
+		try {
 			adminService = Services.getAdminService();
 			adminService.initiateDB();
 			listadoUsuarios();
-			
-		}catch(BusinessException b){
+
+		} catch (BusinessException b) {
 			return "error";
 		}
 		return "exito";
-		
+
 	}
 
 	public String atras() {
 		System.out.println("Pulsado atras");
 		return "true";
 	}
-	
+
 	private void listadoUsuarios() throws BusinessException {
 		users = Services.getAdminService().findAllUsers();
 	}
+
+	private void putUserInSession(User user) {
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", user.getIsAdmin());
+	}
+
+	public String cerrarSesion(){
+		Map<String, Object> session = FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap();
+		session.put("LOGGEDIN_USER", null);
+		System.out.println("Sesion cerrada correctamente");
+		return "true";
+	}
+	
 }
