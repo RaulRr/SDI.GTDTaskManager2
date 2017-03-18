@@ -10,8 +10,8 @@
 	</h:head>
 	<ui:define name="cuerpo">
 
-		<h:form>
-			<p:panel header="#{msgs.tablaEditar}">
+		<h:form id ="form-task">
+			<p:panel header="#{msgs.tablaEditar}" id ="tablaform">
 				<table>
 					<tr>
 						<td><p:outputLabel value="#{msgs.tituloEditar}" /></td>
@@ -44,8 +44,8 @@
 							</p:selectOneMenu></td>
 					</tr>
 					<tr>
-						<td><p:commandButton id="editar_button"
-								value="#{msgs.botonEditar}" action="#{btasks.modificarTarea}" />
+						<td><p:commandButton id="editar_button" value="#{msgs.botonEditar}" 
+							action="#{btasks.modificarTarea}" update="tablaform"/>
 						</td>
 					</tr>
 				</table>

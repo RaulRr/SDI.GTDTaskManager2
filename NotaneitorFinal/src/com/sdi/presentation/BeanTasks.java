@@ -256,8 +256,8 @@ public class BeanTasks implements Serializable {
 			return "error";
 		}
 
-		task = new BeanTask();
-		
+		task.iniciaTask(null);
+		inboxTask();
 		System.out.println("Se ha modificado la tarea con EXITO");
 		return "exito";
 	}

@@ -29,6 +29,12 @@ public class BeanTask extends Task implements Serializable {
 	
 	public void iniciaTask(ActionEvent event) {
 		setId(null);
+		setUserId(null);
+		setCategoryId(null);
+		setCreated(null);
+		setPlanned(null);
+		setFinished(null);
+		setComments("");
 		setTitle("new Task");
 	}
 	
