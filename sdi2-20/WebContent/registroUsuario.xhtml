@@ -10,7 +10,7 @@
 	</h:head>
 	<ui:define name="cuerpo">
 
-		<h:form>
+		<h:form id="form-registro">
 			<p:panel header="#{msgs.tituloRegistro}">
 				<table>
 					<tr>
@@ -41,10 +41,10 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><h:commandButton value="#{msgs.botonCancelar}"
-								action="#{controller.atras}" /> <h:commandButton
-								value="#{msgs.botonRegistrar}" action="#{controller.registrar}"
-								style="margin-left: 10px;" /></td>
+						<td><h:commandButton id="cancelar-button" value="#{msgs.botonCancelar}"
+								action="#{controller.atras}" /> 
+						<h:commandButton id="registro-button" value="#{msgs.botonRegistrar}" 
+						action="#{controller.registrar}" style="margin-left: 10px;"/></td>
 					</tr>
 				</table>
 			</p:panel>

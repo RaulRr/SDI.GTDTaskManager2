@@ -47,6 +47,35 @@ public class PO_Form {
 		driver.findElement(boton).click();
 	}
 	
+	public void rellenaRegsitro(WebDriver driver, String uLogin, String uMail,
+			String uPassword, String uPasswordR){
+		
+		WebElement login = driver.findElement(By
+				.id("form-template:form-registro:login"));
+		login.click();
+		login.clear();
+		login.sendKeys(uLogin);
+		WebElement mail = driver.findElement(By.
+				id("form-template:form-registro:email"));
+		mail.click();
+		mail.clear();
+		mail.sendKeys(uMail);
+		WebElement password= driver.findElement(By
+				.id("form-template:form-registro:pass"));
+		password.click();
+		password.clear();
+		password.sendKeys(uPassword);
+		WebElement password2 = driver.findElement(By.
+				id("form-template:form-registro:pass2"));
+		password2.click();
+		password2.clear();
+		password2.sendKeys(uPasswordR);
+		
+		// Pulsar el boton de registro
+		By boton = By.id("form-template:form-registro:registro-button");
+		driver.findElement(boton).click();
+		
+	}
 	
 	
 }
