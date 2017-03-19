@@ -462,19 +462,57 @@ public class PlantillaSDI2_Tests1617 {
 	// PR13: Crear una cuenta de usuario normal con login repetido.
 	@Test
 	public void prueba13() {
-		assertTrue(false);
-	}
+		By button = By
+				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+		driver.findElement(button).click();// Pulsamos boton de creacion
 
+		//esperamos a que se cargue la pagina de registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
+		
+		//Registramos con login repetido
+		registrarUsuario("user1", "uprueba1@gmail.com", "uprueba1", "uprueba1");
+		
+		//Seguimos en el registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
+	}
 	// PR14: Crear una cuenta de usuario normal con Email incorrecto.
 	@Test
 	public void prueba14() {
-		assertTrue(false);
+		By button = By
+				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+		driver.findElement(button).click();// Pulsamos boton de creacion
+
+		//esperamos a que se cargue la pagina de registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
+		
+		//Registramos con mail incorrecto
+		registrarUsuario("uprueba1", "uprueba1", "uprueba1", "uprueba1");
+		
+		//Seguimos en el registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
 	}
 
 	// PR15: Crear una cuenta de usuario normal con Password incorrecta.
 	@Test
 	public void prueba15() {
-		assertTrue(false);
+		By button = By
+				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+		driver.findElement(button).click();// Pulsamos boton de creacion
+
+		//esperamos a que se cargue la pagina de registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
+		
+		//Registramos con mail incorrecto
+		registrarUsuario("uprueba1", "uprueba1", "1234", "1234");
+		
+		//Seguimos en el registro
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-registro", 10);
 	}
 
 	// USUARIO
