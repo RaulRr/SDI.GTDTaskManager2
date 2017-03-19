@@ -108,7 +108,6 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:reiniciarbd", 10);
 	
-		
 		//Pulsamos sobre el enlace
 		By link = By.id("form-template:form-admin:reiniciarbd");
 		driver.findElement(link).click();
@@ -134,68 +133,82 @@ public class PlantillaSDI2_Tests1617 {
     }
 	//PR06: Cambiar el estado de un usuario de ENABLED a DISABLED. Y tratar de entrar con el usuario que se desactivado.
 	@Test
-    public void prueba06() {
-		//Estamos en el login-validamos como admin
+	public void prueba06() {
+		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
-		//Esperamos a que se cargue la pagina del admin
-		//concretamente la tabla listado usuarios del admin
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
-				"form-admin:tablalistado", 10); 
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente la tabla listado usuarios del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-admin:tablalistado", 10);
 
-		//Comprobamos que existe el user a cambiar
+		// Comprobamos que existe el user a cambiar
 		SeleniumUtils.textoPresentePagina(driver, "user2");
 		SeleniumUtils.textoPresentePagina(driver, "user2@gmail.com");
-		
-		//Pulsamos sobre el hiperbinculo de estado del usuario que se encuantra enabled
-		By enlace = By.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
-		driver.findElement(enlace).click();//Ahora estaria disabled
-		
-		//Volvemos al login
-		enlace = By.xpath("//input[contains(@id, 'atras')]");
-		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
-		
-		//Intentamos acceder como el usuario
+
+		// Pulsamos sobre el hiperbinculo de estado del usuario que se encuantra
+		// enabled
+		By enlace = By
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();// Ahora estaria disabled
+
+		// Volvemos al login
+		enlace = By.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(enlace).click();// Ahora estariamos en la ventana
+											// login
+
+		// Intentamos acceder como el usuario
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
 		validarUsuario("user2", "user2");
-		
-		//Seguimos en login. No accedimos al listado tareas del usuario.
-		//Buscamos el boton de validar
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-login:validation-button", 10);
-		
-		//Deshacemos los cambios
+
+		// Seguimos en login. No accedimos al listado tareas del usuario.
+		// Buscamos el boton de validar
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login:validation-button", 10);
+
+		// Deshacemos los cambios
 		validarUsuario("admin1", "admin1");
-		enlace = By.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		enlace = By
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();//Ahora volveria a estar enabled
 	}
 	//PR07: Cambiar el estado de un usuario a DISABLED a ENABLED. Y Y tratar de entrar con el usuario que se ha activado.
 	@Test
     public void prueba07() {
-		//Estamos en el login-validamos como admin
+		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
-		//Esperamos a que se cargue la pagina del admin
-		//concretamente la tabla listado usuarios del admin
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-admin:tablalistado", 10); 
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente la tabla listado usuarios del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-admin:tablalistado", 10);
 
-		//Comprobamos que existe el user a cambiar
+		// Comprobamos que existe el user a cambiar
 		SeleniumUtils.textoPresentePagina(driver, "user3");
 		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
 
-		//Editamos el estado del usuario que se encuantra enabled a disabled
-		By enlace = By.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
-		driver.findElement(enlace).click();//Ahora estaria disabled
-		enlace = By.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
-		driver.findElement(enlace).click();//Ahora volveria a estar enabled
+		// Editamos el estado del usuario que se encuantra enabled a disabled
+		By enlace = By
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();// Ahora estaria disabled
+		enlace = By
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+		driver.findElement(enlace).click();// Ahora volveria a estar enabled
 
-		enlace = By.xpath("//input[contains(@id, 'atras')]");
-		driver.findElement(enlace).click();//Ahora estariamos en la ventana login
+		enlace = By.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(enlace).click();// Ahora estariamos en la ventana
+											// login
 
-		//Intentamos acceder como el usuario
+		// Intentamos acceder como el usuario
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
 		validarUsuario("user3", "user3");
-		
-		//Esperamos a que se cargue la pagina del usuario
-		//concretamente la tabla listado tareas del user
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-template:form-task:tablalistado", 10); 
+
+		// Esperamos a que se cargue la pagina del usuario
+		// concretamente la tabla listado tareas del user
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
     }
 	//PR08: Ordenar por Login
 	@Test
@@ -243,7 +256,6 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(logins.get(3).getText().equals("user3"));
 
 	}
-
 	// PR09: Ordenar por Email
 	@Test
 	public void prueba09() {
@@ -289,7 +301,6 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(logins.get(2).getText().equals("user2"));
 		assertTrue(logins.get(3).getText().equals("user3"));
 	}
-
 	// PR10: Ordenar por Status
 	@Test
 	public void prueba10() {
@@ -455,14 +466,54 @@ public class PlantillaSDI2_Tests1617 {
     }
 	//PR33: Salir de sesión desde cuenta de administrador.
 	@Test
-    public void prueba33() {
-		assertTrue(false);
-    }
-	//PR34: Salir de sesión desde cuenta de usuario normal.
+	public void prueba33() {
+		// Estamos en el login-validamos al admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente a la tabla de usuarios
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado", 10);
+
+		// En el listado podremos ver al admin
+		SeleniumUtils.textoPresentePagina(driver, "admin1");
+		SeleniumUtils.textoPresentePagina(driver, "me@system.gtd");
+
+		// Cerramos sesion para volver al login
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		SeleniumUtils.textoNoPresentePagina(driver, "admin1");
+		SeleniumUtils.textoNoPresentePagina(driver, "me@system.gtd");
+	}
+
+	// PR34: Salir de sesión desde cuenta de usuario normal.
 	@Test
-    public void prueba34() {
-		assertTrue(false);
-    }
+	public void prueba34() {
+		// Estamos en el login-validamos al user1
+		validarUsuario("user1", "user1");
+
+		// Esperamos a que se cargue la pagina del user
+		// concretamente a la tabla de tareas
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+		
+		//Al principio estamos en inbox
+		SeleniumUtils.textoPresentePagina(driver, "Inbox");
+		
+		// Cerramos sesion para volver al login
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		
+		SeleniumUtils.textoNoPresentePagina(driver, "Inbox");
+	}
 	//PR35: Cambio del idioma por defecto a un segundo idioma. (Probar algunas vistas)
 	@Test
     public void prueba35() {
