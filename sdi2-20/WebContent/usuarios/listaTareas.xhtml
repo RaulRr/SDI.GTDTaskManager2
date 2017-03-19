@@ -87,12 +87,12 @@
 					<p:column headerText="#{msgs.tareaCategoria}"
 						sortBy="#{btask.nombreCategoria(vtask.categoryId)}"
 						style="background-color:red;"
-						rendered="#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)}">
+						rendered="#{btasks.listaSeleccionada}.equals('Week') and task.estaRetrasada(vtask.id)}">
 						<h:outputText value="#{btask.nombreCategoria(vtask.categoryId)}" />
 					</p:column>
 					<p:column headerText="#{msgs.tareaCategoria}"
 						sortBy="#{btask.nombreCategoria(vtask.categoryId)}"
-						rendered="!(#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)})">
+						rendered="!(#{btasks.listaSeleccionada}.equals('Week') and btask.estaRetrasada(vtask.id)})">
 						<h:outputText value="#{btask.nombreCategoria(vtask.categoryId)}" />
 					</p:column>
 
@@ -101,12 +101,12 @@
 
 					<p:column headerText="#{msgs.tareaPlaneada}"
 						sortBy="#{vtask.planned}" style="background-color:red;"
-						rendered="!#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)}">
+						rendered="!#{btasks.listaSeleccionada.equals('Week') and btask.estaRetrasada(vtask.id)}">
 						<h:outputText value="#{vtask.planned}" />
 					</p:column>
 					<p:column headerText="#{msgs.tareaPlaneada}"
 						sortBy="#{vtask.planned}"
-						rendered="!(!#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)})">
+						rendered="!(!#{btasks.listaSeleccionada.equals('Week') and btask.estaRetrasada(vtask.id)})">
 						<h:outputText value="#{vtask.planned}" />
 					</p:column>
 
