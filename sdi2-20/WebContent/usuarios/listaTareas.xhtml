@@ -19,7 +19,8 @@
 						<p:calendar id="taskPlanned" value="#{btasks.task.planned}" />
 					</p:column>
 					<p:column>
-						<p:selectOneMenu id="taskCategory" value="#{btasks.category}" style="width:125px" >
+						<p:selectOneMenu id="taskCategory" value="#{btasks.category}"
+							style="width:125px">
 							<f:selectItem itemLabel="#{msg.none}" itemValue="" />
 							<f:selectItems value="#{btasks.categories}" var="cat"
 								itemLabel="#{cat.name}" itemValue="#{cat.id}" />
@@ -33,7 +34,7 @@
 				</p:row>
 			</table>
 
-			<table id="menu" style="align:center;">
+			<table id="menu" style="align: center;">
 				<p:row>
 					<p:column>
 						<p:commandButton value="#{msgs.inbox}"
@@ -52,27 +53,37 @@
 					</p:column>
 				</p:row>
 			</table>
-			
+
 			<p:panel id="header"
 				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
 				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
 					border="1" rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
-					<p:column headerText="#{msgs.tareaId}">
+
+					<p:column headerText="#{msgs.tareaId}" sortBy="#{vtask.id}">
 						<h:outputText value="#{vtask.id} " />
 						<p:commandLink value="#{msgs.tareaEditar}"
 							action="#{btasks.editarTarea(vtask)}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaTitulo}">
+					
+					
+					<p:column filterBy="#{vtask.title}" headerText="#{msg.title}" sortBy="#{vtask.title}"
+						footerText="contains" filterMatchMode="contains" rendered="#{btasks.listaSeleccionada}.equals('Inbox')">
 						<h:outputText value="#{vtask.title}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaComentarios}">
+					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}" rendered="!#{btasks.listaSeleccionada}.equals('Inbox')">
+						<h:outputText value="#{vtask.title}" />
+					</p:column>
+					
+					
+					
+					<p:column headerText="#{msgs.tareaComentarios}" sortBy="#{vtask.comments}">
 						<h:outputText value="#{vtask.comments}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaCreada}">
+					<p:column headerText="#{msgs.tareaCreada}" sortBy="#{vtask.created}" >
 						<h:outputText value="#{vtask.created}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaPlaneada}">
+					<p:column headerText="#{msgs.tareaPlaneada}" sortBy="#{vtask.planned}">
 						<h:outputText value="#{vtask.planned}" />
 					</p:column>
 					<p:column headerText="#{msgs.tareaFinalizar}">

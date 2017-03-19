@@ -237,6 +237,7 @@ public class BeanUsers implements Serializable {
 		Map<String, Object> session = FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap();
 		session.put("LOGGEDIN_USER", null);
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		System.out.println("Sesion cerrada correctamente");
 		return "true";
 	}
