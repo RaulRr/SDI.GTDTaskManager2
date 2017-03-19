@@ -32,7 +32,7 @@
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="#{msgs.usuarioEliminar}">
-						<p:commandButton actionListener="#{controller.eliminar(vuser)}"
+						<p:commandButton id="eliminar_button" actionListener="#{controller.eliminar(vuser)}"
 							rendered="#{vuser.isAdmin==false}" type="submit"
 							value="#{msgs.usuarioEliminar}" inmediate="true"
 							update="tablalistado">
@@ -41,8 +41,8 @@
 						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Yes" type="button"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton id="comfirmation_button" value="Yes" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="tablalistado"/>
 							<p:commandButton value="No" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>

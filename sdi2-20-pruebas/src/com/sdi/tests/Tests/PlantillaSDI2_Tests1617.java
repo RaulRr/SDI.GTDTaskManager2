@@ -353,11 +353,42 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria enabled
 	}
-	//PR11: Borrar  una cuenta de usuario normal y datos relacionados.
+
+	// PR11: Borrar una cuenta de usuario normal y datos relacionados.
 	@Test
-    public void prueba11() {
-		assertTrue(false);
-    }
+	public void prueba11() {
+		// Estamos en el login-validamos como admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente la tablalistado del admin
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado", 10);
+		// Comprobamos que existe el user a eliminar
+		SeleniumUtils.textoPresentePagina(driver, "user3");
+		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
+		
+		By button = By
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/button[contains(@id, 'eliminar_button')]");
+		driver.findElement(button).click();// Ahora viene confirmacion
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado:3:comfirmation_button", 10);
+		button = By.xpath("//button[contains(@id, 'form-template:form-admin:tablalistado:3:comfirmation_button')]");
+		driver.findElement(button).click();// Boton confirmacion
+		
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado", 10);
+		
+		// Comprobamos que se elimino
+		SeleniumUtils.textoNoPresentePagina(driver, "user3");
+		SeleniumUtils.textoNoPresentePagina(driver, "user3@gmail.com");
+		
+		//Deshacemos los cambios
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		By link = By.xpath("//a[contains(@id, 'form-template:form-admin:reiniciarbd')]");
+		driver.findElement(link).click();
+	}
 	//PR12: Crear una cuenta de usuario normal con datos válidos.
 	@Test
     public void prueba12() {
