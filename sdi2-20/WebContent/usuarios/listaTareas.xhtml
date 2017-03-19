@@ -65,27 +65,53 @@
 						<p:commandLink value="#{msgs.tareaEditar}"
 							action="#{btasks.editarTarea(vtask)}" />
 					</p:column>
-					
-					
-					<p:column filterBy="#{vtask.title}" headerText="#{msg.title}" sortBy="#{vtask.title}"
-						footerText="contains" filterMatchMode="contains" rendered="#{btasks.listaSeleccionada}.equals('Inbox')">
+
+
+					<p:column filterBy="#{vtask.title}" headerText="#{msg.title}"
+						sortBy="#{vtask.title}" footerText="contains"
+						filterMatchMode="contains"
+						rendered="#{btasks.listaSeleccionada}.equals('Inbox')">
 						<h:outputText value="#{vtask.title}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}" rendered="!#{btasks.listaSeleccionada}.equals('Inbox')">
+					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
+						rendered="!#{btasks.listaSeleccionada}.equals('Inbox')">
 						<h:outputText value="#{vtask.title}" />
 					</p:column>
-					
-					
-					
-					<p:column headerText="#{msgs.tareaComentarios}" sortBy="#{vtask.comments}">
+
+					<p:column headerText="#{msgs.tareaComentarios}"
+						sortBy="#{vtask.comments}">
 						<h:outputText value="#{vtask.comments}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaCreada}" sortBy="#{vtask.created}" >
-						<h:outputText value="#{vtask.created}" />
+
+
+					<p:column headerText="#{msgs.tareaCategoria}"
+						sortBy="#{btask.nombreCategoria(vtask.categoryId)}"
+						style="background-color:red;"
+						rendered="#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)}">
+						<h:outputText value="#{btask.nombreCategoria(vtask.categoryId)}" />
 					</p:column>
-					<p:column headerText="#{msgs.tareaPlaneada}" sortBy="#{vtask.planned}">
+					<p:column headerText="#{msgs.tareaCategoria}"
+						sortBy="#{btask.nombreCategoria(vtask.categoryId)}"
+						rendered="!(#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)})">
+						<h:outputText value="#{btask.nombreCategoria(vtask.categoryId)}" />
+					</p:column>
+
+
+
+
+					<p:column headerText="#{msgs.tareaPlaneada}"
+						sortBy="#{vtask.planned}" style="background-color:red;"
+						rendered="!#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)}">
 						<h:outputText value="#{vtask.planned}" />
 					</p:column>
+					<p:column headerText="#{msgs.tareaPlaneada}"
+						sortBy="#{vtask.planned}"
+						rendered="!(!#{btasks.listaSeleccionada}.equals('Week') &and;&and; #{btask.estaRetrasada(vtask.id)})">
+						<h:outputText value="#{vtask.planned}" />
+					</p:column>
+
+
+
 					<p:column headerText="#{msgs.tareaFinalizar}">
 						<p:commandLink value="#{msgs.tareaFinalizar}"
 							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"

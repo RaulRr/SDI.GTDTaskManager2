@@ -178,15 +178,15 @@ public class BeanTasks implements Serializable {
 		date.setHours(0);
 		date.setMinutes(0);
 		date.setSeconds(0);
-		if (task.getPlanned() == null){
+		if (task.getPlanned() == null) {
 			System.out.println("Fecha planeada nula");
-			return;}
-		else {
+			return;
+		} else {
 			Date d = task.getPlanned();
 			d.setHours(1);
 			if (d.compareTo(date) == -1) {
-				System.out.println("Fecha planeada inferior a la actual: "
-						+ d + " -- " + date);
+				System.out.println("Fecha planeada inferior a la actual: " + d
+						+ " -- " + date);
 				return;
 			}
 		}
@@ -259,6 +259,28 @@ public class BeanTasks implements Serializable {
 		inboxTask();
 		System.out.println("Se ha modificado la tarea con EXITO");
 		return "exito";
+	}
+
+	@SuppressWarnings("deprecation")
+	public boolean estaRetrasada(Long id) throws BusinessException {
+		TaskService taskService = Services.getTaskService();
+		Task t = taskService.findTaskById(id);
+		Date date = new Date();
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+		Date d = t.getPlanned();
+		d.setHours(1);
+		if (d.compareTo(date) == -1) {
+			return true;
+		}
+		return false;
+	}
+
+	public String nombreCategoria(Long id) throws BusinessException {
+		TaskService taskServices = Services.getTaskService();
+		Category c = taskServices.findCategoryById(id);
+		return c.getName();
 	}
 
 }
