@@ -356,7 +356,7 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR11: Borrar una cuenta de usuario normal y datos relacionados.
 	@Test
-	public void prueba11() {
+	public void prueba11() throws InterruptedException {
 		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
@@ -383,11 +383,18 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoNoPresentePagina(driver, "user3");
 		SeleniumUtils.textoNoPresentePagina(driver, "user3@gmail.com");
 		
-		//Deshacemos los cambios
+		//Devolvemos al estado inicial
+		Thread.sleep(1000);
+		button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		validarUsuario("admin1", "admin1");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:reiniciarbd", 10);
-		By link = By.xpath("//a[contains(@id, 'form-template:form-admin:reiniciarbd')]");
-		driver.findElement(link).click();
+		button = By.xpath("//a[contains(@id, 'form-template:form-admin:reiniciarbd')]");
+		driver.findElement(button).click();
 	}
 	//PR12: Crear una cuenta de usuario normal con datos válidos.
 	@Test
