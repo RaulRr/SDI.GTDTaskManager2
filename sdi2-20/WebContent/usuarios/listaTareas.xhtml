@@ -86,7 +86,7 @@
 
 
 					<p:column headerText="#{msgs.tareaCategoria}"
-						sortBy="#{btask.nombreCategoria(vtask.categoryId)}">
+						sortBy="#{vtask.catName}">
 						<h:outputText value="#{vtask.catName}"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == false}" />
 						<h:outputText value="#{vtask.catName}"
