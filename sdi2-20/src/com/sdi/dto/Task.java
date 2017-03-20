@@ -15,6 +15,25 @@ public class Task {
 	
 	private Long categoryId;
 	private Long userId;
+		
+	private String catName;
+	public String getCatName() {
+		return catName;
+	}
+
+	public void setCatName(String catName) {
+		this.catName = catName;
+	}
+
+	public boolean isRetrasada() {
+		return retrasada;
+	}
+
+	public void setRetrasada(boolean retrasada) {
+		this.retrasada = retrasada;
+	}
+
+	private boolean retrasada;
 	
 	public Task(){}
 	

@@ -38,7 +38,7 @@ public class BeanTasks implements Serializable {
 
 	private String listaSeleccionada = "Inbox";
 	private String category;
-
+	
 	public String getCategory() {
 		return category;
 	}
@@ -73,7 +73,10 @@ public class BeanTasks implements Serializable {
 
 		task = (BeanTask) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("task"));
-
+		for(int i=0; i<tasks.size(); i++){
+			tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+			tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
+		}
 		// si no existe lo creamos e inicializamos
 		if (task == null) {
 			System.out.println("BeanTask-No existia");
@@ -141,6 +144,10 @@ public class BeanTasks implements Serializable {
 			tasks = Services.getTaskService().findInboxTasksByUserId(
 					user.getId());
 			listaSeleccionada = "Inbox";
+			for(int i=0; i<tasks.size(); i++){
+				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
+			}
 			System.out.println("Obtenidas tareas INBOX");
 		} catch (BusinessException b) {
 
@@ -153,6 +160,10 @@ public class BeanTasks implements Serializable {
 			tasks = Services.getTaskService().findTodayTasksByUserId(
 					user.getId());
 			listaSeleccionada = "Today";
+			for(int i=0; i<tasks.size(); i++){
+				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
+			}
 			System.out.println("Obtenidas tareas TODAY");
 		} catch (BusinessException b) {
 
@@ -165,6 +176,11 @@ public class BeanTasks implements Serializable {
 			tasks = Services.getTaskService().findWeekTasksByUserId(
 					user.getId());
 			listaSeleccionada = "Week";
+			
+			for(int i=0; i<tasks.size(); i++){
+				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
+			}
 			System.out.println("Obtenidas tareas WEEK");
 		} catch (BusinessException b) {
 
@@ -262,9 +278,15 @@ public class BeanTasks implements Serializable {
 	}
 
 	@SuppressWarnings("deprecation")
-	public boolean estaRetrasada(Long id) throws BusinessException {
+	public boolean estaRetrasada(Long id){
 		TaskService taskService = Services.getTaskService();
-		Task t = taskService.findTaskById(id);
+		Task t;
+		try {
+			t = taskService.findTaskById(id);
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			return false;
+		}
 		Date date = new Date();
 		date.setHours(0);
 		date.setMinutes(0);
@@ -272,15 +294,27 @@ public class BeanTasks implements Serializable {
 		Date d = t.getPlanned();
 		d.setHours(1);
 		if (d.compareTo(date) == -1) {
+			System.out.println("Está retrasada: " + id);
 			return true;
 		}
+		System.out.println("NO está retrasada: " + id);
 		return false;
 	}
 
-	public String nombreCategoria(Long id) throws BusinessException {
+	public String nombreCategoria(Long id){
 		TaskService taskServices = Services.getTaskService();
-		Category c = taskServices.findCategoryById(id);
-		return c.getName();
+		Category c;
+		try {
+			c = taskServices.findCategoryById(id);
+			if(c != null){
+				System.out.println(c.getName());
+				return c.getName();
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Sin categoria");
+		return "";
 	}
 
 }
