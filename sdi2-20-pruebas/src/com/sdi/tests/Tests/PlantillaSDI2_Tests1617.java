@@ -717,7 +717,7 @@ public class PlantillaSDI2_Tests1617 {
 	// PR36: Cambio del idioma por defecto a un segundo idioma y vuelta al
 	// idioma por defecto. (Probar algunas vistas)
 	@Test
-	public void prueba36() {
+	public void prueba36() throws InterruptedException {
 		//Principio en el login en español pasamos a en
 		SeleniumUtils.ClickSubopcionMenuHover(driver, 
 				"form-template:idioma-menu", "form-template:en-menu");
@@ -765,6 +765,8 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:idioma-menu", "form-template:es-menu");
 		SeleniumUtils.EsperaCargaPagina(driver, "id", 
 				"form-template:form-task", 10);
+		
+		Thread.sleep(1000);
 		
 		SeleniumUtils.textoNoPresentePagina(driver, "Today:");
 		SeleniumUtils.textoPresentePagina(driver, "Hoy:");
