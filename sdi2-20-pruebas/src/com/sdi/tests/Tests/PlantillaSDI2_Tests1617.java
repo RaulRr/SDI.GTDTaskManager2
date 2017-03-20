@@ -701,14 +701,44 @@ public class PlantillaSDI2_Tests1617 {
 	// autenticado como usuario normal.
 	@Test
 	public void prueba37() {
-		assertTrue(false);
+		//Autentificamos como usuario
+		validarUsuario("user1", "user1");
+		
+		// Esperamos a que se cargue la pagina del user1
+		// concretamente la tabla de task
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+		
+		//Tratamos de acceder a un url del admin
+		driver.
+			get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
+		//driver.
+			//get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
+		
+		//Se carga una página de acceso restringido
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-error", 10);
+		driver.getCurrentUrl().
+			equals("http://localhost:8280/sdi2-20/error.xhtml");
+		//driver.getCurrentUrl().
+			//equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
-
 	// PR38: Intento de acceso a un URL privado de usuario normal con un usuario
 	// no autenticado.
 	@Test
 	public void prueba38() {
-		assertTrue(false);
-	}
+		//Tratamos de acceder a un url de usuario como anonimo
+		driver.
+		get("http://localhost:8280/sdi2-20/usuarios/listaTareas.xhtml");
+		//driver.
+		//get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
 
+		//Se carga una página de acceso restringido
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-error", 10);
+		driver.getCurrentUrl().
+		equals("http://localhost:8280/sdi2-20/error.xhtml");
+		//driver.getCurrentUrl().
+		//equals("http://localhost:8180/sdi2-20/error.xhtml");
+	}
 }
