@@ -682,21 +682,95 @@ public class PlantillaSDI2_Tests1617 {
 
 		SeleniumUtils.textoNoPresentePagina(driver, "Inbox");
 	}
-
 	// PR35: Cambio del idioma por defecto a un segundo idioma. (Probar algunas
 	// vistas)
 	@Test
 	public void prueba35() {
-		assertTrue(false);
+		//Desde la ventana de login comprobamos textos español al inicio
+		SeleniumUtils.textoPresentePagina(driver, "Usuario");
+		SeleniumUtils.textoPresentePagina(driver, "Contraseña");
+		SeleniumUtils.textoPresentePagina(driver, "ESPAÑOL");
+		SeleniumUtils.textoPresentePagina(driver, "INGLES");
+		
+		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+				"form-template:idioma-menu", "form-template:en-menu");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-login", 10);
+		
+		//Ahora el login esta localizado
+		SeleniumUtils.textoPresentePagina(driver, "Login");
+		SeleniumUtils.textoPresentePagina(driver, "Password");
+		SeleniumUtils.textoPresentePagina(driver, "SPANISH");
+		SeleniumUtils.textoPresentePagina(driver, "ENGLISH");
+		
+		//Probamos la vista de admin este localizado a en
+		validarUsuario("admin1", "admin1");
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:tablalistado", 10);
+		
+		SeleniumUtils.textoPresentePagina(driver, "Users List");
+		SeleniumUtils.textoPresentePagina(driver, "Login");
+		SeleniumUtils.textoPresentePagina(driver, "Email");
+		SeleniumUtils.textoPresentePagina(driver, "Status");
+		SeleniumUtils.textoPresentePagina(driver, "Delete");
 	}
-
 	// PR36: Cambio del idioma por defecto a un segundo idioma y vuelta al
 	// idioma por defecto. (Probar algunas vistas)
 	@Test
 	public void prueba36() {
-		assertTrue(false);
+		//Principio en el login en español pasamos a en
+		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+				"form-template:idioma-menu", "form-template:en-menu");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-login", 10);
+		
+		//Ahora el login esta localizado
+		SeleniumUtils.textoPresentePagina(driver, "Login");
+		SeleniumUtils.textoPresentePagina(driver, "Password");
+		SeleniumUtils.textoPresentePagina(driver, "SPANISH");
+		SeleniumUtils.textoPresentePagina(driver, "ENGLISH");
+		
+		//Volvemos a es
+		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+				"form-template:idioma-menu", "form-template:es-menu");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-login", 10);
+		
+		//Ahora el login esta localizado
+		SeleniumUtils.textoNoPresentePagina(driver, "Login");
+		SeleniumUtils.textoPresentePagina(driver, "Usuario");
+		SeleniumUtils.textoNoPresentePagina(driver, "Password");
+		SeleniumUtils.textoPresentePagina(driver, "Contraseña");
+		SeleniumUtils.textoNoPresentePagina(driver, "SPANISH");
+		SeleniumUtils.textoPresentePagina(driver, "ESPAÑOL");
+		SeleniumUtils.textoNoPresentePagina(driver, "ENGLISH");
+		SeleniumUtils.textoPresentePagina(driver, "INGLES");
+		
+		//vplvemos localizar a en
+		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+				"form-template:idioma-menu", "form-template:en-menu");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-login", 10);
+		
+		//Probamos en la tablaTareas de un user
+		validarUsuario("user1","user1");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-task:tablalistado",10);
+		
+		SeleniumUtils.textoPresentePagina(driver, "Today:");
+		SeleniumUtils.textoPresentePagina(driver, "Week:");
+		
+		//Localizamos a es
+		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+				"form-template:idioma-menu", "form-template:es-menu");
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-task", 10);
+		
+		SeleniumUtils.textoNoPresentePagina(driver, "Today:");
+		SeleniumUtils.textoPresentePagina(driver, "Hoy:");
+		SeleniumUtils.textoNoPresentePagina(driver, "Week:");
+		SeleniumUtils.textoPresentePagina(driver, "Semana:");
 	}
-
 	// PR37: Intento de acceso a un URL privado de administrador con un usuario
 	// autenticado como usuario normal.
 	@Test

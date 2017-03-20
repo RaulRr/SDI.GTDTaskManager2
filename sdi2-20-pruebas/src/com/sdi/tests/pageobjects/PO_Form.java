@@ -5,8 +5,6 @@ import org.openqa.selenium.WebElement;
 
 
 public class PO_Form {
-
-	
 	
    public void rellenaFormulario(WebDriver driver, String pnombre, String papellidos, String piduser, String pemail)
    {
@@ -76,6 +74,5 @@ public class PO_Form {
 		driver.findElement(boton).click();
 		
 	}
-	
 	
 }

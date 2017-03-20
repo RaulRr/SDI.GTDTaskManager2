@@ -15,11 +15,11 @@
 			<p:menubar>
 				<p:menuitem id="cerrarsesion" value="#{msgs.cerrarSesion}"
 					action="#{controller.cerrarSesion}" />
-				<p:submenu style="float:right" label="#{msgs.textoIdioma}"
+				<p:submenu id="idioma-menu" style="float:right" label="#{msgs.textoIdioma}"
 					icon="ui-icon-document">
-					<p:menuitem value="#{msgs.enlaceIdiomaES}"
+					<p:menuitem value="#{msgs.enlaceIdiomaES}" id="es-menu"
 						actionListener="#{settings.setSpanish}" update="@all" />
-					<p:menuitem value="#{msgs.enlaceIdiomaEN}"
+					<p:menuitem value="#{msgs.enlaceIdiomaEN}" id="en-menu"
 						actionListener="#{settings.setEnglish}" update="@all" />
 				</p:submenu>
 			</p:menubar>
