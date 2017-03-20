@@ -138,7 +138,7 @@ public class InitiateDBCommand implements Command<Void> {
 		task.setPlanned(DateUtil.today());
 		task.setFinished(null);
 		for(int i=1 ; i<=10; i++){
-			task.setTitle("Hoy: "+i);
+			task.setTitle("Hoy:"+i);
 			tDao.save(task);
 		}
 	}
@@ -151,7 +151,7 @@ public class InitiateDBCommand implements Command<Void> {
 		task.setFinished(null);
 		
 		for(int i=1 ; i<=3; i++){ //3 de categoria1
-			task.setTitle("Con categoria1: "+i);
+			task.setTitle("Con categoria1:"+i);
 			task.setCategoryId(
 					cDao.findByUserIdAndName(u.getId(), "categoria1").getId());
 			
@@ -159,7 +159,7 @@ public class InitiateDBCommand implements Command<Void> {
 		}
 		
 		for(int i=1 ; i<=3; i++){ //3 de categoria2
-			task.setTitle("Con categoria2: "+i);
+			task.setTitle("Con categoria2:"+i);
 			task.setCategoryId(
 					cDao.findByUserIdAndName(u.getId(), "categoria2").getId());
 			
@@ -167,7 +167,7 @@ public class InitiateDBCommand implements Command<Void> {
 		}
 		
 		for(int i=1 ; i<=4; i++){ //4 de categoria3
-			task.setTitle("Con categoria3: "+i);
+			task.setTitle("Con categoria3:"+i);
 			task.setCategoryId(
 					cDao.findByUserIdAndName(u.getId(), "categoria3").getId());
 			

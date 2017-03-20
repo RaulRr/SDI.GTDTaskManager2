@@ -514,20 +514,105 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
-
 	// USUARIO
 	// PR16: Comprobar que en Inbox sólo aparecen listadas las tareas sin
 	// categoría y que son las que tienen que. Usar paginación navegando por las
 	// tres páginas.
 	@Test
-	public void prueba16() {
-		assertTrue(false);
-	}
+	public void prueba16() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
 
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Inicio es en inbox
+		// Buscamos categorias
+		List<WebElement> cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertNotNull(cat);
+		assertEquals(8, cat.size()); // 8 tateas
+		for (WebElement e : cat) {// Comprobamos los 8 elementos
+			e.getText().equals("");
+		}
+		// Estamos en pag1 buscamos en la pag2
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+
+		// Buscamos categorias
+		cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertNotNull(cat);
+		assertEquals(8, cat.size()); // 8 tateas
+		for (WebElement e : cat) {
+			e.getText().equals("");
+		}
+
+		// Estamos en pag2 buscamos en la pag3
+		pag = By.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+
+		cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertNotNull(cat);
+		assertEquals(4, cat.size()); // En esta solo hay 4 tareas
+		for (WebElement e : cat) {
+			e.getText().equals("");
+		}
+	}
 	// PR17: Funcionamiento correcto de la ordenación por fecha planeada.
 	@Test
-	public void prueba17() {
-		assertTrue(false);
+	public void prueba17() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Obtenemos la lista de tareas ordenados inicialmente
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:1"));
+		assertTrue(titles.get(1).getText().equals("Semana:2"));
+		assertTrue(titles.get(2).getText().equals("Semana:3"));
+
+		// Ordenamos por fecha planeada
+		By button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();// 
+		Thread.sleep(1000);
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+		
+		//Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Hoy:1"));
+		assertTrue(titles.get(1).getText().equals("Hoy:2"));
+		assertTrue(titles.get(2).getText().equals("Hoy:3"));
+		
+		// Ordenamos 2 vez por fecha planeada
+		button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();// 
+		Thread.sleep(1000);
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+		
+		//Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:6"));
+		assertTrue(titles.get(1).getText().equals("Semana:5"));
+		assertTrue(titles.get(2).getText().equals("Semana:4"));
+
 	}
 
 	// PR18: Funcionamiento correcto del filtrado.

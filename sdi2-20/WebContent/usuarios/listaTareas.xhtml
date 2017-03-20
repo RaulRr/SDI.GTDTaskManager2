@@ -71,37 +71,32 @@
 						headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
 						filterMatchMode="contains"
 						rendered="#{btasks.listaSeleccionada.equals('Inbox')}">
-						<h:outputText value="#{vtask.title}" />
+						<h:outputText value="#{vtask.title}" id="title-inbox" />
 					</p:column>
 					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
 						rendered="#{btasks.listaSeleccionada.equals('Inbox') == false}">
-						<h:outputText value="#{vtask.title}" />
+						<h:outputText value="#{vtask.title}" id="title-noinbox" />
 					</p:column>
-
 
 					<p:column headerText="#{msgs.tareaComentarios}"
 						sortBy="#{vtask.comments}">
 						<h:outputText value="#{vtask.comments}" />
 					</p:column>
 
-
 					<p:column headerText="#{msgs.tareaCategoria}"
 						sortBy="#{vtask.catName}">
-						<h:outputText value="#{vtask.catName}"
+						<h:outputText value="#{vtask.catName}" id="categoria-noname"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == false}" />
-						<h:outputText value="#{vtask.catName}"
+						<h:outputText value="#{vtask.catName}" id="categoria-red"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada}"
 							style="background-color:red;" />
-						<h:outputText value="#{vtask.catName}"
+						<h:outputText value="#{vtask.catName}" id="categoria-nored"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada == false}"/>
 					</p:column>
 
-
-
-
-					<p:column headerText="#{msgs.tareaPlaneada}"
+					<p:column headerText="#{msgs.tareaPlaneada}" id="ordenar-planed"
 						sortBy="#{vtask.planned}">
-						<h:outputText value="#{vtask.planned}"
+						<h:outputText value="#{vtask.planned}" 
 							style="background-color:red;"
 							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada}" />
 						<h:outputText value="#{vtask.planned}"
@@ -109,8 +104,6 @@
 						<h:outputText value="#{vtask.planned}"
 							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada == false}" />
 					</p:column>
-
-
 
 					<p:column headerText="#{msgs.tareaFinalizar}">
 						<p:commandLink value="#{msgs.tareaFinalizar}"
