@@ -73,7 +73,7 @@
 
 					<p:column filterBy="#{vtask.title}"
 						headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
-						filterMatchMode="contains"
+						filterMatchMode="contains" id="ordenar-title-inbox"
 						rendered="#{btasks.listaSeleccionada.equals('Inbox')}">
 						<h:outputText value="#{vtask.title}" id="title-inbox" 
 						rendered="#{vtask.finished == null}"/>
