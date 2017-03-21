@@ -70,7 +70,6 @@
 							action="#{btasks.editarTarea(vtask)}" rendered="#{vtask.finished == null}"/>
 					</p:column>
 
-
 					<p:column filterBy="#{vtask.title}"
 						headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
 						filterMatchMode="contains" id="ordenar-title-inbox"
@@ -91,7 +90,8 @@
 						<h:outputText value="#{vtask.comments}" />
 					</p:column>
 
-					<p:column headerText="#{msgs.tareaCategoria}" id="ordenar-cat"
+					<p:column headerText="#{msgs.
+					tareaCategoria}" id="ordenar-cat"
 						sortBy="#{vtask.catName}">
 						<h:outputText value="#{vtask.catName}" id="categoria-noname"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == false}" />

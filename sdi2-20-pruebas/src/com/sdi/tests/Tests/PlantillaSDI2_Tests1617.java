@@ -1142,35 +1142,54 @@ public class PlantillaSDI2_Tests1617 {
 		nombre.sendKeys("TaskToday");
 
 		Thread.sleep(1000);
-
+		
+		//Añadimos la fecha de hoy
+		WebElement fecha = driver.findElement(By
+				.id("form-template:form-task:taskPlanned_input"));
+		fecha.click();
+		fecha.clear();
+		fecha.sendKeys(DateUtil.toString(DateUtil.today()));
+		
 		// Cambiamos la categoría
 		WebElement login = driver.findElement(By
 				.id("form-template:form-task:taskCategory_label"));
 		login.click();
 		Thread.sleep(500);
-
 		login = driver.findElement(By
 				.id("form-template:form-task:taskCategory_1"));
 		login.click();
 		Thread.sleep(500);
 
+		//Creamos la nueva tarea
 		driver.findElement(By.id("form-template:form-task:taskButton")).click();
 		Thread.sleep(1000);
 
 		// Estaremos en today y buscamos por el listado
-		// Probamos no hay categorias:
-		// Buscamos categorias
-		// La añadida esta en la pag 3 del listado
+		// Probamos hay categorias:
+		// La añadida esta en la pag 3 del listado junto tareas con categoria
 		By pag = By
 				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
 		driver.findElement(pag).click();
 		Thread.sleep(1000);
 		driver.findElement(pag).click();
-		Thread.sleep(1000);
+		Thread.sleep(1000);//Llegamos a la ultima pagina
+		
+		//Mostramos que hay categorias en hoy
+		List<WebElement> cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertEquals(5, cat.size()); // 5 tareas
+		for (WebElement e : cat) {
+			e.getText().contains("categoria");
+		}
+		
+		//Obtenemos sus titulo
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		
 		assertTrue(title.get(4).getText().equals("TaskToday"));// 5 elemento
+		assertTrue(cat.get(4).getText().equals("categoria1"));
 
+		
 		// Devolvemos todo a como estaba
 		By button = By
 				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
