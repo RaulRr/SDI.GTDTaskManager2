@@ -38,7 +38,12 @@ public class BeanTasks implements Serializable {
 
 	private String listaSeleccionada = "Inbox";
 	private String category;
+	private Boolean terminadas;
 	
+	public boolean isTerminadas() {
+		return terminadas;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -49,6 +54,7 @@ public class BeanTasks implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		setTerminadas(true);
 		System.out.println("BeanTasks - PostConstruct");
 
 		user = (BeanUser) FacesContext.getCurrentInstance()
@@ -317,4 +323,23 @@ public class BeanTasks implements Serializable {
 		return "";
 	}
 
+	public void getFinishedTask(){
+		TaskService taskServices = Services.getTaskService();
+		if(terminadas == null)
+			setTerminadas(true);
+		try {
+			if(terminadas)
+				tasks.addAll(taskServices.findFinishedInboxTasksByUserId(user.getId()));
+			else
+				tasks = taskServices.findInboxTasksByUserId(user.getId());
+			terminadas = !terminadas;
+		} catch (BusinessException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setTerminadas(boolean b) {
+		this.terminadas=b;
+	}
+	
 }

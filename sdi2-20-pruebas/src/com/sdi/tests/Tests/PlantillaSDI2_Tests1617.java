@@ -90,9 +90,9 @@ public class PlantillaSDI2_Tests1617 {
 		// Estamos en el login-introducimos mal el login
 		validarUsuario("admn", "admin1");
 
-		// No accedemos al listado por tanto no podemos ver al admin1!
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "admin1", 10);
-		SeleniumUtils.textoNoPresentePagina(driver, "me@system.gtd");
+		// No accedemos al listado por tanto seguimos en el index
+		driver.getCurrentUrl().equals(
+				"http://localhost:8280/sdi2-20/index.xhtml");
 	}
 
 	// PR03: Fallo en la autenticación del administrador por introducir mal la
@@ -102,28 +102,41 @@ public class PlantillaSDI2_Tests1617 {
 		// Estamos en el login-introducimos mal la password
 		validarUsuario("admin1", "adn");
 
-		// No accedemos al listado por tanto no podemos eal admin1!
-		SeleniumUtils.textoNoPresentePagina(driver, "me@system.gtd");
+		// No accedemos al listado por tanto seguimos en el index
+		driver.getCurrentUrl().equals(
+				"http://localhost:8280/sdi2-20/index.xhtml");
 	}
 
 	// PR04: Probar que la base de datos contiene los datos insertados con
 	// conexión correcta a la base de datos.
 	@Test
-	public void prueba04() {
-
-		assertTrue(false); // NO ESTA ACABADO!!!!
-
+	public void prueba04() throws InterruptedException {
 		// Estamos en el login-validamos al admin
 		validarUsuario("admin1", "admin1");
-
+		
 		// Esperamos a que se cargue la pagina del admin
 		// concretamente al link de iniciar la BD
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:reiniciarbd", 10);
 
+		List<WebElement> ids = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_id')]"));
+		int oldUser = Integer.parseInt(ids.get(3).getText());
+		
 		// Pulsamos sobre el enlace
 		By link = By.id("form-template:form-admin:reiniciarbd");
 		driver.findElement(link).click();
+		
+		// Esperamos que actualice la lsita de usuarios
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		Thread.sleep(1000);
+		ids = driver.findElements(By
+				.xpath("//span[contains(@id, 'td_id')]"));
+		int newUser = Integer.parseInt(ids.get(1).getText());
+		
+		//El ID del primer usuario es 1 mayor que el antiguo ID del ultimo usuario
+		assertTrue(oldUser+1 == newUser);
 	}
 
 	// PR05: Visualizar correctamente la lista de usuarios normales.
@@ -422,6 +435,7 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//a[contains(@id, 'form-template:form-admin:reiniciarbd')]");
 		driver.findElement(button).click();
 	}
+
 	// PR12: Crear una cuenta de usuario normal con datos válidos.
 	@Test
 	public void prueba12() throws InterruptedException {
@@ -429,25 +443,26 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		//esperamos a que se cargue la pagina de registro
+		// esperamos a que se cargue la pagina de registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
-		
-		//Registramos y confirmamos
-		registrarUsuario("uprueba1", "uprueba1@gmail.com", "uprueba1", "uprueba1");
-	
-		//volvemos al login
+
+		// Registramos y confirmamos
+		registrarUsuario("uprueba1", "uprueba1@gmail.com", "uprueba1",
+				"uprueba1");
+
+		// volvemos al login
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
-		
-		//Comprobamos en admin y devolvemos a estado inicial
+
+		// Comprobamos en admin y devolvemos a estado inicial
 		validarUsuario("admin1", "admin1");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado", 10);
 		// Comprobamos que existe el nuevo usuario
 		SeleniumUtils.textoPresentePagina(driver, "uprueba1");
 		SeleniumUtils.textoPresentePagina(driver, "uprueba1@gmail.com");
-		
+
 		button = By
 				.xpath("//td[contains(text(), 'uprueba1@gmail.com')]/following-sibling::*/button[contains(@id, 'eliminar_button')]");
 		driver.findElement(button).click();// Ahora viene confirmacion
@@ -459,6 +474,7 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//button[contains(@id, 'form-template:form-admin:tablalistado:4:comfirmation_button')]");
 		driver.findElement(button).click();// Boton confirmacion eliminacion
 	}
+
 	// PR13: Crear una cuenta de usuario normal con login repetido.
 	@Test
 	public void prueba13() {
@@ -466,17 +482,18 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		//esperamos a que se cargue la pagina de registro
+		// esperamos a que se cargue la pagina de registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
-		
-		//Registramos con login repetido
+
+		// Registramos con login repetido
 		registrarUsuario("user1", "uprueba1@gmail.com", "uprueba1", "uprueba1");
-		
-		//Seguimos en el registro
+
+		// Seguimos en el registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
+
 	// PR14: Crear una cuenta de usuario normal con Email incorrecto.
 	@Test
 	public void prueba14() {
@@ -484,14 +501,14 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		//esperamos a que se cargue la pagina de registro
+		// esperamos a que se cargue la pagina de registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
-		
-		//Registramos con mail incorrecto
+
+		// Registramos con mail incorrecto
 		registrarUsuario("uprueba1", "uprueba1", "uprueba1", "uprueba1");
-		
-		//Seguimos en el registro
+
+		// Seguimos en el registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
@@ -503,17 +520,18 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		//esperamos a que se cargue la pagina de registro
+		// esperamos a que se cargue la pagina de registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
-		
-		//Registramos con mail incorrecto
+
+		// Registramos con mail incorrecto
 		registrarUsuario("uprueba1", "uprueba1", "1234", "1234");
-		
-		//Seguimos en el registro
+
+		// Seguimos en el registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
+
 	// USUARIO
 	// PR16: Comprobar que en Inbox sólo aparecen listadas las tareas sin
 	// categoría y que son las que tienen que. Usar paginación navegando por las
@@ -566,6 +584,7 @@ public class PlantillaSDI2_Tests1617 {
 			e.getText().equals("");
 		}
 	}
+
 	// PR17: Funcionamiento correcto de la ordenación por fecha planeada.
 	@Test
 	public void prueba17() throws InterruptedException {
@@ -587,25 +606,25 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Ordenamos por fecha planeada
 		By button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
-		driver.findElement(button).click();// 
+		driver.findElement(button).click();//
 		Thread.sleep(1000);
 		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
-		
-		//Obtenemos la nueva lista
+
+		// Obtenemos la nueva lista
 		titles = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-inbox')]"));
 		assertEquals(8, titles.size());
 		assertTrue(titles.get(0).getText().equals("Hoy:1"));
 		assertTrue(titles.get(1).getText().equals("Hoy:2"));
 		assertTrue(titles.get(2).getText().equals("Hoy:3"));
-		
+
 		// Ordenamos 2 vez por fecha planeada
 		button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
-		driver.findElement(button).click();// 
+		driver.findElement(button).click();//
 		Thread.sleep(1000);
 		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
-		
-		//Obtenemos la nueva lista
+
+		// Obtenemos la nueva lista
 		titles = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-inbox')]"));
 		assertEquals(8, titles.size());
@@ -617,34 +636,209 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR18: Funcionamiento correcto del filtrado.
 	@Test
-	public void prueba18() {
-		assertTrue(false);
+	public void prueba18() throws InterruptedException {
+		// Filtrado del nombre de tareas
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Escribimos el titulo de una tarea
+		WebElement login = driver.findElement(By
+				.id("form-template:form-task:tablalistado:j_idt24:filter"));
+		login.click();
+		login.clear();
+		login.sendKeys("Semana:7");
+		login.click();
+		Thread.sleep(1000);
+
+		List<WebElement> title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(1, title.size());// Solo una cumple el requisito
+		assertEquals("Semana:7", title.get(0).getText());
+
+		// Mostrar tareas que no estan en la pag inicial
+		login.click();
+		login.clear();
+		login.sendKeys("Hoy:1");
+		login.click();
+		Thread.sleep(1000);
+
+		// Apareceran Hoy:1 y Hoy:10
+		title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(2, title.size());// Ahora 2
+		assertEquals("Hoy:1", title.get(0).getText());
+		assertEquals("Hoy:10", title.get(1).getText());
 	}
 
 	// PR19: Funcionamiento correcto de la ordenación por categoría.
 	@Test
-	public void prueba19() {
-		assertTrue(false);
+	public void prueba19() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Week, que tiene categorías
+		driver.findElement(By.id("form-template:form-task:boton-today"))
+				.click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas ordenados inicialmente
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals(""));
+		assertTrue(titles.get(1).getText().equals(""));
+		assertTrue(titles.get(2).getText().equals(""));
+
+		// Ordenamos por categoría dos veces para mostrar las que tienen nombre
+		By button = By.xpath("//th[contains(@id, 'ordenar-cat')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+		button = By.xpath("//th[contains(@id, 'ordenar-cat')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("categoria3"));
+		assertTrue(titles.get(1).getText().equals("categoria3"));
+		assertTrue(titles.get(4).getText().equals("categoria2"));
+
+		// Ordenamos de nuevo para mostrar las que no tienen categoría
+		button = By.xpath("//th[contains(@id, 'ordenar-cat')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals(""));
+		assertTrue(titles.get(1).getText().equals(""));
+		assertTrue(titles.get(2).getText().equals(""));
 	}
 
 	// PR20: Funcionamiento correcto de la ordenación por fecha planeada.
 	@Test
-	public void prueba20() {
-		assertTrue(false);
+	public void prueba20() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Obtenemos la lista de tareas ordenados inicialmente
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:1"));
+		assertTrue(titles.get(1).getText().equals("Semana:2"));
+		assertTrue(titles.get(2).getText().equals("Semana:3"));
+
+		// Ordenamos por fecha planeada
+		By button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Hoy:1"));
+		assertTrue(titles.get(1).getText().equals("Hoy:2"));
+		assertTrue(titles.get(2).getText().equals("Hoy:3"));
+
+		// Ordenamos 2 vez por fecha planeada
+		button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:6"));
+		assertTrue(titles.get(1).getText().equals("Semana:5"));
+		assertTrue(titles.get(2).getText().equals("Semana:4"));
 	}
 
 	// PR21: Comprobar que las tareas que no están en rojo son las de hoy y
 	// además las que deben ser.
 	@Test
-	public void prueba21() {
-		assertTrue(false);
+	public void prueba21() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Today
+		driver.findElement(By.id("form-template:form-task:boton-today"))
+				.click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas y comprobamos fechas
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-nored')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText()
+				.equals("Tue Mar 21 00:00:00 CET 2017"));
+		assertTrue(titles.get(1).getText()
+				.equals("Tue Mar 21 00:00:00 CET 2017"));
+		assertTrue(titles.get(2).getText()
+				.equals("Tue Mar 21 00:00:00 CET 2017"));
 	}
 
 	// PR22: Comprobar que las tareas retrasadas están en rojo y son las que
 	// deben ser.
 	@Test
-	public void prueba22() {
-		assertTrue(false);
+	public void prueba22() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Today
+		driver.findElement(By.id("form-template:form-task:boton-today"))
+				.click();//
+		Thread.sleep(1000);
+
+		// Estamos en pag1 buscamos en la pag2 (Que tiene retrasadas)
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas y comprobamos fechas
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-red')]"));
+		assertEquals(6, titles.size());
+		assertTrue(titles.get(2).getText()
+				.equals("Mon Mar 20 00:00:00 CET 2017"));
+		assertTrue(titles.get(3).getText()
+				.equals("Mon Mar 20 00:00:00 CET 2017"));
+		assertTrue(titles.get(4).getText()
+				.equals("Mon Mar 20 00:00:00 CET 2017"));
 	}
 
 	// PR23: Comprobar que las tareas de hoy y futuras no están en rojo y que
@@ -662,15 +856,109 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR25: Funcionamiento correcto de la ordenación por nombre.
 	@Test
-	public void prueba25() {
-		assertTrue(false);
+	public void prueba25() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Week
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas ordenados inicialmente
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:1"));
+		assertTrue(titles.get(1).getText().equals("Semana:2"));
+		assertTrue(titles.get(2).getText().equals("Semana:3"));
+
+		// Ordenamos por fecha planeada
+		By button = By.xpath("//th[contains(@id, 'ordenar-title')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Con categoria1:1"));
+		assertTrue(titles.get(1).getText().equals("Con categoria1:2"));
+		assertTrue(titles.get(2).getText().equals("Con categoria1:3"));
+
+		// Ordenamos 2 vez por fecha planeada
+		button = By.xpath("//th[contains(@id, 'ordenar-title')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertEquals(8, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:9"));
+		assertTrue(titles.get(1).getText().equals("Semana:8"));
+		assertTrue(titles.get(2).getText().equals("Semana:7"));
 	}
 
 	// PR26: Confirmar una tarea, inhabilitar el filtro de tareas terminadas, ir
 	// a la pagina donde está la tarea terminada y comprobar que se muestra.
 	@Test
-	public void prueba26() {
-		assertTrue(false);
+	public void prueba26() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Cerramos la priemra tarea
+		driver.findElement(
+				By.id("form-template:form-task:tablalistado:0:finalizar"))
+				.click();
+		Thread.sleep(1000);
+
+		// Pulsamos en ver finalizadas
+		driver.findElement(By.id("form-template:form-task:filtro-terminadas"))
+				.click();
+		Thread.sleep(1000);
+
+		// Nos movemos a la tercera página
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+
+		// Obtenemos la tarea finalizada
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inboxFinished')]"));
+		assertEquals(1, titles.size());
+		assertTrue(titles.get(0).getText().equals("Semana:1"));
+
+		// Devolvemos todo a como estaba
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
 	}
 
 	// PR27: Crear una tarea sin categoría y comprobar que se muestra en la
@@ -767,61 +1055,63 @@ public class PlantillaSDI2_Tests1617 {
 
 		SeleniumUtils.textoNoPresentePagina(driver, "Inbox");
 	}
+
 	// PR35: Cambio del idioma por defecto a un segundo idioma. (Probar algunas
 	// vistas)
 	@Test
 	public void prueba35() {
-		//Desde la ventana de login comprobamos textos español al inicio
+		// Desde la ventana de login comprobamos textos español al inicio
 		SeleniumUtils.textoPresentePagina(driver, "Usuario");
 		SeleniumUtils.textoPresentePagina(driver, "Contraseña");
 		SeleniumUtils.textoPresentePagina(driver, "ESPAÑOL");
 		SeleniumUtils.textoPresentePagina(driver, "INGLES");
-		
-		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+
+		SeleniumUtils.ClickSubopcionMenuHover(driver,
 				"form-template:idioma-menu", "form-template:en-menu");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
-		
-		//Ahora el login esta localizado
+
+		// Ahora el login esta localizado
 		SeleniumUtils.textoPresentePagina(driver, "Login");
 		SeleniumUtils.textoPresentePagina(driver, "Password");
 		SeleniumUtils.textoPresentePagina(driver, "SPANISH");
 		SeleniumUtils.textoPresentePagina(driver, "ENGLISH");
-		
-		//Probamos la vista de admin este localizado a en
+
+		// Probamos la vista de admin este localizado a en
 		validarUsuario("admin1", "admin1");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado", 10);
-		
+
 		SeleniumUtils.textoPresentePagina(driver, "Users List");
 		SeleniumUtils.textoPresentePagina(driver, "Login");
 		SeleniumUtils.textoPresentePagina(driver, "Email");
 		SeleniumUtils.textoPresentePagina(driver, "Status");
 		SeleniumUtils.textoPresentePagina(driver, "Delete");
 	}
+
 	// PR36: Cambio del idioma por defecto a un segundo idioma y vuelta al
 	// idioma por defecto. (Probar algunas vistas)
 	@Test
 	public void prueba36() throws InterruptedException {
-		//Principio en el login en español pasamos a en
-		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+		// Principio en el login en español pasamos a en
+		SeleniumUtils.ClickSubopcionMenuHover(driver,
 				"form-template:idioma-menu", "form-template:en-menu");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
-		
-		//Ahora el login esta localizado
+
+		// Ahora el login esta localizado
 		SeleniumUtils.textoPresentePagina(driver, "Login");
 		SeleniumUtils.textoPresentePagina(driver, "Password");
 		SeleniumUtils.textoPresentePagina(driver, "SPANISH");
 		SeleniumUtils.textoPresentePagina(driver, "ENGLISH");
-		
-		//Volvemos a es
-		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+
+		// Volvemos a es
+		SeleniumUtils.ClickSubopcionMenuHover(driver,
 				"form-template:idioma-menu", "form-template:es-menu");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
-		
-		//Ahora el login esta localizado
+
+		// Ahora el login esta localizado
 		SeleniumUtils.textoNoPresentePagina(driver, "Login");
 		SeleniumUtils.textoPresentePagina(driver, "Usuario");
 		SeleniumUtils.textoNoPresentePagina(driver, "Password");
@@ -830,76 +1120,74 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoPresentePagina(driver, "ESPAÑOL");
 		SeleniumUtils.textoNoPresentePagina(driver, "ENGLISH");
 		SeleniumUtils.textoPresentePagina(driver, "INGLES");
-		
-		//vplvemos localizar a en
-		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+
+		// vplvemos localizar a en
+		SeleniumUtils.ClickSubopcionMenuHover(driver,
 				"form-template:idioma-menu", "form-template:en-menu");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
-		
-		//Probamos en la tablaTareas de un user
-		validarUsuario("user1","user1");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
-				"form-template:form-task:tablalistado",10);
-		
+
+		// Probamos en la tablaTareas de un user
+		validarUsuario("user1", "user1");
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
 		SeleniumUtils.textoPresentePagina(driver, "Today:");
 		SeleniumUtils.textoPresentePagina(driver, "Week:");
-		
-		//Localizamos a es
-		SeleniumUtils.ClickSubopcionMenuHover(driver, 
+
+		// Localizamos a es
+		SeleniumUtils.ClickSubopcionMenuHover(driver,
 				"form-template:idioma-menu", "form-template:es-menu");
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task", 10);
-		
+
 		Thread.sleep(1000);
-		
+
 		SeleniumUtils.textoNoPresentePagina(driver, "Today:");
 		SeleniumUtils.textoPresentePagina(driver, "Hoy:");
 		SeleniumUtils.textoNoPresentePagina(driver, "Week:");
 		SeleniumUtils.textoPresentePagina(driver, "Semana:");
 	}
+
 	// PR37: Intento de acceso a un URL privado de administrador con un usuario
 	// autenticado como usuario normal.
 	@Test
 	public void prueba37() {
-		//Autentificamos como usuario
+		// Autentificamos como usuario
 		validarUsuario("user1", "user1");
-		
+
 		// Esperamos a que se cargue la pagina del user1
 		// concretamente la tabla de task
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task:tablalistado", 10);
-		
-		//Tratamos de acceder a un url del admin
-		driver.
-			get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
-		//driver.
-			//get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
-		
-		//Se carga una página de acceso restringido
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-error", 10);
-		driver.getCurrentUrl().
-			equals("http://localhost:8280/sdi2-20/error.xhtml");
-		//driver.getCurrentUrl().
-			//equals("http://localhost:8180/sdi2-20/error.xhtml");
+
+		// Tratamos de acceder a un url del admin
+		driver.get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
+		// driver.
+		// get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
+
+		// Se carga una página de acceso restringido
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
+		driver.getCurrentUrl().equals(
+				"http://localhost:8280/sdi2-20/error.xhtml");
+		// driver.getCurrentUrl().
+		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
+
 	// PR38: Intento de acceso a un URL privado de usuario normal con un usuario
 	// no autenticado.
 	@Test
 	public void prueba38() {
-		//Tratamos de acceder a un url de usuario como anonimo
-		driver.
-		get("http://localhost:8280/sdi2-20/usuarios/listaTareas.xhtml");
-		//driver.
-		//get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
+		// Tratamos de acceder a un url de usuario como anonimo
+		driver.get("http://localhost:8280/sdi2-20/usuarios/listaTareas.xhtml");
+		// driver.
+		// get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
 
-		//Se carga una página de acceso restringido
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-error", 10);
-		driver.getCurrentUrl().
-		equals("http://localhost:8280/sdi2-20/error.xhtml");
-		//driver.getCurrentUrl().
-		//equals("http://localhost:8180/sdi2-20/error.xhtml");
+		// Se carga una página de acceso restringido
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
+		driver.getCurrentUrl().equals(
+				"http://localhost:8280/sdi2-20/error.xhtml");
+		// driver.getCurrentUrl().
+		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
 }

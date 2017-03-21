@@ -15,7 +15,7 @@
 				<p:dataTable var="vuser" id="tablalistado"
 					value="#{controller.users}" border="1">
 					<p:column headerText="#{msgs.usuarioId}">
-						<h:outputText value="#{vuser.id}"/>
+						<h:outputText value="#{vuser.id}" id="td_id"/>
 					</p:column>
 					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}" id="ordenar_login">
 						<h:outputText value="#{vuser.login}" id="td_login" />

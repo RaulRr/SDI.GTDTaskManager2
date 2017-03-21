@@ -37,25 +37,29 @@
 			<table id="menu" style="align: center;">
 				<p:row>
 					<p:column>
-						<p:commandButton value="#{msgs.inbox}"
+						<p:commandButton value="#{msgs.inbox}" id="boton-inbox"
 							actionListener="#{btasks.inboxTask}" inmediate="true"
-							update="tablalistado,header" />
+							update="tablalistado,header,filtro-terminadas" />
 					</p:column>
 					<p:column>
-						<p:commandButton value="#{msgs.hoy}"
+						<p:commandButton value="#{msgs.hoy}" id="boton-today"
 							actionListener="#{btasks.todayTask}" inmediate="true"
-							update="tablalistado,header" />
+							update="tablalistado,header,filtro-terminadas" />
 					</p:column>
 					<p:column>
-						<p:commandButton value="#{msgs.semana}"
+						<p:commandButton value="#{msgs.semana}" id="boton-week"
 							actionListener="#{btasks.weekTask}" inmediate="true"
-							update="tablalistado,header" />
+							update="tablalistado,header,filtro-terminadas" />
 					</p:column>
 				</p:row>
 			</table>
 
 			<p:panel id="header"
 				header="#{msgs.tituloListadoTareas} #{btasks.listaSeleccionada}">
+				<p:commandButton value="#{msgs.FiltrarTerminadas}  #{btasks.terminadas}"
+					id="filtro-terminadas" actionListener="#{btasks.getFinishedTask}"
+					inmediate="true" update="tablalistado,header"
+					rendered="#{btasks.listaSeleccionada.equals('Inbox')}" />
 				<p:dataTable var="vtask" id="tablalistado" value="#{btasks.tasks}"
 					border="1" rows="8" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
@@ -63,7 +67,7 @@
 					<p:column headerText="#{msgs.tareaId}" sortBy="#{vtask.id}">
 						<h:outputText value="#{vtask.id} " />
 						<p:commandLink value="#{msgs.tareaEditar}"
-							action="#{btasks.editarTarea(vtask)}" />
+							action="#{btasks.editarTarea(vtask)}" rendered="#{vtask.finished == null}"/>
 					</p:column>
 
 
@@ -71,9 +75,13 @@
 						headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
 						filterMatchMode="contains"
 						rendered="#{btasks.listaSeleccionada.equals('Inbox')}">
-						<h:outputText value="#{vtask.title}" id="title-inbox" />
+						<h:outputText value="#{vtask.title}" id="title-inbox" 
+						rendered="#{vtask.finished == null}"/>
+						<h:outputText value="#{vtask.title}" id="title-inboxFinished" style="background-color:#7FFF00;"
+						rendered="#{vtask.finished != null}"/>
 					</p:column>
 					<p:column headerText="#{msgs.tareaTitulo}" sortBy="#{vtask.title}"
+						id="ordenar-title"
 						rendered="#{btasks.listaSeleccionada.equals('Inbox') == false}">
 						<h:outputText value="#{vtask.title}" id="title-noinbox" />
 					</p:column>
@@ -83,32 +91,32 @@
 						<h:outputText value="#{vtask.comments}" />
 					</p:column>
 
-					<p:column headerText="#{msgs.tareaCategoria}"
+					<p:column headerText="#{msgs.tareaCategoria}" id="ordenar-cat"
 						sortBy="#{vtask.catName}">
 						<h:outputText value="#{vtask.catName}" id="categoria-noname"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == false}" />
 						<h:outputText value="#{vtask.catName}" id="categoria-red"
 							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada}"
-							style="background-color:red;" />
+							style="background-color:#FF0000;" />
 						<h:outputText value="#{vtask.catName}" id="categoria-nored"
-							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada == false}"/>
+							rendered="#{btasks.listaSeleccionada.equals('Week') == true and vtask.retrasada == false}" />
 					</p:column>
 
 					<p:column headerText="#{msgs.tareaPlaneada}" id="ordenar-planed"
 						sortBy="#{vtask.planned}">
-						<h:outputText value="#{vtask.planned}" 
-							style="background-color:red;"
+						<h:outputText value="#{vtask.planned}" id="planned-red"
+							style="background-color:#FF0000;"
 							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada}" />
-						<h:outputText value="#{vtask.planned}"
+						<h:outputText value="#{vtask.planned}" id="planned-week"
 							rendered="#{btasks.listaSeleccionada.equals('Week')}" />
-						<h:outputText value="#{vtask.planned}"
+						<h:outputText value="#{vtask.planned}" id="planned-nored"
 							rendered="#{btasks.listaSeleccionada.equals('Week')== false and vtask.retrasada == false}" />
 					</p:column>
 
 					<p:column headerText="#{msgs.tareaFinalizar}">
-						<p:commandLink value="#{msgs.tareaFinalizar}"
+						<p:commandLink value="#{msgs.tareaFinalizar}" id="finalizar"
 							action="#{btasks.cerrarTarea(vtask.id)}" inmediate="true"
-							update="tablalistado" />
+							update="tablalistado" rendered="#{vtask.finished == null}"/>
 					</p:column>
 				</p:dataTable>
 			</p:panel>
