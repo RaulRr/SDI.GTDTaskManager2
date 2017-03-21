@@ -847,14 +847,109 @@ public class PlantillaSDI2_Tests1617 {
 	// PR23: Comprobar que las tareas de hoy y futuras no están en rojo y que
 	// son las que deben ser.
 	@Test
-	public void prueba23() {
-		assertTrue(false);
-	}
+	public void prueba23() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
 
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Today
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de categorias NO en rojo (no retrasadas) y de
+		// fechas
+		List<WebElement> cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-nored')]"));
+		List<WebElement> date = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-week')]"));
+		assertEquals(8, cat.size());
+		assertEquals(8, date.size());
+
+		// Comprobamos que ambos elementos son de la misma fila
+		assertEquals(
+				date.get(0).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")),
+				cat.get(0).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")));
+		assertEquals(
+				date.get(1).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")),
+				cat.get(1).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")));
+		assertEquals(
+				date.get(2).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")),
+				cat.get(2).findElement(By.xpath(".."))
+						.findElement(By.xpath("..")));
+		// Comprobamos que efectivamente sus fechas son posteriores
+		assertTrue(date.get(0).getText().
+				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(1).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
+		assertTrue(date.get(2).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 3).toString()));
+	}
 	// PR24: Funcionamiento correcto de la ordenación por día.
 	@Test
-	public void prueba24() {
-		assertTrue(false);
+	public void prueba24() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Accedemos a la lista de Week
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas ordenados inicialmente
+		List<WebElement> date = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-week')]"));
+		assertEquals(8, date.size());
+		assertTrue(date.get(0).getText().
+				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(1).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
+		assertTrue(date.get(2).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 3).toString()));
+
+		// Ordenamos por fecha planeada
+		By button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		date = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-week')]"));
+		assertEquals(8, date.size());
+		assertTrue(date.get(0).getText()
+				.equals(DateUtil.yesterday().toString()));
+		assertTrue(date.get(1).getText()
+				.equals(DateUtil.yesterday().toString()));
+		assertTrue(date.get(2).getText()
+				.equals(DateUtil.yesterday().toString()));
+
+		// Ordenamos 2 vez por fecha planeada
+		button = By.xpath("//th[contains(@id, 'ordenar-planed')]");
+		driver.findElement(button).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la nueva lista
+		date = driver.findElements(By
+				.xpath("//span[contains(@id, 'planned-week')]"));
+		assertEquals(8, date.size());
+		assertTrue(date.get(0).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 6).toString()));//27
+		assertTrue(date.get(1).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 5).toString()));//26
+		assertTrue(date.get(2).getText()
+				.equals(DateUtil.addDays(DateUtil.today(), 4).toString()));//25
 	}
 
 	// PR25: Funcionamiento correcto de la ordenación por nombre.
@@ -906,7 +1001,6 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(titles.get(1).getText().equals("Semana:8"));
 		assertTrue(titles.get(2).getText().equals("Semana:7"));
 	}
-
 	// PR26: Confirmar una tarea, inhabilitar el filtro de tareas terminadas, ir
 	// a la pagina donde está la tarea terminada y comprobar que se muestra.
 	@Test
@@ -963,12 +1057,54 @@ public class PlantillaSDI2_Tests1617 {
 		By link = By.id("form-template:form-admin:reiniciarbd");
 		driver.findElement(link).click();
 	}
-
 	// PR27: Crear una tarea sin categoría y comprobar que se muestra en la
 	// lista Inbox.
 	@Test
-	public void prueba27() {
-		assertTrue(false);
+	public void prueba27() throws InterruptedException {
+		// Filtrado del nombre de tareas
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Añadimos el nombre de la nueva tarea
+		WebElement nombre = driver.findElement(By
+				.id("form-template:form-task:taskNombre"));
+		nombre.click();
+		nombre.clear();
+		nombre.sendKeys("TaskInbox");
+
+		driver.findElement(By.id("form-template:form-task:taskButton")).click();
+		Thread.sleep(1000);
+
+		// Seguiriamos en inbox y buscamos por el listado
+		//Probamos no hay categorias:
+			// Buscamos categorias
+		List<WebElement> cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-noname')]"));
+		assertNotNull(cat);
+		assertEquals(8, cat.size()); // 8 tateas
+		for (WebElement e : cat) {
+			e.getText().equals("");
+		}
+		
+		//La añadida esta en la pag 3 del listado inbox
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+		List<WebElement> title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-inbox')]"));
+		assertTrue(title.get(4).getText().equals("TaskInbox"));//5 elemento
+
+		// Finalizamos la tarea para no molestar en futuras pruebas
+		driver.findElement(
+				By.id("form-template:form-task:tablalistado:20:finalizar"))
+				.click();
 	}
 
 	// PR28: Crear una tarea con categoría categoria1 y fecha planeada Hoy y
