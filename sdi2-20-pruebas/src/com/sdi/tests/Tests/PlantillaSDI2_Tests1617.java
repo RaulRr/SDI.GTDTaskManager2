@@ -37,15 +37,8 @@ public class PlantillaSDI2_Tests1617 {
 
 	@Before
 	public void run() {
-		if(prepararBD){
-			try {
-				Services.getAdminService().initiateDB();
-			} catch (BusinessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			prepararBD=false;
-		}
+		
+		compobarBD();
 		
 		// Este código es para ejecutar con la versión portale de Firefox 46.0
 		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
@@ -56,6 +49,18 @@ public class PlantillaSDI2_Tests1617 {
 		// Este código es para ejecutar con una versión instalada de Firex 46.0
 		// driver = new FirefoxDriver();
 		// driver.get("http://localhost:8180/sdi2-n");
+	}
+
+	private void compobarBD() {
+		if(prepararBD){
+			try {
+				Services.getAdminService().initiateDB();
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			prepararBD=false;
+		}
 	}
 
 	@After
@@ -193,7 +198,8 @@ public class PlantillaSDI2_Tests1617 {
 		// Pulsamos sobre el hiperbinculo de estado del usuario que se encuantra
 		// enabled
 		By enlace = By
-				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria disabled
 
 		// Volvemos al login
@@ -211,10 +217,11 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login:validation-button", 10);
 
-		// Deshacemos los cambios
+		// Deshacemos los cambios desde selenium
 		validarUsuario("admin1", "admin1");
 		enlace = By
-				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora volveria a estar enabled
 	}
 
@@ -236,10 +243,12 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Editamos el estado del usuario que se encuantra enabled a disabled
 		By enlace = By
-				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria disabled
 		enlace = By
-				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora volveria a estar enabled
 
 		enlace = By.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
@@ -353,7 +362,8 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Pasamos al user2 de enabled a disabled
 		By enlace = By
-				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria disabled
 		Thread.sleep(500);
 
@@ -391,7 +401,8 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Pasamos al user2 a enabled
 		enlace = By
-				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
+				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-"
+						+ "sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria enabled
 	}
 
@@ -410,13 +421,15 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoPresentePagina(driver, "user3@gmail.com");
 
 		By button = By
-				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-sibling::*/button[contains(@id, 'eliminar_button')]");
+				.xpath("//td[contains(text(), 'user3@gmail.com')]/following-"
+						+ "sibling::*/button[contains(@id,'eliminar_button')]");
 		driver.findElement(button).click();// Ahora viene confirmacion
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado:3:comfirmation_button",
 				10);
 		button = By
-				.xpath("//button[contains(@id, 'form-template:form-admin:tablalistado:3:comfirmation_button')]");
+				.xpath("//button[contains(@id, 'form-template:form-"
+						+ "admin:tablalistado:3:comfirmation_button')]");
 		driver.findElement(button).click();// Boton confirmacion
 
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
@@ -426,25 +439,16 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoNoPresentePagina(driver, "user3");
 		SeleniumUtils.textoNoPresentePagina(driver, "user3@gmail.com");
 
-		// Devolvemos al estado inicial
-		Thread.sleep(1000);
-		button = By.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-		validarUsuario("admin1", "admin1");
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		button = By
-				.xpath("//a[contains(@id, 'form-template:form-admin:reiniciarbd')]");
-		driver.findElement(button).click();
+		// Deshacemos los cambios
+		prepararBD = true;
 	}
 
 	// PR12: Crear una cuenta de usuario normal con datos válidos.
 	@Test
 	public void prueba12() throws InterruptedException {
 		By button = By
-				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+				.xpath("//input[contains(@id, "
+						+ "'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
@@ -468,14 +472,16 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoPresentePagina(driver, "uprueba1@gmail.com");
 
 		button = By
-				.xpath("//td[contains(text(), 'uprueba1@gmail.com')]/following-sibling::*/button[contains(@id, 'eliminar_button')]");
+				.xpath("//td[contains(text(), 'uprueba1@gmail.com')]/following-"
+						+ "sibling::*/button[contains(@id,'eliminar_button')]");
 		driver.findElement(button).click();// Ahora viene confirmacion
 		Thread.sleep(1000);
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado:4:comfirmation_button",
 				10);
 		button = By
-				.xpath("//button[contains(@id, 'form-template:form-admin:tablalistado:4:comfirmation_button')]");
+				.xpath("//button[contains(@id, 'form-template:form-admin:"
+						+ "tablalistado:4:comfirmation_button')]");
 		driver.findElement(button).click();// Boton confirmacion eliminacion
 	}
 
@@ -483,17 +489,18 @@ public class PlantillaSDI2_Tests1617 {
 	@Test
 	public void prueba13() {
 		By button = By
-				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+				.xpath("//input[contains(@id, 'form-template:form-login:crear-"
+						+ "button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		// esperamos a que se cargue la pagina de registro
+		// esperamos a que se cargue la pagina de registro. 
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 
-		// Registramos con login repetido
+		// Registramos con login repetido. 
 		registrarUsuario("user1", "uprueba1@gmail.com", "uprueba1", "uprueba1");
 
-		// Seguimos en el registro
+		// Seguimos en el registro. no se ha registrado
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
@@ -502,7 +509,8 @@ public class PlantillaSDI2_Tests1617 {
 	@Test
 	public void prueba14() {
 		By button = By
-				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+				.xpath("//input[contains(@id, 'form-template:"
+						+ "form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
@@ -512,7 +520,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Registramos con mail incorrecto
 		registrarUsuario("uprueba1", "uprueba1", "uprueba1", "uprueba1");
 
-		// Seguimos en el registro
+		// Seguimos en el registro. no se ha registrado
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 	}
@@ -521,14 +529,15 @@ public class PlantillaSDI2_Tests1617 {
 	@Test
 	public void prueba15() {
 		By button = By
-				.xpath("//input[contains(@id, 'form-template:form-login:crear-button')]");
+				.xpath("//input[contains(@id, 'form-template:form-login:"
+						+ "crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 
-		// Registramos con mail incorrecto
+		// Registramos con password incorrecto
 		registrarUsuario("uprueba1", "uprueba1", "1234", "1234");
 
 		// Seguimos en el registro
@@ -651,7 +660,8 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Escribimos el titulo de una tarea
 		WebElement login = driver.findElement(By
-				.id("form-template:form-task:tablalistado:ordenar-title-inbox:filter"));
+				.id("form-template:form-task:tablalistado:"
+						+ "ordenar-title-inbox:filter"));
 		
 		login.click();
 		login.clear();
@@ -886,7 +896,8 @@ public class PlantillaSDI2_Tests1617 {
 				cat.get(2).findElement(By.xpath(".."))
 						.findElement(By.xpath("..")));
 		// Comprobamos que efectivamente sus fechas son posteriores
-		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().
+				equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -912,7 +923,8 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> date = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-week')]"));
 		assertEquals(8, date.size());
-		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().
+				equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -963,7 +975,7 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-task:tablalistado", 10);
 
 		// Accedemos a la lista de Week
-		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
 		Thread.sleep(1000);
 
 		// Obtenemos la lista de tareas ordenados inicialmente
@@ -1040,22 +1052,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(titles.get(0).getText().equals("Semana:1"));
 
 		// Devolvemos todo a como estaba
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();
+		prepararBD=true;
 	}
 
 	// PR27: Crear una tarea sin categoría y comprobar que se muestra en la
@@ -1191,22 +1188,7 @@ public class PlantillaSDI2_Tests1617 {
 
 		
 		// Devolvemos todo a como estaba
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();
+		prepararBD = true;
 	}
 
 	// PR29: Crear una tarea con categoría categoria1 y fecha planeada posterior
@@ -1284,22 +1266,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(catT.getText().equals("categoria1"));
 
 		// Devolvemos todo a como estaba
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();
+		prepararBD=true;
 	}
 
 	// PR30: Editar el nombre, y categoría de una tarea (se le cambia a
@@ -1352,7 +1319,7 @@ public class PlantillaSDI2_Tests1617 {
 		// La añadida esta en la pag 4 de Week, nada más
 		// Desaparece de Inbox al tener categoría, y de Today por la fecha
 		// Accedemos a la lista de Week
-		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
 		Thread.sleep(500);
 
 		By pag = By
@@ -1370,23 +1337,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(5).getText().equals("TAREA MODIFICADA"));// 5
 
 		// Reseteamos la bbdd
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();// elemento
+		prepararBD=true;
 
 	}
 
@@ -1474,7 +1425,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
 		// Comprobamos que aparece en WEEK
-		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
 		Thread.sleep(500);
 		title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
@@ -1482,22 +1433,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
 		// Reseteamos la bbdd
-		button = By.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();// elemento
+		prepararBD=true;
 	}
 
 	// PR32: Marcar una tarea como finalizada. Comprobar que desaparece de las
@@ -1535,7 +1471,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertFalse(titles.get(0).getText().equals(id));
 
 		// Cambiamos al lista week
-		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();
 		Thread.sleep(1000);
 
 		// Obtenemos la lista de tareas y comprobamos que ya no esta
@@ -1556,23 +1492,7 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoNoPresentePagina(driver, id);
 
 		// Reseteamos la bbdd
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();
+		prepararBD=true;
 	}
 
 	// PR33: Salir de sesión desde cuenta de administrador.
@@ -1735,7 +1655,8 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-task:tablalistado", 10);
 
 		// Tratamos de acceder a un url del admin
-		driver.get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
+		driver.
+		get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
 		// driver.
 		// get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
 
