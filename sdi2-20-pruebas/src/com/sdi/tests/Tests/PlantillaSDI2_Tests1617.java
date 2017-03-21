@@ -115,7 +115,7 @@ public class PlantillaSDI2_Tests1617 {
 	public void prueba04() throws InterruptedException {
 		// Estamos en el login-validamos al admin
 		validarUsuario("admin1", "admin1");
-		
+
 		// Esperamos a que se cargue la pagina del admin
 		// concretamente al link de iniciar la BD
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
@@ -124,21 +124,21 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> ids = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_id')]"));
 		int oldUser = Integer.parseInt(ids.get(3).getText());
-		
+
 		// Pulsamos sobre el enlace
 		By link = By.id("form-template:form-admin:reiniciarbd");
 		driver.findElement(link).click();
-		
+
 		// Esperamos que actualice la lsita de usuarios
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:reiniciarbd", 10);
 		Thread.sleep(1000);
-		ids = driver.findElements(By
-				.xpath("//span[contains(@id, 'td_id')]"));
+		ids = driver.findElements(By.xpath("//span[contains(@id, 'td_id')]"));
 		int newUser = Integer.parseInt(ids.get(1).getText());
-		
-		//El ID del primer usuario es 1 mayor que el antiguo ID del ultimo usuario
-		assertTrue(oldUser+1 == newUser);
+
+		// El ID del primer usuario es 1 mayor que el antiguo ID del ultimo
+		// usuario
+		assertTrue(oldUser + 1 == newUser);
 	}
 
 	// PR05: Visualizar correctamente la lista de usuarios normales.
@@ -317,7 +317,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Obtenemos la nueva ordenacion
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
-		
+
 		assertTrue(logins.get(0).getText().equals("user3"));
 		assertTrue(logins.get(1).getText().equals("user2"));
 		assertTrue(logins.get(2).getText().equals("user1"));
@@ -649,7 +649,7 @@ public class PlantillaSDI2_Tests1617 {
 
 		// Escribimos el titulo de una tarea
 		WebElement login = driver.findElement(By
-				.id("form-template:form-task:tablalistado:j_idt24:filter"));
+				.id("form-template:form-task:tablalistado:j_idt23:filter"));
 		login.click();
 		login.clear();
 		login.sendKeys("Semana:7");
@@ -799,13 +799,10 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> titles = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-nored')]"));
 		assertEquals(8, titles.size());
-		
-		assertTrue(titles.get(0).getText()
-				.equals(DateUtil.today().toString()));
-		assertTrue(titles.get(1).getText()
-				.equals(DateUtil.today().toString()));
-		assertTrue(titles.get(2).getText()
-				.equals(DateUtil.today().toString()));
+
+		assertTrue(titles.get(0).getText().equals(DateUtil.today().toString()));
+		assertTrue(titles.get(1).getText().equals(DateUtil.today().toString()));
+		assertTrue(titles.get(2).getText().equals(DateUtil.today().toString()));
 	}
 
 	// PR22: Comprobar que las tareas retrasadas están en rojo y son las que
@@ -886,13 +883,13 @@ public class PlantillaSDI2_Tests1617 {
 				cat.get(2).findElement(By.xpath(".."))
 						.findElement(By.xpath("..")));
 		// Comprobamos que efectivamente sus fechas son posteriores
-		assertTrue(date.get(0).getText().
-				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 3).toString()));
 	}
+
 	// PR24: Funcionamiento correcto de la ordenación por día.
 	@Test
 	public void prueba24() throws InterruptedException {
@@ -912,8 +909,7 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> date = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-week')]"));
 		assertEquals(8, date.size());
-		assertTrue(date.get(0).getText().
-				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -945,11 +941,11 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//span[contains(@id, 'planned-week')]"));
 		assertEquals(8, date.size());
 		assertTrue(date.get(0).getText()
-				.equals(DateUtil.addDays(DateUtil.today(), 6).toString()));//27
+				.equals(DateUtil.addDays(DateUtil.today(), 6).toString()));// 27
 		assertTrue(date.get(1).getText()
-				.equals(DateUtil.addDays(DateUtil.today(), 5).toString()));//26
+				.equals(DateUtil.addDays(DateUtil.today(), 5).toString()));// 26
 		assertTrue(date.get(2).getText()
-				.equals(DateUtil.addDays(DateUtil.today(), 4).toString()));//25
+				.equals(DateUtil.addDays(DateUtil.today(), 4).toString()));// 25
 	}
 
 	// PR25: Funcionamiento correcto de la ordenación por nombre.
@@ -1001,6 +997,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(titles.get(1).getText().equals("Semana:8"));
 		assertTrue(titles.get(2).getText().equals("Semana:7"));
 	}
+
 	// PR26: Confirmar una tarea, inhabilitar el filtro de tareas terminadas, ir
 	// a la pagina donde está la tarea terminada y comprobar que se muestra.
 	@Test
@@ -1057,6 +1054,7 @@ public class PlantillaSDI2_Tests1617 {
 		By link = By.id("form-template:form-admin:reiniciarbd");
 		driver.findElement(link).click();
 	}
+
 	// PR27: Crear una tarea sin categoría y comprobar que se muestra en la
 	// lista Inbox.
 	@Test
@@ -1080,8 +1078,8 @@ public class PlantillaSDI2_Tests1617 {
 		Thread.sleep(1000);
 
 		// Seguiriamos en inbox y buscamos por el listado
-		//Probamos no hay categorias:
-			// Buscamos categorias
+		// Probamos no hay categorias:
+		// Buscamos categorias
 		List<WebElement> cat = driver.findElements(By
 				.xpath("//span[contains(@id, 'categoria-noname')]"));
 		assertNotNull(cat);
@@ -1089,8 +1087,8 @@ public class PlantillaSDI2_Tests1617 {
 		for (WebElement e : cat) {
 			e.getText().equals("");
 		}
-		
-		//La añadida esta en la pag 3 del listado inbox
+
+		// La añadida esta en la pag 3 del listado inbox
 		By pag = By
 				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
 		driver.findElement(pag).click();
@@ -1099,12 +1097,26 @@ public class PlantillaSDI2_Tests1617 {
 		Thread.sleep(1000);
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-inbox')]"));
-		assertTrue(title.get(4).getText().equals("TaskInbox"));//5 elemento
+		assertTrue(title.get(4).getText().equals("TaskInbox"));// 5 elemento
 
-		// Finalizamos la tarea para no molestar en futuras pruebas
-		driver.findElement(
-				By.id("form-template:form-task:tablalistado:20:finalizar"))
-				.click();
+		// Reseteamos la bbdd
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
 	}
 
 	// PR28: Crear una tarea con categoría categoria1 y fecha planeada Hoy y
@@ -1140,8 +1152,76 @@ public class PlantillaSDI2_Tests1617 {
 	// PR32: Marcar una tarea como finalizada. Comprobar que desaparece de las
 	// tres pseudolistas.
 	@Test
-	public void prueba32() {
-		assertTrue(false);
+	public void prueba32() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Obtenemos la lista de tareas y comprobamos la primera
+		List<WebElement> titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'taskId')]"));
+		assertEquals(8, titles.size());
+		String id = titles.get(0).getText();
+
+		// Finalizamos la tarea
+		driver.findElement(
+				By.id("form-template:form-task:tablalistado:0:finalizar"))
+				.click();
+
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+		Thread.sleep(1000);
+		// Obtenemos la lista de tareas y comprobamos que el primero ya no es el
+		// mismo
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'taskId')]"));
+		assertEquals(8, titles.size());
+		assertFalse(titles.get(0).getText().equals(id));
+
+		// Cambiamos al lista week
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas y comprobamos que ya no esta
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'taskId')]"));
+		assertEquals(8, titles.size());
+		SeleniumUtils.textoNoPresentePagina(driver, id);
+
+		// Cambiamos al lista today
+		driver.findElement(By.id("form-template:form-task:boton-today"))
+				.click();//
+		Thread.sleep(1000);
+
+		// Obtenemos la lista de tareas y comprobamos que ya no esta
+		titles = driver.findElements(By
+				.xpath("//span[contains(@id, 'taskId')]"));
+		assertEquals(8, titles.size());
+		SeleniumUtils.textoNoPresentePagina(driver, id);
+
+		// Reseteamos la bbdd
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
 	}
 
 	// PR33: Salir de sesión desde cuenta de administrador.

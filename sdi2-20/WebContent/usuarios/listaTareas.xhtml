@@ -65,7 +65,7 @@
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 
 					<p:column headerText="#{msgs.tareaId}" sortBy="#{vtask.id}">
-						<h:outputText value="#{vtask.id} " />
+						<h:outputText value="#{vtask.id} " id="taskId"/>
 						<p:commandLink value="#{msgs.tareaEditar}"
 							action="#{btasks.editarTarea(vtask)}" rendered="#{vtask.finished == null}"/>
 					</p:column>
