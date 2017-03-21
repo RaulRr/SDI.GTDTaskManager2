@@ -1122,8 +1122,69 @@ public class PlantillaSDI2_Tests1617 {
 	// PR28: Crear una tarea con categoría categoria1 y fecha planeada Hoy y
 	// comprobar que se muestra en la lista Hoy.
 	@Test
-	public void prueba28() {
-		assertTrue(false);
+	public void prueba28() throws InterruptedException {
+		// Filtrado del nombre de tareas
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Añadimos el nombre de la nueva tarea
+		WebElement nombre = driver.findElement(By
+				.id("form-template:form-task:taskNombre"));
+		nombre.click();
+		nombre.clear();
+		nombre.sendKeys("TaskToday");
+
+		Thread.sleep(1000);
+
+		// Cambiamos la categoría
+		WebElement login = driver.findElement(By
+				.id("form-template:form-task:taskCategory_label"));
+		login.click();
+		Thread.sleep(500);
+
+		login = driver.findElement(By
+				.id("form-template:form-task:taskCategory_1"));
+		login.click();
+		Thread.sleep(500);
+
+		driver.findElement(By.id("form-template:form-task:taskButton")).click();
+		Thread.sleep(1000);
+
+		// Estaremos en today y buscamos por el listado
+		// Probamos no hay categorias:
+		// Buscamos categorias
+		// La añadida esta en la pag 3 del listado
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+		driver.findElement(pag).click();
+		Thread.sleep(1000);
+		List<WebElement> title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertTrue(title.get(4).getText().equals("TaskToday"));// 5 elemento
+
+		// Devolvemos todo a como estaba
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
 	}
 
 	// PR29: Crear una tarea con categoría categoria1 y fecha planeada posterior
@@ -1137,8 +1198,85 @@ public class PlantillaSDI2_Tests1617 {
 	// categoría1) de la lista Inbox y comprobar que las tres pseudolista se
 	// refresca correctamente.
 	@Test
-	public void prueba30() {
-		assertTrue(false);
+	public void prueba30() throws InterruptedException {
+		// Validamos al usuario
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Sacanmos los botones editar y pulsando el primero
+		driver.findElement(
+				By.id("form-template:form-task:tablalistado:0:editar")).click();
+
+		Thread.sleep(1000);
+
+		// Escribimos el titulo nuevo de una tarea
+		WebElement login = driver.findElement(By
+				.id("form-template:form-task:title_input"));
+		login.click();
+		login.clear();
+		login.sendKeys("TAREA MODIFICADA");
+		Thread.sleep(500);
+
+		// Cambiamos la categoría
+		login = driver.findElement(By
+				.id("form-template:form-task:categorias_menu"));
+		login.click();
+		Thread.sleep(500);
+
+		login = driver.findElement(By
+				.id("form-template:form-task:categorias_menu_1"));
+		login.click();
+		Thread.sleep(500);
+
+		// Finalizamos la edición
+		login = driver.findElement(By
+				.id("form-template:form-task:editar_button"));
+		login.click();
+		Thread.sleep(1000);
+
+		// La añadida esta en la pag 4 de Week, nada más
+		// Desaparece de Inbox al tener categoría, y de Today por la fecha
+		// Accedemos a la lista de Week
+		driver.findElement(By.id("form-template:form-task:boton-week")).click();//
+		Thread.sleep(500);
+
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+		driver.findElement(pag).click();
+		Thread.sleep(500);
+		driver.findElement(pag).click();
+		Thread.sleep(500);
+		driver.findElement(pag).click();
+		Thread.sleep(500);
+
+		// Comprobamos que aparece
+		List<WebElement> title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertTrue(title.get(4).getText().equals("TAREA MODIFICADA"));// 5
+
+		// Reseteamos la bbdd
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();// elemento
+
 	}
 
 	// PR31: Editar el nombre, y categoría (Se cambia a sin categoría) de una
