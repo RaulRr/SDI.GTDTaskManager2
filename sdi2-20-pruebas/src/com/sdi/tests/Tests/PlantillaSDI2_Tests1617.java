@@ -1319,7 +1319,8 @@ public class PlantillaSDI2_Tests1617 {
 		driver.findElement(
 				By.id("form-template:form-task:tablalistado:0:editar")).click();
 
-		Thread.sleep(1000);
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-task:tablaform", 10);
 
 		// Escribimos el titulo nuevo de una tarea
 		WebElement login = driver.findElement(By
@@ -1344,7 +1345,9 @@ public class PlantillaSDI2_Tests1617 {
 		login = driver.findElement(By
 				.id("form-template:form-task:editar_button"));
 		login.click();
-		Thread.sleep(1000);
+		
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
 
 		// La añadida esta en la pag 4 de Week, nada más
 		// Desaparece de Inbox al tener categoría, y de Today por la fecha
@@ -1407,14 +1410,15 @@ public class PlantillaSDI2_Tests1617 {
 		// Ordenamos para coger uan con categoría
 		By button = By.xpath("//th[contains(@id, 'ordenar-cat')]");
 		driver.findElement(button).click();//
-		Thread.sleep(500);
 		driver.findElement(button).click();//
 		Thread.sleep(500);
 
 		// Sacanmos los botones editar y pulsando el primero
 		driver.findElement(
 				By.id("form-template:form-task:tablalistado:0:editar")).click();
-		Thread.sleep(1000);
+		
+		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+				"form-template:form-task:tablaform", 10);
 
 		// Escribimos el titulo nuevo de una tarea
 		WebElement login = driver.findElement(By
@@ -1422,7 +1426,6 @@ public class PlantillaSDI2_Tests1617 {
 		login.click();
 		login.clear();
 		login.sendKeys("TAREA MODIFICADA");
-		Thread.sleep(500);
 
 		// Cambiamos la categoría
 		login = driver.findElement(By
@@ -1439,7 +1442,10 @@ public class PlantillaSDI2_Tests1617 {
 		login = driver.findElement(By
 				.id("form-template:form-task:editar_button"));
 		login.click();
-		Thread.sleep(1000);
+		
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
 
 		// La añadida esta Inbox, y en las otras 2 donde ya estaba
 		driver.findElement(By.id("form-template:form-task:boton-today"))
@@ -1456,7 +1462,6 @@ public class PlantillaSDI2_Tests1617 {
 		// Comprobamos que aparece en TODAY
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
-		Thread.sleep(500);
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
 		// Comprobamos que aparece en INBOX
@@ -1465,7 +1470,6 @@ public class PlantillaSDI2_Tests1617 {
 		Thread.sleep(500);
 		title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-inbox')]"));
-		Thread.sleep(500);
 
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
@@ -1474,7 +1478,6 @@ public class PlantillaSDI2_Tests1617 {
 		Thread.sleep(500);
 		title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
-		Thread.sleep(500);
 
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
