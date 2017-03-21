@@ -1212,8 +1212,94 @@ public class PlantillaSDI2_Tests1617 {
 	// PR29: Crear una tarea con categoría categoria1 y fecha planeada posterior
 	// a Hoy y comprobar que se muestra en la lista Semana.
 	@Test
-	public void prueba29() {
-		assertTrue(false);
+	public void prueba29() throws InterruptedException {
+		// Filtrado del nombre de tareas
+		validarUsuario("user1", "user1");
+
+		// Cargamos la pag. de tareas
+		// Esperamos a la tabla
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-task:tablalistado", 10);
+
+		// Añadimos el nombre de la nueva tarea
+		WebElement nombre = driver.findElement(By
+				.id("form-template:form-task:taskNombre"));
+		nombre.click();
+		nombre.clear();
+		nombre.sendKeys("TaskWeek");
+
+		Thread.sleep(1000);
+
+		// Añadimos la fecha dentro de dos dias
+		WebElement fecha = driver.findElement(By
+				.id("form-template:form-task:taskPlanned_input"));
+		fecha.click();
+		fecha.clear();
+		fecha.sendKeys(DateUtil.toString(DateUtil.
+				addDays(DateUtil.today(), 2)));
+
+		// Cambiamos la categoría
+		WebElement login = driver.findElement(By
+				.id("form-template:form-task:taskCategory_label"));
+		login.click();
+		Thread.sleep(500);
+		login = driver.findElement(By
+				.id("form-template:form-task:taskCategory_1"));
+		login.click();
+		Thread.sleep(500);
+
+		// Creamos la nueva tarea
+		driver.findElement(By.id("form-template:form-task:taskButton")).click();
+		Thread.sleep(1000);
+
+		// Estaremos en week y buscamos por el listado. Este tiene 4 pags.
+		// Probamos hay categorias:
+		// La añadida esta en la pag 4 del listado junto tareas con categoria
+		By pag = By
+				.xpath("//span[contains(@class, 'ui-icon ui-icon-seek-next')]");
+		driver.findElement(pag).click();
+		Thread.sleep(500);
+		driver.findElement(pag).click();
+		Thread.sleep(500);
+		driver.findElement(pag).click();
+		Thread.sleep(1000);// Llegamos a la ultima pagina
+
+		// Mostramos que hay tareas con categoria en week que ademas 
+		//estan retrasadas
+		List<WebElement> cat = driver.findElements(By
+				.xpath("//span[contains(@id, 'categoria-red')]"));
+		assertEquals(6, cat.size()); // 6 tareas retrasadas
+		for (WebElement e : cat) {
+			e.getText().contains("categoria");
+		}
+
+		// Obtenemos nuestra tarea que es la 7 y no retrasada en la pag4
+		List<WebElement> title = driver.findElements(By
+				.xpath("//span[contains(@id, 'title-noinbox')]"));
+		assertTrue(title.get(6).getText().equals("TaskWeek"));// 7 elemento
+		
+		//la tarea no esta atrasada como la 6 de arriba. No muetra en rojo
+		WebElement catT = driver.findElement(By
+				.xpath("//span[contains(@id, 'categoria-nored')]"));
+		assertTrue(catT.getText().equals("categoria1"));
+
+		// Devolvemos todo a como estaba
+		By button = By
+				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
+		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-login", 10);
+		// Validamos con el admin
+		validarUsuario("admin1", "admin1");
+
+		// Esperamos a que se cargue la pagina del admin
+		// concretamente al link de iniciar la BD
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
+				"form-template:form-admin:reiniciarbd", 10);
+		// Pulsamos sobre el enlace
+		By link = By.id("form-template:form-admin:reiniciarbd");
+		driver.findElement(link).click();
 	}
 
 	// PR30: Editar el nombre, y categoría de una tarea (se le cambia a
