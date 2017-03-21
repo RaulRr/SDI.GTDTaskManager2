@@ -19,6 +19,8 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 import alb.util.date.DateUtil;
 
+import com.sdi.business.Services;
+import com.sdi.business.exception.BusinessException;
 import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
@@ -28,12 +30,23 @@ public class PlantillaSDI2_Tests1617 {
 
 	WebDriver driver;
 	List<WebElement> elementos = null;
+	boolean prepararBD = true;
 
 	public PlantillaSDI2_Tests1617() {
 	}
 
 	@Before
 	public void run() {
+		if(prepararBD){
+			try {
+				Services.getAdminService().initiateDB();
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			prepararBD=false;
+		}
+		
 		// Este código es para ejecutar con la versión portale de Firefox 46.0
 		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
 		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
@@ -246,7 +259,7 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR08: Ordenar por Login
 	@Test
-	public void prueba08() {
+	public void prueba08() throws InterruptedException {
 		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
@@ -260,12 +273,11 @@ public class PlantillaSDI2_Tests1617 {
 
 		By button = By.xpath("//th[contains(@id, 'ordenar_login')]");
 		driver.findElement(button).click();// El primero no ordena
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_login')]", 10);
+		Thread.sleep(500);
+		
 		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
 		driver.findElement(button).click();// Este cambio el orden por logins
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_login')]", 10);
+		Thread.sleep(500);
 
 		// Obtenemos la nueva ordenacion
 		logins = driver.findElements(By
@@ -279,8 +291,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Volvemos al original
 		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
 		driver.findElement(button).click();// Este cambio el orden por logins
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_login')]", 10);
+		Thread.sleep(500);
 
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
@@ -293,7 +304,7 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR09: Ordenar por Email
 	@Test
-	public void prueba09() {
+	public void prueba09() throws InterruptedException {
 		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
@@ -307,17 +318,15 @@ public class PlantillaSDI2_Tests1617 {
 
 		By button = By.xpath("//th[contains(@id, 'ordenar_email')]");
 		driver.findElement(button).click();// El primero no ordena
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_email')]", 10);
+		Thread.sleep(500);
+		
 		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
 		driver.findElement(button).click();// Este cambio el orden por emails
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_email')]", 10);
+		Thread.sleep(500);
 
 		// Obtenemos la nueva ordenacion
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
-
 		assertTrue(logins.get(0).getText().equals("user3"));
 		assertTrue(logins.get(1).getText().equals("user2"));
 		assertTrue(logins.get(2).getText().equals("user1"));
@@ -326,8 +335,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Volvemos al original
 		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
 		driver.findElement(button).click();// Este cambio el orden por emails
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_email')]", 10);
+		Thread.sleep(500);
 
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
@@ -339,7 +347,7 @@ public class PlantillaSDI2_Tests1617 {
 
 	// PR10: Ordenar por Status
 	@Test
-	public void prueba10() {
+	public void prueba10() throws InterruptedException {
 		// Estamos en el login-validamos como admin
 		validarUsuario("admin1", "admin1");
 
@@ -347,11 +355,7 @@ public class PlantillaSDI2_Tests1617 {
 		By enlace = By
 				.xpath("//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]");
 		driver.findElement(enlace).click();// Ahora estaria disabled
-		SeleniumUtils
-				.EsperaCargaPaginaxpath(
-						driver,
-						"//td[contains(text(), 'user2@gmail.com')]/following-sibling::*/a[contains(@id, 'editarstatus')]",
-						10);
+		Thread.sleep(500);
 
 		// Obtenemos la lista de usuarios ordenados inicialmente
 		List<WebElement> logins = driver.findElements(By
@@ -363,8 +367,7 @@ public class PlantillaSDI2_Tests1617 {
 
 		By button = By.xpath("//th[contains(@id, 'ordenar_status')]");
 		driver.findElement(button).click();// El primero ordena
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_status')]", 10);
+		Thread.sleep(500);
 
 		// Obtenemos la nueva ordenacion-Ultimos disabled
 		logins = driver.findElements(By
@@ -377,8 +380,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Volvemos a pinchar-Primeros disabled
 		button = By.xpath("//th[contains(@id, 'ordenar_status')]");
 		driver.findElement(button).click();// Este cambio el orden por status
-		SeleniumUtils.EsperaCargaPaginaxpath(driver,
-				"//th[contains(@id, 'ordenar_status')]", 10);
+		Thread.sleep(500);
 
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
@@ -648,16 +650,9 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-task:tablalistado", 10);
 
 		// Escribimos el titulo de una tarea
-		WebElement login = null;
-		for (int i = 0; login == null; i++) {
-			try {
-				login = driver.findElement(By
-						.id("form-template:form-task:tablalistado:j_idt" + i
-								+ ":filter"));
-			} catch (Exception e) {
-				login = null;
-			}
-		}
+		WebElement login = driver.findElement(By
+				.id("form-template:form-task:tablalistado:ordenar-title-inbox:filter"));
+		
 		login.click();
 		login.clear();
 		login.sendKeys("Semana:7");
@@ -1526,7 +1521,7 @@ public class PlantillaSDI2_Tests1617 {
 	// PR35: Cambio del idioma por defecto a un segundo idioma. (Probar algunas
 	// vistas)
 	@Test
-	public void prueba35() {
+	public void prueba35() throws InterruptedException {
 		// Desde la ventana de login comprobamos textos español al inicio
 		SeleniumUtils.textoPresentePagina(driver, "Usuario");
 		SeleniumUtils.textoPresentePagina(driver, "Contraseña");
@@ -1537,6 +1532,7 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:idioma-menu", "form-template:en-menu");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
+		Thread.sleep(1000);
 
 		// Ahora el login esta localizado
 		SeleniumUtils.textoPresentePagina(driver, "Login");
@@ -1565,6 +1561,7 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:idioma-menu", "form-template:en-menu");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
+		Thread.sleep(1000);
 
 		// Ahora el login esta localizado
 		SeleniumUtils.textoPresentePagina(driver, "Login");
@@ -1577,6 +1574,7 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:idioma-menu", "form-template:es-menu");
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-login", 10);
+		Thread.sleep(1000);
 
 		// Ahora el login esta localizado
 		SeleniumUtils.textoNoPresentePagina(driver, "Login");
