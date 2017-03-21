@@ -1,7 +1,6 @@
 package com.sdi.presentation;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import alb.util.date.DateUtil;
 
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
@@ -193,52 +194,37 @@ public class BeanTasks implements Serializable {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void createTask() {
 		TaskService taskService;
-		Date date = new Date();
-		date.setHours(0);
-		date.setMinutes(0);
-		date.setSeconds(0);
-		if (task.getPlanned() == null) {
-			System.out.println("Fecha planeada nula");
-			return;
-		} else {
-			Date d = task.getPlanned();
-			d.setHours(1);
-			if (d.compareTo(date) == -1) {
-				System.out.println("Fecha planeada inferior a la actual: " + d
-						+ " -- " + date);
+		if (task.getPlanned() != null && DateUtil.isBefore(task.getPlanned(), 
+				DateUtil.today())) {
+				System.out.println("Fecha planeada inferior a la actual");
 				return;
 			}
-		}
 		try {
 			taskService = Services.getTaskService();
 			task.setUserId(user.getId());
-			task.setCreated(new Date());
 			if (!category.isEmpty())
 				task.setCategoryId(Long.parseLong(category));
+			
+			if(task.getPlanned() == null)
+				task.setPlanned(DateUtil.today());
+			
+			
 			taskService.createTask(task);
+			
 			if (task.getCategoryId() == null)
 				inboxTask();
 			else {
-				if (task.getPlanned().getYear() == (date.getYear())
-						&& task.getPlanned().getMonth() == (date.getMonth())
-						&& task.getPlanned().getDay() == (date.getDay()))
+				if (DateUtil.isNotAfter(task.getPlanned(), DateUtil.today()))
 					todayTask();
 				else
 					weekTask();
-				System.out.println(task.getPlanned() + " - " + date);
 			}
 
 			// Vaciamos el bean
-			task.setCategoryId(null);
-			task.setComments(null);
-			task.setCreated(null);
-			task.setFinished(null);
-			task.setPlanned(new Date());
-			task.setTitle("New task");
-			task.setUserId(null);
+			task.iniciaTask(null);
+			
 		} catch (BusinessException b) {
 
 		}
@@ -283,7 +269,6 @@ public class BeanTasks implements Serializable {
 		return "exito";
 	}
 
-	@SuppressWarnings("deprecation")
 	public boolean estaRetrasada(Long id){
 		TaskService taskService = Services.getTaskService();
 		Task t;
@@ -293,13 +278,9 @@ public class BeanTasks implements Serializable {
 			e.printStackTrace();
 			return false;
 		}
-		Date date = new Date();
-		date.setHours(0);
-		date.setMinutes(0);
-		date.setSeconds(0);
-		Date d = t.getPlanned();
-		d.setHours(1);
-		if (d.compareTo(date) == -1) {
+		
+		if (t.getPlanned() != null && 
+				DateUtil.isBefore(t.getPlanned(), DateUtil.today())) {
 			System.out.println("Está retrasada: " + id);
 			return true;
 		}
