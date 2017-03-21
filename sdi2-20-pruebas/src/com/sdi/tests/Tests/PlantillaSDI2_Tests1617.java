@@ -17,6 +17,8 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import alb.util.date.DateUtil;
+
 import com.sdi.tests.pageobjects.PO_Form;
 import com.sdi.tests.utils.SeleniumUtils;
 
@@ -315,7 +317,7 @@ public class PlantillaSDI2_Tests1617 {
 		// Obtenemos la nueva ordenacion
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
-		System.out.println(logins.get(0).getText());
+		
 		assertTrue(logins.get(0).getText().equals("user3"));
 		assertTrue(logins.get(1).getText().equals("user2"));
 		assertTrue(logins.get(2).getText().equals("user1"));
@@ -797,12 +799,13 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> titles = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-nored')]"));
 		assertEquals(8, titles.size());
+		
 		assertTrue(titles.get(0).getText()
-				.equals("Tue Mar 21 00:00:00 CET 2017"));
+				.equals(DateUtil.today().toString()));
 		assertTrue(titles.get(1).getText()
-				.equals("Tue Mar 21 00:00:00 CET 2017"));
+				.equals(DateUtil.today().toString()));
 		assertTrue(titles.get(2).getText()
-				.equals("Tue Mar 21 00:00:00 CET 2017"));
+				.equals(DateUtil.today().toString()));
 	}
 
 	// PR22: Comprobar que las tareas retrasadas están en rojo y son las que
@@ -834,11 +837,11 @@ public class PlantillaSDI2_Tests1617 {
 				.xpath("//span[contains(@id, 'planned-red')]"));
 		assertEquals(6, titles.size());
 		assertTrue(titles.get(2).getText()
-				.equals("Mon Mar 20 00:00:00 CET 2017"));
+				.equals(DateUtil.yesterday().toString()));
 		assertTrue(titles.get(3).getText()
-				.equals("Mon Mar 20 00:00:00 CET 2017"));
+				.equals(DateUtil.yesterday().toString()));
 		assertTrue(titles.get(4).getText()
-				.equals("Mon Mar 20 00:00:00 CET 2017"));
+				.equals(DateUtil.yesterday().toString()));
 	}
 
 	// PR23: Comprobar que las tareas de hoy y futuras no están en rojo y que
