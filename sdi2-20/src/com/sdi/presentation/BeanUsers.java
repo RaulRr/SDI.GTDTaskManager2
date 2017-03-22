@@ -9,6 +9,8 @@ import javax.annotation.PreDestroy;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
+import alb.util.log.Log;
+
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
 import com.sdi.business.UserService;
@@ -41,14 +43,14 @@ public class BeanUsers implements Serializable {
 
 	@PostConstruct
 	public void init() {
-		System.out.println("BeanUsers - PostConstruct");
+		Log.debug("BeanUsers - PostConstruct");
 		// Buscamos el alumno en la sesión. Esto es un patrón factoría
 		// claramente.
 		user = (BeanUser) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("user"));
 		// si no existe lo creamos e inicializamos
 		if (user == null) {
-			System.out.println("BeanUser - No existia");
+			Log.debug("BeanUser - No existia");
 			user = new BeanUser();
 			FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().put("user", user);
@@ -57,7 +59,7 @@ public class BeanUsers implements Serializable {
 
 	@PreDestroy
 	public void end() {
-		System.out.println("BeanUsers - PreDestroy");
+		Log.debug("BeanUsers - PreDestroy");
 	}
 
 	public String getPass() {
@@ -91,7 +93,11 @@ public class BeanUsers implements Serializable {
 	public void setTasks(BeanTasks tasks) {
 		this.tasks = tasks;
 	}
-
+	
+	/**
+	 * Método validación de usuarios de nuestra aplicación
+	 * @return String admin, error, user
+	 */
 	public String validar() {
 		UserService userService;
 
@@ -104,19 +110,26 @@ public class BeanUsers implements Serializable {
 			if (user.getIsAdmin()) { // Si es admin muestra la lista usuarios
 				listadoUsuarios();
 				putUserInSession(user);
+				Log.debug("Se ha validado como admin");
 				return "admin";
 			}
 
-			tasks = new BeanTasks();// Si usuario cargamos las tareas desde el
-									// inbox
-
 		} catch (Exception e) {
+			Log.error("Intento fallido de validación");
+			user.iniciaUser(null);
 			return "error"; // Se produjo algún error al validar
 		}
 		putUserInSession(user);
+		Log.debug("Se ha validado como usuario");
 		return "user"; // Es un usario normal
 	}
-
+	
+	/**
+	 * Metodo que permite al administrador activar/bloquear a un 
+	 * usuario
+	 * @param user
+	 * @return String exito,error
+	 */
 	public String cambiarEstado(User user) {
 		AdminService adminService;
 		if (user == null)
@@ -129,22 +142,38 @@ public class BeanUsers implements Serializable {
 				adminService.enableUser(user.getId());
 			}
 			listadoUsuarios(); // Actualizamos la lista de usuarios
+			Log.debug("Estado del usuario %s cambiado con exito a %s",
+					user.getLogin(), user.getStatus().toString());
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
+			Log.error("Se ha producido algun error al tratar de cambiar el"
+					+ "estado de un usuario como administrador");
 			return "error";
 		}
 	}
 
+
+	/**
+	 * Metodo que permite al administrador eliminar a un usuario junto con
+	 * todas sus tareas y categorias
+	 * @param user
+	 * @return String exito,error
+	 */
 	public String eliminar(User user) {
 		AdminService adminService;
-		if (user == null)
+		if (user == null){
 			return "error";
+			}
 		try {
 			adminService = Services.getAdminService();
 			adminService.deepDeleteUser(user.getId());
 			listadoUsuarios();
+			Log.debug("Se ha eliminado al usuario %s con exito", 
+					user.getLogin());
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
+			Log.error("Se ha producido algun error al tratar de eliminar un"
+					+ "usuario como administrador");
 			return "error";
 		}
 	}
@@ -170,8 +199,8 @@ public class BeanUsers implements Serializable {
 		else {
 			if (pass.length() < 8) {
 				System.out
-						.println("Las contraseñas deben medir al menos 8 caracteres "
-								+ pass);
+						.println("Las contraseñas deben medir al menos 8 "
+								+ "caracteres " + pass);
 				return "false";
 			}
 
@@ -201,8 +230,9 @@ public class BeanUsers implements Serializable {
 		return "true"; // Es un usario normal
 	}
 
-	/*
+	/**
 	 * Método del administrador que inicaliza la BD a su estado original
+	 * @return String error, exito
 	 */
 	public String reiniciarBD() {
 		AdminService adminService;
@@ -212,17 +242,27 @@ public class BeanUsers implements Serializable {
 			listadoUsuarios();
 
 		} catch (BusinessException b) {
+			Log.error("Algo ha ocurrido al iniciar la BD");
 			return "error";
 		}
+		Log.debug("BD iniciada con exito");
 		return "exito";
 
 	}
-
+	
+	/**
+	 * Nos devuelve a la pag. anterior
+	 * @return boolean
+	 */
 	public String atras() {
-		System.out.println("Pulsado atras");
+		Log.debug("Pulsado atras");
 		return "true";
 	}
-
+	
+	/**
+	 * Actualiza la lista de usuarios del admin
+	 * @throws BusinessException
+	 */
 	private void listadoUsuarios() throws BusinessException {
 		users = Services.getAdminService().findAllUsers();
 	}
@@ -238,7 +278,7 @@ public class BeanUsers implements Serializable {
 				.getExternalContext().getSessionMap();
 		session.put("LOGGEDIN_USER", null);
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		System.out.println("Sesion cerrada correctamente");
+		Log.debug("Sesion cerrada correctamente");
 		return "true";
 	}
 	

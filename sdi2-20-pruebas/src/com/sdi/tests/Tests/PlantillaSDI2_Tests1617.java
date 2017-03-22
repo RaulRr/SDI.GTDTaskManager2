@@ -291,7 +291,6 @@ public class PlantillaSDI2_Tests1617 {
 		// Obtenemos la nueva ordenacion
 		logins = driver.findElements(By
 				.xpath("//span[contains(@id, 'td_login')]"));
-		System.out.println(logins.get(0).getText());
 		assertTrue(logins.get(0).getText().equals("user3"));
 		assertTrue(logins.get(1).getText().equals("user2"));
 		assertTrue(logins.get(2).getText().equals("user1"));

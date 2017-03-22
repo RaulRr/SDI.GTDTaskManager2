@@ -11,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import alb.util.date.DateUtil;
+import alb.util.log.Log;
 
 import com.sdi.business.Services;
 import com.sdi.business.TaskService;
@@ -56,7 +57,7 @@ public class BeanTasks implements Serializable {
 	@PostConstruct
 	public void init() {
 		setTerminadas(true);
-		System.out.println("BeanTasks - PostConstruct");
+		Log.debug("BeanTasks - PostConstruct");
 
 		user = (BeanUser) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("user"));
@@ -67,13 +68,13 @@ public class BeanTasks implements Serializable {
 				// findFinishedInboxTasksByUserId(user.getId());
 						findInboxTasksByUserId(user.getId());
 				listaSeleccionada = "Inbox";
-				System.out.println("Obtenidas tareas INBOX");
+				Log.debug("Obtenidas tareas INBOX");
 
 				categories = Services.getTaskService().findCategoriesByUserId(
 						user.getId());
-				System.out.println("Obtenidas categorias");
+				Log.debug("Obtenidas categorias");
 			} catch (BusinessException b) {
-				System.out.println("Se ha producido algún error en la capa de"
+				Log.error("Se ha producido algún error en la capa de"
 						+ "persistencia buscando las tareas y categorias");
 			}
 		}
@@ -81,12 +82,13 @@ public class BeanTasks implements Serializable {
 		task = (BeanTask) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get(new String("task"));
 		for(int i=0; i<tasks.size(); i++){
-			tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+			tasks.get(i).setCatName(
+					nombreCategoria(tasks.get(i).getCategoryId()));
 			tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
 		}
 		// si no existe lo creamos e inicializamos
 		if (task == null) {
-			System.out.println("BeanTask-No existia");
+			Log.debug("BeanTask-No existia");
 			task = new BeanTask();
 			FacesContext.getCurrentInstance().getExternalContext()
 					.getSessionMap().put("task", task);
@@ -95,7 +97,7 @@ public class BeanTasks implements Serializable {
 
 	@PreDestroy
 	public void end() {
-		System.out.println("BeanUsers - PreDestroy");
+		Log.debug("BeanUsers - PreDestroy");
 	}
 
 	public String getListaSeleccionada() {
@@ -144,7 +146,10 @@ public class BeanTasks implements Serializable {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-
+	
+	/**
+	 * Obtiene las tareas inbox del usuario
+	 */
 	public void inboxTask() {
 
 		try {
@@ -152,15 +157,19 @@ public class BeanTasks implements Serializable {
 					user.getId());
 			listaSeleccionada = "Inbox";
 			for(int i=0; i<tasks.size(); i++){
-				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setCatName(
+						nombreCategoria(tasks.get(i).getCategoryId()));
 				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
 			}
-			System.out.println("Obtenidas tareas INBOX");
+			Log.debug("Obtenidas tareas INBOX");
 		} catch (BusinessException b) {
-
+			Log.error("Error al obtener las tareas INBOX");
 		}
 	}
-
+	
+	/**
+	 * Obtiene las tareas de hoy o restrasadas del usuario
+	 */
 	public void todayTask() {
 
 		try {
@@ -168,15 +177,19 @@ public class BeanTasks implements Serializable {
 					user.getId());
 			listaSeleccionada = "Today";
 			for(int i=0; i<tasks.size(); i++){
-				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setCatName(
+						nombreCategoria(tasks.get(i).getCategoryId()));
 				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
 			}
-			System.out.println("Obtenidas tareas TODAY");
+			Log.debug("Obtenidas tareas TODAY");
 		} catch (BusinessException b) {
-
+			Log.error("Error al obtener las tareas HOY");
 		}
 	}
-
+	
+	/**
+	 * Obtiene las tareas de dentro de una semana o restrasadas del usuario
+	 */
 	public void weekTask() {
 
 		try {
@@ -185,20 +198,26 @@ public class BeanTasks implements Serializable {
 			listaSeleccionada = "Week";
 			
 			for(int i=0; i<tasks.size(); i++){
-				tasks.get(i).setCatName(nombreCategoria(tasks.get(i).getCategoryId()));
-				tasks.get(i).setRetrasada(estaRetrasada(tasks.get(i).getId()));			
+				tasks.get(i).setCatName(
+						nombreCategoria(tasks.get(i).getCategoryId()));
+				tasks.get(i).setRetrasada(
+						estaRetrasada(tasks.get(i).getId()));			
 			}
-			System.out.println("Obtenidas tareas WEEK");
+			Log.debug("Obtenidas tareas WEEK");
 		} catch (BusinessException b) {
-
+			Log.error("Error al obtener las tareas WEEK");
 		}
 	}
-
+	
+	/**
+	 * Metodo que crea una tarea para el usuario en funcion de los parametros
+	 * suministrados
+	 */
 	public void createTask() {
 		TaskService taskService;
 		if (task.getPlanned() != null && DateUtil.isBefore(task.getPlanned(), 
 				DateUtil.today())) {
-				System.out.println("Fecha planeada inferior a la actual");
+				Log.debug("Fecha planeada inferior a la actual");
 				return;
 			}
 		try {
@@ -224,48 +243,58 @@ public class BeanTasks implements Serializable {
 
 			// Vaciamos el bean
 			task.iniciaTask(null);
-			
+			Log.debug("Tarea creada correctamente");
 		} catch (BusinessException b) {
-
+			Log.error("No se ha podido guardar la nueva tarea");
 		}
 	}
-
+	
+	/**
+	 * Permite finalizar la tarea seleccionada
+	 * @param id
+	 */
 	public void cerrarTarea(Long id) {
 		try {
 			Services.getTaskService().markTaskAsFinished(id);
 			inboxTask();
-			System.out.println("Tarea: " + id + " cerrada correctamente");
+			Log.debug("Tarea: " + id + " cerrada correctamente");
 		} catch (BusinessException b) {
-
+			Log.error("No se ha podido cerrar la tarea seleccionada");
 		}
 	}
-
+	
+	/**
+	 * Nos permite acceder a la pagina de ediccion de la tarea
+	 * @param editar
+	 * @return String error, exito
+	 */
 	public String editarTarea(Task editar) {
 		try {
 			task.setTask(editar);
 		} catch (Exception e) {
+			Log.error("No se ha podido acceder a la edición de tarea");
 			return "error";
 		}
 		return "exito";
 	}
-
-	/*
+	
+	/**
 	 * Este es el método que modifica la tarea a los nuevos valores. Nos
 	 * devuelve al listado
+	 * @return 
 	 */
 	public String modificarTarea() {
 		try {
 			Services.getTaskService().updateTask(task);
 
 		} catch (BusinessException b) {
-			System.out
-					.println("Algo ha ocurrido editando la tarea seleccionada");
+			Log.error("Algo ha ocurrido editando la tarea seleccionada");
 			return "error";
 		}
 
 		task.iniciaTask(null);
 		inboxTask();
-		System.out.println("Se ha modificado la tarea con EXITO");
+		Log.debug("Se ha modificado la tarea con EXITO");
 		return "exito";
 	}
 
@@ -281,10 +310,8 @@ public class BeanTasks implements Serializable {
 		
 		if (t.getPlanned() != null && 
 				DateUtil.isBefore(t.getPlanned(), DateUtil.today())) {
-			System.out.println("Está retrasada: " + id);
 			return true;
 		}
-		System.out.println("NO está retrasada: " + id);
 		return false;
 	}
 
@@ -300,17 +327,17 @@ public class BeanTasks implements Serializable {
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Sin categoria");
 		return "";
 	}
 
-	public void getFinishedTask(){
+	public void getFinishedTask() {
 		TaskService taskServices = Services.getTaskService();
-		if(terminadas == null)
+		if (terminadas == null)
 			setTerminadas(true);
 		try {
-			if(terminadas)
-				tasks.addAll(taskServices.findFinishedInboxTasksByUserId(user.getId()));
+			if (terminadas)
+				tasks.addAll(taskServices.findFinishedInboxTasksByUserId(user
+						.getId()));
 			else
 				tasks = taskServices.findInboxTasksByUserId(user.getId());
 			terminadas = !terminadas;

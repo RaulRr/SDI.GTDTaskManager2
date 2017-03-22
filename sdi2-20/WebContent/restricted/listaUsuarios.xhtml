@@ -32,7 +32,7 @@
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="#{msgs.usuarioEliminar}">
-						<p:commandButton id="eliminar_button" actionListener="#{controller.eliminar(vuser)}"
+						<p:commandButton id="eliminar_button" action="#{controller.eliminar(vuser)}"
 							rendered="#{vuser.isAdmin==false}" type="submit"
 							value="#{msgs.usuarioEliminar}" inmediate="true"
 							update="tablalistado">

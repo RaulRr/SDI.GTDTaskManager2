@@ -8,6 +8,8 @@ import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import alb.util.log.Log;
+
 @ManagedBean(name="settings")
 @SessionScoped
 public class BeanSettings implements Serializable{
@@ -27,15 +29,14 @@ public class BeanSettings implements Serializable{
 	//el MBean ya estaba construido y en @PostConstruct SI.
 	@PostConstruct
 	public void init() {
-		System.out.println("BeanSettings - PostConstruct");
-		
+		Log.debug("BeanSettings - PostConstruct");	
 	}
 	
 	//Es sólo a modo de traza.
 	@PreDestroy
 	public void end()
-	{
-		System.out.println("BeanSettings - PreDestroy");
+	{	
+		Log.debug("BeanSettings - PreDestroy");
 	}
 
 	
