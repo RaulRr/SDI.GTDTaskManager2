@@ -321,7 +321,6 @@ public class BeanTasks implements Serializable {
 		try {
 			c = taskServices.findCategoryById(id);
 			if(c != null){
-				System.out.println(c.getName());
 				return c.getName();
 			}
 		} catch (BusinessException e) {

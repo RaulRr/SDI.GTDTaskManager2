@@ -31,7 +31,7 @@ public class BeanUser extends User implements Serializable {
 	public void iniciaUser(ActionEvent event) {
 		setId(null);
 		setLogin("login");
-		setPassword("password");
+		setPassword("");
 		setIsAdmin(false);
 		setEmail("email");
 		setStatus(UserStatus.DISABLED);

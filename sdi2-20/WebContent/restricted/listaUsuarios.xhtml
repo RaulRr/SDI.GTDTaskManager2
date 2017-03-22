@@ -36,14 +36,14 @@
 							rendered="#{vuser.isAdmin==false}" type="submit"
 							value="#{msgs.usuarioEliminar}" inmediate="true"
 							update="tablalistado">
-							<p:confirm header="Confirmation" message="Are you sure?"
+							<p:confirm header="#{msgs.confirmacion}" message="#{msgs.seguro}"
 								icon="ui-icon-alert" />
 						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton id="comfirmation_button" value="Yes" type="button"
+							<p:commandButton id="comfirmation_button" value="#{msgs.yes}" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="tablalistado"/>
-							<p:commandButton value="No" type="button"
+							<p:commandButton value="#{msgs.no}" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
 					</p:column>

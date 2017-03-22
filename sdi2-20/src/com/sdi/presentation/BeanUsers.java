@@ -10,6 +10,7 @@ import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
 import alb.util.log.Log;
+import alb.util.log.LogLevel;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
@@ -43,6 +44,8 @@ public class BeanUsers implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		Log.setLogLevel(LogLevel.DEBUG);
+		
 		Log.debug("BeanUsers - PostConstruct");
 		// Buscamos el alumno en la sesión. Esto es un patrón factoría
 		// claramente.
@@ -142,12 +145,12 @@ public class BeanUsers implements Serializable {
 				adminService.enableUser(user.getId());
 			}
 			listadoUsuarios(); // Actualizamos la lista de usuarios
-			Log.debug("Estado del usuario %s cambiado con exito a %s",
+			Log.debug("Estado del usuario [%s] cambiado con exito a [%s]",
 					user.getLogin(), user.getStatus().toString());
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
 			Log.error("Se ha producido algun error al tratar de cambiar el"
-					+ "estado de un usuario como administrador");
+					+ "estado de un usuario");
 			return "error";
 		}
 	}
@@ -168,12 +171,12 @@ public class BeanUsers implements Serializable {
 			adminService = Services.getAdminService();
 			adminService.deepDeleteUser(user.getId());
 			listadoUsuarios();
-			Log.debug("Se ha eliminado al usuario %s con exito", 
+			Log.debug("Se ha eliminado al usuario [%s] con exito", 
 					user.getLogin());
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
 			Log.error("Se ha producido algun error al tratar de eliminar un"
-					+ "usuario como administrador");
+					+ "usuario");
 			return "error";
 		}
 	}
@@ -186,28 +189,27 @@ public class BeanUsers implements Serializable {
 		UserService userService;
 
 		if (!user.getEmail().matches("[-\\w\\.]+@\\w+\\.\\w+")) {
-			System.out.println("Email invalido: " + user.getEmail());
+			Log.error("Email invalido: [%s]", user.getEmail());
 			return "false";
 		}
 
 		if (!pass.equals(user.getPassword())) {
-			System.out.println("Las contraseñas no coinciden: " + pass + " - "
-					+ user.getPassword());
+			Log.error("Las contraseñas no coinciden: [%s] - [%s]", 
+					pass, user.getPassword());
 			return "false";
 		}
 
 		else {
 			if (pass.length() < 8) {
-				System.out
-						.println("Las contraseñas deben medir al menos 8 "
-								+ "caracteres " + pass);
+				Log.error("Las contraseñas deben medir al menos 8 caracteres "
+						+ "[%s]", pass);
 				return "false";
 			}
 
 			if (!pass.matches(".*[a-zA-Z].*") || !pass.matches(".*[0-9].*")) {
-				System.out
-						.println("Las contraseñas no contiene letras y números "
-								+ pass);
+				Log.error("Las contraseñas no contiene letras y numeros [%s]", 
+						pass);
+				
 				return "false";
 			}
 		}
@@ -219,10 +221,7 @@ public class BeanUsers implements Serializable {
 			userService.registerUser(user);
 
 			// Vaciamos el bean
-			user.setEmail(null);
-			user.setPassword(null);
-			user.setIsAdmin(false);
-			user.setId(null);
+			user.iniciaUser(null);
 		} catch (BusinessException b) {
 			return "false"; // Se produjo algún error al validar
 		}
@@ -273,11 +272,12 @@ public class BeanUsers implements Serializable {
 		session.put("LOGGEDIN_USER", user.getIsAdmin());
 	}
 
-	public String cerrarSesion(){
+	public String cerrarSesion() {
 		Map<String, Object> session = FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap();
 		session.put("LOGGEDIN_USER", null);
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		FacesContext.getCurrentInstance().getExternalContext()
+				.invalidateSession();
 		Log.debug("Sesion cerrada correctamente");
 		return "true";
 	}
