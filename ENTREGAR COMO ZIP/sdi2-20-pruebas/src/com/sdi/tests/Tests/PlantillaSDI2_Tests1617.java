@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -28,11 +29,26 @@ import com.sdi.tests.utils.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PlantillaSDI2_Tests1617 {
 
-	WebDriver driver;
+	static WebDriver driver;
+	static String URL = "http://localhost:8180/sdi2-n";
+
 	List<WebElement> elementos = null;
 	boolean prepararBD = true;
 
 	public PlantillaSDI2_Tests1617() {
+		getDriver();
+	}
+
+	public static void getDriver() {
+
+		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
+
+		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+
+		FirefoxProfile firefoxProfile = new FirefoxProfile();
+
+		driver = new FirefoxDriver(ffBinary, firefoxProfile);
+
 	}
 
 	@Before
@@ -40,15 +56,21 @@ public class PlantillaSDI2_Tests1617 {
 
 		compobarBD();
 
-		// Este código es para ejecutar con la versión portale de Firefox 46.0
-		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
-		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
-		FirefoxProfile firefoxProfile = new FirefoxProfile();
-		driver = new FirefoxDriver(ffBinary, firefoxProfile);
-		driver.get("http://localhost:8180/sdi2-20");
-		// Este código es para ejecutar con una versión instalada de Firex 46.0
-		// driver = new FirefoxDriver();
-		// driver.get("http://localhost:8180/sdi2-n");
+		driver.navigate().to(URL);
+	}
+
+	@After
+	public void tearDown() {
+
+		driver.manage().deleteAllCookies();
+
+	}
+
+	@AfterClass
+	static public void end() {
+
+		driver.quit();
+
 	}
 
 	private void compobarBD() {
@@ -63,11 +85,6 @@ public class PlantillaSDI2_Tests1617 {
 		}
 	}
 
-	@After
-	public void end() {
-		// Cerramos el navegador
-		driver.quit();
-	}
 
 	private void validarUsuario(String ulogin, String upassword) {
 
@@ -112,7 +129,9 @@ public class PlantillaSDI2_Tests1617 {
 
 		// No accedemos al listado por tanto seguimos en el index
 		driver.getCurrentUrl().equals(
-				"http://localhost:8280/sdi2-20/index.xhtml");
+				"http://localhost:8180/sdi2-20/index.xhtml");
+		//Buscamos el elemento boton de validar tambien
+		driver.findElement(By.id("form-template:form-login:validation-button"));
 	}
 
 	// PR03: Fallo en la autenticación del administrador por introducir mal la
@@ -124,7 +143,9 @@ public class PlantillaSDI2_Tests1617 {
 
 		// No accedemos al listado por tanto seguimos en el index
 		driver.getCurrentUrl().equals(
-				"http://localhost:8280/sdi2-20/index.xhtml");
+				"http://localhost:8180/sdi2-20/index.xhtml");
+		//Buscamos el elemento boton de validar tambien
+		driver.findElement(By.id("form-template:form-login:validation-button"));
 	}
 
 	// PR04: Probar que la base de datos contiene los datos insertados con
@@ -890,7 +911,8 @@ public class PlantillaSDI2_Tests1617 {
 				cat.get(2).findElement(By.xpath(".."))
 						.findElement(By.xpath("..")));
 		// Comprobamos que efectivamente sus fechas son posteriores
-		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText()
+				.equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -916,7 +938,8 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> date = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-week')]"));
 		assertEquals(8, date.size());
-		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText()
+				.equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -1645,16 +1668,13 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-task:tablalistado", 10);
 
 		// Tratamos de acceder a un url del admin
-		driver.get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
-		// driver.
-		// get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
+		driver.get(
+				"http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
 
 		// Se carga una página de acceso restringido
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
 		driver.getCurrentUrl().equals(
 				"http://localhost:8180/sdi2-20/error.xhtml");
-		// driver.getCurrentUrl().
-		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
 
 	// PR38: Intento de acceso a un URL privado de usuario normal con un usuario
@@ -1663,14 +1683,11 @@ public class PlantillaSDI2_Tests1617 {
 	public void prueba38() {
 		// Tratamos de acceder a un url de usuario como anonimo
 		driver.get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
-		// driver.
-		// get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
 
 		// Se carga una página de acceso restringido
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
+		
 		driver.getCurrentUrl().equals(
 				"http://localhost:8180/sdi2-20/error.xhtml");
-		// driver.getCurrentUrl().
-		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
 }
