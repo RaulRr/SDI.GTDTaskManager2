@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/template-general.xhtml">
+
+	<h:head>
+		<title>#{msgs.cabeceraEditar}</title>
+	</h:head>
+	<ui:define name="cuerpo">
+
+		<h:form id="form-task">
+			<p:panel header="#{msgs.tablaEditar}" id="tablaform">
+				<table>
+					<tr>
+						<td><p:outputLabel value="#{msgs.tituloEditar}" /></td>
+						<td><h:inputText id="title_input" value="#{task.title}"
+								style="width:300px">
+							</h:inputText></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel value="#{msgs.comentarioEditar}" /></td>
+						<td><p:inputTextarea id="comments_area"
+								value="#{task.comments}" rows="7" cols="50" /></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel value="#{msgs.planeadaEditar}" /></td>
+						<td><p:calendar id="planned_calendar" value="#{task.planned}"></p:calendar></td>
+					</tr>
+					<tr>
+						<td><p:outputLabel for="categorias_menu"
+								value="#{msgs.categoriaEditar}" /></td>
+						<td><p:selectOneMenu id="categorias_menu"
+								style="width:125px;" value="#{task.categoryId}">
+								<f:selectItem itemLabel="#{msgs.noCategoria}" itemVaule="null" />
+								<f:selectItem itemLabel="#{msgs.categoria1}"
+									itemValue="#{btasks.categories[0].id}" />
+								<f:selectItem itemLabel="#{msgs.categoria2}"
+									itemValue="#{btasks.categories[1].id}" />
+								<f:selectItem itemLabel="#{msgs.categoria3}"
+									itemValue="#{btasks.categories[2].id}" />
+							</p:selectOneMenu></td>
+					</tr>
+					<tr>
+						<td><p:commandButton id="editar_button"
+								value="#{msgs.botonEditar}" action="#{btasks.modificarTarea}"
+								update="tablaform" /></td>
+					</tr>
+				</table>
+				<p:messages id="mensaje" showDetail="true" autoUpdate="true"
+					closable="true" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+

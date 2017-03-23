@@ -1,4 +1,5 @@
 package com.sdi.presentation;
+
 import java.io.Serializable;
 
 import javax.faces.bean.*;
@@ -6,7 +7,7 @@ import javax.faces.event.ActionEvent;
 
 import com.sdi.dto.Task;
 
-@ManagedBean(name="task")
+@ManagedBean(name = "task")
 @SessionScoped
 public class BeanTask extends Task implements Serializable {
 	private static final long serialVersionUID = 55556L;
@@ -14,7 +15,7 @@ public class BeanTask extends Task implements Serializable {
 	public BeanTask() {
 		iniciaTask(null);
 	}
-	
+
 	public void setTask(Task task) {
 		setId(task.getId());
 		setUserId(task.getUserId());
@@ -24,9 +25,9 @@ public class BeanTask extends Task implements Serializable {
 		setCreated(task.getCreated());
 		setPlanned(task.getPlanned());
 		setFinished(task.getFinished());
-		
+
 	}
-	
+
 	public void iniciaTask(ActionEvent event) {
 		setId(null);
 		setUserId(null);
@@ -37,6 +38,5 @@ public class BeanTask extends Task implements Serializable {
 		setComments("");
 		setTitle("new Task");
 	}
-	
-	
+
 }

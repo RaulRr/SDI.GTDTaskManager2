@@ -12,11 +12,12 @@ public class Task {
 	private Date created = DateUtil.today();
 	private Date planned;
 	private Date finished;
-	
+
 	private Long categoryId;
 	private Long userId;
-		
+
 	private String catName;
+
 	public String getCatName() {
 		return catName;
 	}
@@ -34,9 +35,10 @@ public class Task {
 	}
 
 	private boolean retrasada;
-	
-	public Task(){}
-	
+
+	public Task() {
+	}
+
 	public Task(Long id, String title, String comments, Date created,
 			Date planned, Date finished, Long categoryId, Long userId) {
 		super();
@@ -53,76 +55,72 @@ public class Task {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
+
 	public String getComments() {
 		return comments;
 	}
-	
+
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	
+
 	public Date getCreated() {
 		return created;
 	}
-	
+
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
+
 	public Date getPlanned() {
 		return planned;
 	}
-	
+
 	public void setPlanned(Date planned) {
 		this.planned = planned;
 	}
-	
+
 	public Date getFinished() {
 		return finished;
 	}
-	
+
 	public void setFinished(Date finished) {
 		this.finished = finished;
 	}
-	
+
 	public Long getCategoryId() {
 		return categoryId;
 	}
-	
+
 	public void setCategoryId(Long category_id) {
 		this.categoryId = category_id;
 	}
-	
+
 	public Long getUserId() {
 		return userId;
 	}
-	
+
 	public void setUserId(Long user_id) {
 		this.userId = user_id;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "TaskDto [id=" + id 
-				+ ", title=" + title 
-				+ ", comments=" + comments 
-				+ ", created=" + created
-				+ ", planned=" + planned 
-				+ ", finished=" + finished 
-				+ ", categoryId=" + categoryId 
+		return "TaskDto [id=" + id + ", title=" + title + ", comments="
+				+ comments + ", created=" + created + ", planned=" + planned
+				+ ", finished=" + finished + ", categoryId=" + categoryId
 				+ ", userId=" + userId + "]";
 	}
 
@@ -130,10 +128,13 @@ public class Task {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
-		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
+		result = prime * result
+				+ ((categoryId == null) ? 0 : categoryId.hashCode());
+		result = prime * result
+				+ ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
-		result = prime * result + ((finished == null) ? 0 : finished.hashCode());
+		result = prime * result
+				+ ((finished == null) ? 0 : finished.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((planned == null) ? 0 : planned.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());

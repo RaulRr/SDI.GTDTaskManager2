@@ -21,10 +21,10 @@ public class DeepDeleteUserCommand implements Command<Void> {
 		CategoryDao cDao = Persistence.getCategoryDao();
 		UserDao uDao = Persistence.getUserDao();
 
-		tDao.deleteAllFromUserId( userId );
-		cDao.deleteAllFromUserId( userId );
-		uDao.delete( userId );
-		
+		tDao.deleteAllFromUserId(userId);
+		cDao.deleteAllFromUserId(userId);
+		uDao.delete(userId);
+
 		return null;
 	}
 

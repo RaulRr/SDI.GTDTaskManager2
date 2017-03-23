@@ -26,12 +26,15 @@
 					</tr>
 					<tr>
 						<td></td>
-						<td><h:commandButton id="crear-button" value="#{msgs.botonRegistro}"
-								action="#{controller.registro}" /> <h:commandButton
-								id="validation-button" value="#{msgs.botonValidar}"
-								action="#{controller.validar}" style="margin-left: 10px;" /></td>
+						<td><h:commandButton id="crear-button"
+								value="#{msgs.botonRegistro}" action="#{controller.registro}" />
+							<h:commandButton id="validation-button"
+								value="#{msgs.botonValidar}" action="#{controller.validar}"
+								style="margin-left: 10px;" /></td>
 					</tr>
 				</table>
+				<p:messages id="mensaje" showDetail="true" autoUpdate="true"
+					closable="true" />
 			</p:panel>
 		</h:form>
 	</ui:define>

@@ -16,14 +16,14 @@ public class CreateCategoryCommand implements Command<Long> {
 
 	@Override
 	public Long execute() throws BusinessException {
-		CategoryCheck.nameIsNotNull( category );
-		CategoryCheck.nameIsNotEmpty( category );
-		CategoryCheck.userIsNotNull( category );
-		CategoryCheck.isValidUser( category );
-		CategoryCheck.isUniqueName( category );
-		CategoryCheck.isNotForAdminUser( category );
-		
-		return Persistence.getCategoryDao().save( category );
+		CategoryCheck.nameIsNotNull(category);
+		CategoryCheck.nameIsNotEmpty(category);
+		CategoryCheck.userIsNotNull(category);
+		CategoryCheck.isValidUser(category);
+		CategoryCheck.isUniqueName(category);
+		CategoryCheck.isNotForAdminUser(category);
+
+		return Persistence.getCategoryDao().save(category);
 	}
 
 }

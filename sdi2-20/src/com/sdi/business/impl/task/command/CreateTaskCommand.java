@@ -18,18 +18,18 @@ public class CreateTaskCommand implements Command<Long> {
 
 	@Override
 	public Long execute() throws BusinessException {
-		TaskCheck.userExists( task );
-		TaskCheck.userIsNotDisabled( task );
-		TaskCheck.userIsNotAdmin( task );
-		TaskCheck.titleIsNotNull( task );
-		TaskCheck.titleIsNotEmpty( task );
-		if ( task.getCategoryId() != null ) {
-			TaskCheck.categoryExists( task );
+		TaskCheck.userExists(task);
+		TaskCheck.userIsNotDisabled(task);
+		TaskCheck.userIsNotAdmin(task);
+		TaskCheck.titleIsNotNull(task);
+		TaskCheck.titleIsNotEmpty(task);
+		if (task.getCategoryId() != null) {
+			TaskCheck.categoryExists(task);
 		}
-		
-		task.setCreated( DateUtil.today() );
-		task.setFinished( null );
-		return Persistence.getTaskDao().save( task );
+
+		task.setCreated(DateUtil.today());
+		task.setFinished(null);
+		return Persistence.getTaskDao().save(task);
 	}
 
 }

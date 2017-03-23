@@ -24,38 +24,38 @@ public class DuplicateCategoryCommand implements Command<Long> {
 
 	@Override
 	public Long execute() throws BusinessException {
-		Long copyId = duplicateCategory( origId );
-		duplicateTasks( origId, copyId );
-		
+		Long copyId = duplicateCategory(origId);
+		duplicateTasks(origId, copyId);
+
 		return copyId;
 	}
 
 	private Long duplicateCategory(Long id) throws BusinessException {
 		CategoryDao cDao = Persistence.getCategoryDao();
-		
+
 		Category original = cDao.findById(id);
-		BusinessCheck.isNotNull( original, "The category does not exist");
-		checkUserNotDisabled( original );
-		
+		BusinessCheck.isNotNull(original, "The category does not exist");
+		checkUserNotDisabled(original);
+
 		Category copy = Cloner.clone(original);
-		copy.setName( copy.getName() + " - copy");
-		return cDao.save( copy );
+		copy.setName(copy.getName() + " - copy");
+		return cDao.save(copy);
 	}
 
 	private void checkUserNotDisabled(Category c) throws BusinessException {
-		User u = Persistence.getUserDao().findById( c.getUserId() );
-		BusinessCheck.isTrue( u.getStatus().equals( UserStatus.ENABLED ),
+		User u = Persistence.getUserDao().findById(c.getUserId());
+		BusinessCheck.isTrue(u.getStatus().equals(UserStatus.ENABLED),
 				"User disables, category cannot be duplicated.");
 	}
 
 	private void duplicateTasks(Long catId, Long copyId) {
 		TaskDao tDao = Persistence.getTaskDao();
 
-		List<Task> tasks = tDao.findTasksByCategoryId( catId );
-		for(Task t: tasks) {
+		List<Task> tasks = tDao.findTasksByCategoryId(catId);
+		for (Task t : tasks) {
 			Task copy = Cloner.clone(t);
-			copy.setCategoryId( copyId );
-			tDao.save( copy );
+			copy.setCategoryId(copyId);
+			tDao.save(copy);
 		}
 	}
 

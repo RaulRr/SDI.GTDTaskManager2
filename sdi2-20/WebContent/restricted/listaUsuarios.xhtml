@@ -15,12 +15,14 @@
 				<p:dataTable var="vuser" id="tablalistado"
 					value="#{controller.users}" border="1">
 					<p:column headerText="#{msgs.usuarioId}">
-						<h:outputText value="#{vuser.id}" id="td_id"/>
+						<h:outputText value="#{vuser.id}" id="td_id" />
 					</p:column>
-					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}" id="ordenar_login">
+					<p:column headerText="#{msgs.usuarioLogin}" sortBy="#{vuser.login}"
+						id="ordenar_login">
 						<h:outputText value="#{vuser.login}" id="td_login" />
 					</p:column>
-					<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}" id="ordenar_email">
+					<p:column headerText="#{msgs.usuarioEmail}" sortBy="#{vuser.email}"
+						id="ordenar_email">
 						<h:outputText value="#{vuser.email}" />
 					</p:column>
 					<p:column headerText="#{msgs.usuarioStatus}"
@@ -32,7 +34,8 @@
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="#{msgs.usuarioEliminar}">
-						<p:commandButton id="eliminar_button" action="#{controller.eliminar(vuser)}"
+						<p:commandButton id="eliminar_button"
+							action="#{controller.eliminar(vuser)}"
 							rendered="#{vuser.isAdmin==false}" type="submit"
 							value="#{msgs.usuarioEliminar}" inmediate="true"
 							update="tablalistado">
@@ -41,13 +44,16 @@
 						</p:commandButton>
 
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton id="comfirmation_button" value="#{msgs.yes}" type="button"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="tablalistado"/>
+							<p:commandButton id="comfirmation_button" value="#{msgs.yes}"
+								type="button" styleClass="ui-confirmdialog-yes"
+								icon="ui-icon-check" update="tablalistado" />
 							<p:commandButton value="#{msgs.no}" type="button"
 								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 						</p:confirmDialog>
 					</p:column>
 				</p:dataTable>
+				<p:messages id="mensaje" showDetail="true" autoUpdate="true"
+					closable="true" />
 			</p:panel>
 			<p:commandLink id="reiniciarbd" action="#{controller.reiniciarBD}"
 				type="submit" value="#{msgs.reiniciarBD}" inmediate="true"

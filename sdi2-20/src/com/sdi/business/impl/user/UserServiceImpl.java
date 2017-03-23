@@ -12,25 +12,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Long registerUser(User user) throws BusinessException {
-		return new CommandExecutor<Long>().execute( 
-				new RegisterUserCommand( user ) 
-		);
+		return new CommandExecutor<Long>()
+				.execute(new RegisterUserCommand(user));
 	}
 
 	@Override
 	public void updateUserDetails(User user) throws BusinessException {
-		new CommandExecutor<Void>().execute( 
-				new UpdateUserDetailsCommand( user ) 
-		);
+		new CommandExecutor<Void>().execute(new UpdateUserDetailsCommand(user));
 	}
 
 	@Override
-	public User findLoggableUser(final String login, final String password) 
+	public User findLoggableUser(final String login, final String password)
 			throws BusinessException {
-		
-		return new CommandExecutor<User>().execute( 
-				new FindLoggableUSerCommand<User>(login, password) 
-		);
+
+		return new CommandExecutor<User>()
+				.execute(new FindLoggableUSerCommand<User>(login, password));
 	}
 
 }

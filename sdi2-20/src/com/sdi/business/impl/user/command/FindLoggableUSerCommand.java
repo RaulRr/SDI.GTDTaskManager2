@@ -18,15 +18,14 @@ public class FindLoggableUSerCommand<T> implements Command<User> {
 
 	@Override
 	public User execute() throws BusinessException {
-		User user = Persistence.getUserDao()
-						.findByLoginAndPassword(login, password);
-		
-		if(user == null){
+		User user = Persistence.getUserDao().findByLoginAndPassword(login,
+				password);
+
+		if (user == null) {
 			throw new BusinessException("El usuario no existe");
 		}
-		
-		return (user != null && user.getStatus().equals( UserStatus.ENABLED ))
-				? user
+
+		return (user != null && user.getStatus().equals(UserStatus.ENABLED)) ? user
 				: null;
 	}
 

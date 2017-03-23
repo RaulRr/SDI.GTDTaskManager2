@@ -20,12 +20,12 @@ public class MarkTaskAsFinishedCommand implements Command<Void> {
 	@Override
 	public Void execute() throws BusinessException {
 		TaskDao tDao = Persistence.getTaskDao();
-		
+
 		Task t = tDao.findById(id);
 		BusinessCheck.isNotNull(t, "The task does not exist");
-		
-		t.setFinished( DateUtil.today() );
-		tDao.update( t );
+
+		t.setFinished(DateUtil.today());
+		tDao.update(t);
 		return null;
 	}
 

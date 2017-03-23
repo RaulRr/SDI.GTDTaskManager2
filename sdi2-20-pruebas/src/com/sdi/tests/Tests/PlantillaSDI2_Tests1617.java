@@ -37,29 +37,29 @@ public class PlantillaSDI2_Tests1617 {
 
 	@Before
 	public void run() {
-		
+
 		compobarBD();
-		
+
 		// Este código es para ejecutar con la versión portale de Firefox 46.0
 		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
 		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
 		FirefoxProfile firefoxProfile = new FirefoxProfile();
 		driver = new FirefoxDriver(ffBinary, firefoxProfile);
-		driver.get("http://localhost:8280/sdi2-20");
+		driver.get("http://localhost:8180/sdi2-20");
 		// Este código es para ejecutar con una versión instalada de Firex 46.0
 		// driver = new FirefoxDriver();
 		// driver.get("http://localhost:8180/sdi2-n");
 	}
 
 	private void compobarBD() {
-		if(prepararBD){
+		if (prepararBD) {
 			try {
 				Services.getAdminService().initiateDB();
 			} catch (BusinessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			prepararBD=false;
+			prepararBD = false;
 		}
 	}
 
@@ -283,7 +283,7 @@ public class PlantillaSDI2_Tests1617 {
 		By button = By.xpath("//th[contains(@id, 'ordenar_login')]");
 		driver.findElement(button).click();// El primero no ordena
 		Thread.sleep(500);
-		
+
 		button = By.xpath("//th[contains(@id, 'ordenar_login')]");
 		driver.findElement(button).click();// Este cambio el orden por logins
 		Thread.sleep(500);
@@ -327,7 +327,7 @@ public class PlantillaSDI2_Tests1617 {
 		By button = By.xpath("//th[contains(@id, 'ordenar_email')]");
 		driver.findElement(button).click();// El primero no ordena
 		Thread.sleep(500);
-		
+
 		button = By.xpath("//th[contains(@id, 'ordenar_email')]");
 		driver.findElement(button).click();// Este cambio el orden por emails
 		Thread.sleep(500);
@@ -426,9 +426,8 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado:3:comfirmation_button",
 				10);
-		button = By
-				.xpath("//button[contains(@id, 'form-template:form-"
-						+ "admin:tablalistado:3:comfirmation_button')]");
+		button = By.xpath("//button[contains(@id, 'form-template:form-"
+				+ "admin:tablalistado:3:comfirmation_button')]");
 		driver.findElement(button).click();// Boton confirmacion
 
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
@@ -445,9 +444,8 @@ public class PlantillaSDI2_Tests1617 {
 	// PR12: Crear una cuenta de usuario normal con datos válidos.
 	@Test
 	public void prueba12() throws InterruptedException {
-		By button = By
-				.xpath("//input[contains(@id, "
-						+ "'form-template:form-login:crear-button')]");
+		By button = By.xpath("//input[contains(@id, "
+				+ "'form-template:form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
@@ -478,9 +476,8 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-admin:tablalistado:4:comfirmation_button",
 				10);
-		button = By
-				.xpath("//button[contains(@id, 'form-template:form-admin:"
-						+ "tablalistado:4:comfirmation_button')]");
+		button = By.xpath("//button[contains(@id, 'form-template:form-admin:"
+				+ "tablalistado:4:comfirmation_button')]");
 		driver.findElement(button).click();// Boton confirmacion eliminacion
 	}
 
@@ -492,11 +489,11 @@ public class PlantillaSDI2_Tests1617 {
 						+ "button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
-		// esperamos a que se cargue la pagina de registro. 
+		// esperamos a que se cargue la pagina de registro.
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-registro", 10);
 
-		// Registramos con login repetido. 
+		// Registramos con login repetido.
 		registrarUsuario("user1", "uprueba1@gmail.com", "uprueba1", "uprueba1");
 
 		// Seguimos en el registro. no se ha registrado
@@ -507,9 +504,8 @@ public class PlantillaSDI2_Tests1617 {
 	// PR14: Crear una cuenta de usuario normal con Email incorrecto.
 	@Test
 	public void prueba14() {
-		By button = By
-				.xpath("//input[contains(@id, 'form-template:"
-						+ "form-login:crear-button')]");
+		By button = By.xpath("//input[contains(@id, 'form-template:"
+				+ "form-login:crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
@@ -527,9 +523,8 @@ public class PlantillaSDI2_Tests1617 {
 	// PR15: Crear una cuenta de usuario normal con Password incorrecta.
 	@Test
 	public void prueba15() {
-		By button = By
-				.xpath("//input[contains(@id, 'form-template:form-login:"
-						+ "crear-button')]");
+		By button = By.xpath("//input[contains(@id, 'form-template:form-login:"
+				+ "crear-button')]");
 		driver.findElement(button).click();// Pulsamos boton de creacion
 
 		// esperamos a que se cargue la pagina de registro
@@ -661,7 +656,7 @@ public class PlantillaSDI2_Tests1617 {
 		WebElement login = driver.findElement(By
 				.id("form-template:form-task:tablalistado:"
 						+ "ordenar-title-inbox:filter"));
-		
+
 		login.click();
 		login.clear();
 		login.sendKeys("Semana:7");
@@ -895,8 +890,7 @@ public class PlantillaSDI2_Tests1617 {
 				cat.get(2).findElement(By.xpath(".."))
 						.findElement(By.xpath("..")));
 		// Comprobamos que efectivamente sus fechas son posteriores
-		assertTrue(date.get(0).getText().
-				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -922,8 +916,7 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> date = driver.findElements(By
 				.xpath("//span[contains(@id, 'planned-week')]"));
 		assertEquals(8, date.size());
-		assertTrue(date.get(0).getText().
-				equals(DateUtil.tomorrow().toString()));
+		assertTrue(date.get(0).getText().equals(DateUtil.tomorrow().toString()));
 		assertTrue(date.get(1).getText()
 				.equals(DateUtil.addDays(DateUtil.today(), 2).toString()));
 		assertTrue(date.get(2).getText()
@@ -1051,7 +1044,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(titles.get(0).getText().equals("Semana:1"));
 
 		// Devolvemos todo a como estaba
-		prepararBD=true;
+		prepararBD = true;
 	}
 
 	// PR27: Crear una tarea sin categoría y comprobar que se muestra en la
@@ -1138,14 +1131,14 @@ public class PlantillaSDI2_Tests1617 {
 		nombre.sendKeys("TaskToday");
 
 		Thread.sleep(1000);
-		
-		//Añadimos la fecha de hoy
+
+		// Añadimos la fecha de hoy
 		WebElement fecha = driver.findElement(By
 				.id("form-template:form-task:taskPlanned_input"));
 		fecha.click();
 		fecha.clear();
 		fecha.sendKeys(DateUtil.toString(DateUtil.today()));
-		
+
 		// Cambiamos la categoría
 		WebElement login = driver.findElement(By
 				.id("form-template:form-task:taskCategory_label"));
@@ -1156,7 +1149,7 @@ public class PlantillaSDI2_Tests1617 {
 		login.click();
 		Thread.sleep(500);
 
-		//Creamos la nueva tarea
+		// Creamos la nueva tarea
 		driver.findElement(By.id("form-template:form-task:taskButton")).click();
 		Thread.sleep(1000);
 
@@ -1168,24 +1161,23 @@ public class PlantillaSDI2_Tests1617 {
 		driver.findElement(pag).click();
 		Thread.sleep(1000);
 		driver.findElement(pag).click();
-		Thread.sleep(1000);//Llegamos a la ultima pagina
-		
-		//Mostramos que hay categorias en hoy
+		Thread.sleep(1000);// Llegamos a la ultima pagina
+
+		// Mostramos que hay categorias en hoy
 		List<WebElement> cat = driver.findElements(By
 				.xpath("//span[contains(@id, 'categoria-noname')]"));
 		assertEquals(5, cat.size()); // 5 tareas
 		for (WebElement e : cat) {
 			e.getText().contains("categoria");
 		}
-		
-		//Obtenemos sus titulo
+
+		// Obtenemos sus titulo
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
-		
+
 		assertTrue(title.get(4).getText().equals("TaskToday"));// 5 elemento
 		assertTrue(cat.get(4).getText().equals("categoria1"));
 
-		
 		// Devolvemos todo a como estaba
 		prepararBD = true;
 	}
@@ -1216,8 +1208,7 @@ public class PlantillaSDI2_Tests1617 {
 				.id("form-template:form-task:taskPlanned_input"));
 		fecha.click();
 		fecha.clear();
-		fecha.sendKeys(DateUtil.toString(DateUtil.
-				addDays(DateUtil.today(), 2)));
+		fecha.sendKeys(DateUtil.toString(DateUtil.addDays(DateUtil.today(), 2)));
 
 		// Cambiamos la categoría
 		WebElement login = driver.findElement(By
@@ -1245,8 +1236,8 @@ public class PlantillaSDI2_Tests1617 {
 		driver.findElement(pag).click();
 		Thread.sleep(1000);// Llegamos a la ultima pagina
 
-		// Mostramos que hay tareas con categoria en week que ademas 
-		//estan retrasadas
+		// Mostramos que hay tareas con categoria en week que ademas
+		// estan retrasadas
 		List<WebElement> cat = driver.findElements(By
 				.xpath("//span[contains(@id, 'categoria-red')]"));
 		assertEquals(6, cat.size()); // 6 tareas retrasadas
@@ -1258,14 +1249,14 @@ public class PlantillaSDI2_Tests1617 {
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
 		assertTrue(title.get(6).getText().equals("TaskWeek"));// 7 elemento
-		
-		//la tarea no esta atrasada como la 6 de arriba. No muetra en rojo
+
+		// la tarea no esta atrasada como la 6 de arriba. No muetra en rojo
 		WebElement catT = driver.findElement(By
 				.xpath("//span[contains(@id, 'categoria-nored')]"));
 		assertTrue(catT.getText().equals("categoria1"));
 
 		// Devolvemos todo a como estaba
-		prepararBD=true;
+		prepararBD = true;
 	}
 
 	// PR30: Editar el nombre, y categoría de una tarea (se le cambia a
@@ -1285,7 +1276,7 @@ public class PlantillaSDI2_Tests1617 {
 		driver.findElement(
 				By.id("form-template:form-task:tablalistado:0:editar")).click();
 
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task:tablaform", 10);
 
 		// Escribimos el titulo nuevo de una tarea
@@ -1311,7 +1302,7 @@ public class PlantillaSDI2_Tests1617 {
 		login = driver.findElement(By
 				.id("form-template:form-task:editar_button"));
 		login.click();
-		
+
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task:tablalistado", 10);
 
@@ -1336,7 +1327,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(5).getText().equals("TAREA MODIFICADA"));// 5
 
 		// Reseteamos la bbdd
-		prepararBD=true;
+		prepararBD = true;
 
 	}
 
@@ -1366,8 +1357,8 @@ public class PlantillaSDI2_Tests1617 {
 		// Sacanmos los botones editar y pulsando el primero
 		driver.findElement(
 				By.id("form-template:form-task:tablalistado:0:editar")).click();
-		
-		SeleniumUtils.EsperaCargaPagina(driver, "id", 
+
+		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task:tablaform", 10);
 
 		// Escribimos el titulo nuevo de una tarea
@@ -1392,7 +1383,7 @@ public class PlantillaSDI2_Tests1617 {
 		login = driver.findElement(By
 				.id("form-template:form-task:editar_button"));
 		login.click();
-		
+
 		// Esperamos a la tabla
 		SeleniumUtils.EsperaCargaPagina(driver, "id",
 				"form-template:form-task:tablalistado", 10);
@@ -1408,7 +1399,7 @@ public class PlantillaSDI2_Tests1617 {
 		Thread.sleep(500);
 		driver.findElement(button).click();//
 		Thread.sleep(500);
-		
+
 		// Comprobamos que aparece en TODAY
 		List<WebElement> title = driver.findElements(By
 				.xpath("//span[contains(@id, 'title-noinbox')]"));
@@ -1432,7 +1423,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(0).getText().equals("TAREA MODIFICADA"));
 
 		// Reseteamos la bbdd
-		prepararBD=true;
+		prepararBD = true;
 	}
 
 	// PR32: Marcar una tarea como finalizada. Comprobar que desaparece de las
@@ -1491,7 +1482,7 @@ public class PlantillaSDI2_Tests1617 {
 		SeleniumUtils.textoNoPresentePagina(driver, id);
 
 		// Reseteamos la bbdd
-		prepararBD=true;
+		prepararBD = true;
 	}
 
 	// PR33: Salir de sesión desde cuenta de administrador.
@@ -1654,15 +1645,14 @@ public class PlantillaSDI2_Tests1617 {
 				"form-template:form-task:tablalistado", 10);
 
 		// Tratamos de acceder a un url del admin
-		driver.
-		get("http://localhost:8280/sdi2-20/restricted/listaUsuarios.xhtml");
+		driver.get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
 		// driver.
 		// get("http://localhost:8180/sdi2-20/restricted/listaUsuarios.xhtml");
 
 		// Se carga una página de acceso restringido
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
 		driver.getCurrentUrl().equals(
-				"http://localhost:8280/sdi2-20/error.xhtml");
+				"http://localhost:8180/sdi2-20/error.xhtml");
 		// driver.getCurrentUrl().
 		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}
@@ -1672,14 +1662,14 @@ public class PlantillaSDI2_Tests1617 {
 	@Test
 	public void prueba38() {
 		// Tratamos de acceder a un url de usuario como anonimo
-		driver.get("http://localhost:8280/sdi2-20/usuarios/listaTareas.xhtml");
+		driver.get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
 		// driver.
 		// get("http://localhost:8180/sdi2-20/usuarios/listaTareas.xhtml");
 
 		// Se carga una página de acceso restringido
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "form-error", 10);
 		driver.getCurrentUrl().equals(
-				"http://localhost:8280/sdi2-20/error.xhtml");
+				"http://localhost:8180/sdi2-20/error.xhtml");
 		// driver.getCurrentUrl().
 		// equals("http://localhost:8180/sdi2-20/error.xhtml");
 	}

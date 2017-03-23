@@ -19,12 +19,12 @@ public class DisableUserCommand implements Command<Void> {
 	@Override
 	public Void execute() throws BusinessException {
 		UserDao uDao = Persistence.getUserDao();
-		
+
 		User user = uDao.findById(id);
-		BusinessCheck.isNotNull( user, "User does not exist" );
-		
-		user.setStatus( UserStatus.DISABLED );
-		uDao.update( user );
+		BusinessCheck.isNotNull(user, "User does not exist");
+
+		user.setStatus(UserStatus.DISABLED);
+		uDao.update(user);
 
 		return null;
 	}

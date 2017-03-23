@@ -9,13 +9,14 @@ public interface TaskDao extends GenericDao<Task, Long> {
 
 	/**
 	 * @param userId
-	 * @return All tasks for the user without regard category, planned or 
-	 * 		finished status
+	 * @return All tasks for the user without regard category, planned or
+	 *         finished status
 	 */
 	List<Task> findByUserId(Long userId);
-	
+
 	/**
 	 * Removes all user's tasks
+	 * 
 	 * @param userId
 	 * @return the number of tasks deleted
 	 */
@@ -23,6 +24,7 @@ public interface TaskDao extends GenericDao<Task, Long> {
 
 	/**
 	 * Removes all tasks in the specified categoty
+	 * 
 	 * @param catId
 	 * @return the number of tasks deleted
 	 */
@@ -33,25 +35,25 @@ public interface TaskDao extends GenericDao<Task, Long> {
 	 * @return All not finished tasks in the user's inbox (without category)
 	 */
 	List<Task> findInboxTasksByUserId(Long userId);
-	
+
 	/**
 	 * @param userId
-	 * @return All not finished tasks of the user for today without regarding 
-	 * 		category (inbox included)
+	 * @return All not finished tasks of the user for today without regarding
+	 *         category (inbox included)
 	 */
 	List<Task> findTodayTasksByUserId(Long userId);
 
 	/**
 	 * @param userId
-	 * @return 	All not finished tasks of the user for the week	(today + 7 days), 
-	 * 		or delayed, and for all categories (inbox included)
+	 * @return All not finished tasks of the user for the week (today + 7 days),
+	 *         or delayed, and for all categories (inbox included)
 	 */
 	List<Task> findWeekTasksByUserId(Long userId);
-	
+
 	/**
 	 * @param catId
-	 * @return All not finished tasks for a category (and user as a category 
-	 * 		pertains to only one user)
+	 * @return All not finished tasks for a category (and user as a category
+	 *         pertains to only one user)
 	 */
 	List<Task> findTasksByCategoryId(Long catId);
 

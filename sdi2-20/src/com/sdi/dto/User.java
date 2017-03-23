@@ -15,11 +15,10 @@ public class User {
 	private String password;
 	private Boolean isAdmin = false;
 	private UserStatus status = UserStatus.ENABLED;
-	
-	public User(){}
-	
-	
-	
+
+	public User() {
+	}
+
 	public User(Long id, String login, String email, String password,
 			Boolean isAdmin, UserStatus status) {
 		super();
@@ -73,11 +72,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id 
-				+ ", login=" + login 
-				+ ", email=" + email 
-				+ ", password=" + password 
-				+ ", isAdmin=" + isAdmin + "]";
+		return "UserDto [id=" + id + ", login=" + login + ", email=" + email
+				+ ", password=" + password + ", isAdmin=" + isAdmin + "]";
 	}
 
 	public UserStatus getStatus() {
@@ -97,7 +93,8 @@ public class User {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((isAdmin == null) ? 0 : isAdmin.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result
+				+ ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -139,6 +136,6 @@ public class User {
 		if (status != other.status)
 			return false;
 		return true;
-	}	
-	
+	}
+
 }

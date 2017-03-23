@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
@@ -14,8 +15,10 @@ import alb.util.log.LogLevel;
 
 import com.sdi.business.AdminService;
 import com.sdi.business.Services;
+import com.sdi.business.TaskService;
 import com.sdi.business.UserService;
 import com.sdi.business.exception.BusinessException;
+import com.sdi.dto.Category;
 import com.sdi.dto.User;
 import com.sdi.dto.types.UserStatus;
 
@@ -45,7 +48,7 @@ public class BeanUsers implements Serializable {
 	@PostConstruct
 	public void init() {
 		Log.setLogLevel(LogLevel.DEBUG);
-		
+
 		Log.debug("BeanUsers - PostConstruct");
 		// Buscamos el alumno en la sesión. Esto es un patrón factoría
 		// claramente.
@@ -96,9 +99,10 @@ public class BeanUsers implements Serializable {
 	public void setTasks(BeanTasks tasks) {
 		this.tasks = tasks;
 	}
-	
+
 	/**
 	 * Método validación de usuarios de nuestra aplicación
+	 * 
 	 * @return String admin, error, user
 	 */
 	public String validar() {
@@ -120,16 +124,20 @@ public class BeanUsers implements Serializable {
 		} catch (Exception e) {
 			Log.error("Intento fallido de validación");
 			user.iniciaUser(null);
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn",
+							"User or password incorrect"));
 			return "error"; // Se produjo algún error al validar
 		}
 		putUserInSession(user);
 		Log.debug("Se ha validado como usuario");
 		return "user"; // Es un usario normal
 	}
-	
+
 	/**
-	 * Metodo que permite al administrador activar/bloquear a un 
-	 * usuario
+	 * Metodo que permite al administrador activar/bloquear a un usuario
+	 * 
 	 * @param user
 	 * @return String exito,error
 	 */
@@ -147,6 +155,10 @@ public class BeanUsers implements Serializable {
 			listadoUsuarios(); // Actualizamos la lista de usuarios
 			Log.debug("Estado del usuario [%s] cambiado con exito a [%s]",
 					user.getLogin(), user.getStatus().toString());
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+							"State changed"));
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
 			Log.error("Se ha producido algun error al tratar de cambiar el"
@@ -155,28 +167,36 @@ public class BeanUsers implements Serializable {
 		}
 	}
 
-
 	/**
-	 * Metodo que permite al administrador eliminar a un usuario junto con
-	 * todas sus tareas y categorias
+	 * Metodo que permite al administrador eliminar a un usuario junto con todas
+	 * sus tareas y categorias
+	 * 
 	 * @param user
 	 * @return String exito,error
 	 */
 	public String eliminar(User user) {
 		AdminService adminService;
-		if (user == null){
+		if (user == null) {
 			return "error";
-			}
+		}
 		try {
 			adminService = Services.getAdminService();
 			adminService.deepDeleteUser(user.getId());
 			listadoUsuarios();
-			Log.debug("Se ha eliminado al usuario [%s] con exito", 
+			Log.debug("Se ha eliminado al usuario [%s] con exito",
 					user.getLogin());
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+							"User correctly deleted"));
 			return "exito"; // Nos volvemos al listado
 		} catch (BusinessException b) {
 			Log.error("Se ha producido algun error al tratar de eliminar un"
 					+ "usuario");
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"User not deleted"));
 			return "error";
 		}
 	}
@@ -190,12 +210,20 @@ public class BeanUsers implements Serializable {
 
 		if (!user.getEmail().matches("[-\\w\\.]+@\\w+\\.\\w+")) {
 			Log.error("Email invalido: [%s]", user.getEmail());
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "War",
+							"Invalid Email"));
 			return "false";
 		}
 
 		if (!pass.equals(user.getPassword())) {
-			Log.error("Las contraseñas no coinciden: [%s] - [%s]", 
-					pass, user.getPassword());
+			Log.error("Las contraseñas no coinciden: [%s] - [%s]", pass,
+					user.getPassword());
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "War",
+							"The two password must match"));
 			return "false";
 		}
 
@@ -203,13 +231,23 @@ public class BeanUsers implements Serializable {
 			if (pass.length() < 8) {
 				Log.error("Las contraseñas deben medir al menos 8 caracteres "
 						+ "[%s]", pass);
+				FacesContext.getCurrentInstance().addMessage(
+						"mensaje",
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "War",
+								"The password must be at least 8 caracteres"));
 				return "false";
 			}
 
 			if (!pass.matches(".*[a-zA-Z].*") || !pass.matches(".*[0-9].*")) {
-				Log.error("Las contraseñas no contiene letras y numeros [%s]", 
+				Log.error("Las contraseñas no contiene letras y numeros [%s]",
 						pass);
-				
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								"mensaje",
+								new FacesMessage(FacesMessage.SEVERITY_WARN,
+										"War",
+										"The password must contain letters and numbers"));
 				return "false";
 			}
 		}
@@ -221,16 +259,41 @@ public class BeanUsers implements Serializable {
 			userService.registerUser(user);
 
 			// Vaciamos el bean
+			User u = userService.findLoggableUser(user.getLogin(),
+					user.getPassword());
+
+			// Procedemos a crear las categorías
+			TaskService t = Services.getTaskService();
+			Category c = new Category();
+			c.setName("categoria1");
+			c.setUserId(u.getId());
+			t.createCategory(c);
+			c.setName("categoria2");
+			c.setUserId(u.getId());
+			t.createCategory(c);
+			c.setName("categoria3");
+			c.setUserId(u.getId());
+			t.createCategory(c);
+
+			// Vaciamos el bean
 			user.iniciaUser(null);
 		} catch (BusinessException b) {
-			return "false"; // Se produjo algún error al validar
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "War",
+							"User already registered"));
+			return "false"; // Se produjo algún error al crear usuario
 		}
-
-		return "true"; // Es un usario normal
+		FacesContext.getCurrentInstance().addMessage(
+				"mensaje",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"User registered"));
+		return "true"; // Usuario creado correctamente
 	}
 
 	/**
 	 * Método del administrador que inicaliza la BD a su estado original
+	 * 
 	 * @return String error, exito
 	 */
 	public String reiniciarBD() {
@@ -242,24 +305,34 @@ public class BeanUsers implements Serializable {
 
 		} catch (BusinessException b) {
 			Log.error("Algo ha ocurrido al iniciar la BD");
+			FacesContext.getCurrentInstance().addMessage(
+					"mensaje",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+							"BBDD not correct reset"));
 			return "error";
 		}
 		Log.debug("BD iniciada con exito");
+		FacesContext.getCurrentInstance().addMessage(
+				"mensaje",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"BBDD correct reset"));
 		return "exito";
 
 	}
-	
+
 	/**
 	 * Nos devuelve a la pag. anterior
+	 * 
 	 * @return boolean
 	 */
 	public String atras() {
 		Log.debug("Pulsado atras");
 		return "true";
 	}
-	
+
 	/**
 	 * Actualiza la lista de usuarios del admin
+	 * 
 	 * @throws BusinessException
 	 */
 	private void listadoUsuarios() throws BusinessException {
@@ -279,7 +352,11 @@ public class BeanUsers implements Serializable {
 		FacesContext.getCurrentInstance().getExternalContext()
 				.invalidateSession();
 		Log.debug("Sesion cerrada correctamente");
+		FacesContext.getCurrentInstance().addMessage(
+				"mensaje",
+				new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
+						"Session closed"));
 		return "true";
 	}
-	
+
 }

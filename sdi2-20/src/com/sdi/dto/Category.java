@@ -4,7 +4,7 @@ public class Category {
 	private Long id;
 	private String name;
 	private Long userId;
-	
+
 	public String getName() {
 		return name;
 	}
@@ -34,9 +34,8 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "CategoryDto [id=" + id 
-				+ ", name=" + name 
-				+ ", userId=" + userId + "]";
+		return "CategoryDto [id=" + id + ", name=" + name + ", userId="
+				+ userId + "]";
 	}
 
 	@Override

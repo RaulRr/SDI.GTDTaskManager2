@@ -6,11 +6,11 @@ import com.sdi.persistence.impl.TransactionJdbcImpl;
 import com.sdi.persistence.impl.UserDaoJdbcImpl;
 
 public class Persistence {
-	
+
 	public static Transaction newTransaction() {
 		return new TransactionJdbcImpl();
 	}
-	
+
 	public static UserDao getUserDao() {
 		return new UserDaoJdbcImpl();
 	}

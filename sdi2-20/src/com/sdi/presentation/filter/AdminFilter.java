@@ -60,8 +60,9 @@ public class AdminFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
-		//Comprobamos si es admin
-		if (session.getAttribute("LOGGEDIN_USER")== null || !(boolean) session.getAttribute("LOGGEDIN_USER")) {
+		// Comprobamos si es admin
+		if (session.getAttribute("LOGGEDIN_USER") == null
+				|| !(boolean) session.getAttribute("LOGGEDIN_USER")) {
 			String loginForm = config.getInitParameter("LoginParam");
 			// Si no hay login, redirección al formulario de login
 			res.sendRedirect(req.getContextPath() + loginForm);

@@ -6,7 +6,7 @@ import com.sdi.persistence.PersistenceException;
 import com.sdi.persistence.Transaction;
 
 public class CommandExecutor<T> {
-	
+
 	public T execute(Command<T> cmd) throws BusinessException {
 		Transaction trx = Persistence.newTransaction();
 		trx.begin();
@@ -14,10 +14,9 @@ public class CommandExecutor<T> {
 
 			T res = cmd.execute();
 			trx.commit();
-			
+
 			return res;
-		}
-		catch(PersistenceException | BusinessException ex) {
+		} catch (PersistenceException | BusinessException ex) {
 			trx.rollback();
 			throw ex;
 		}

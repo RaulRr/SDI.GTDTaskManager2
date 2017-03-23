@@ -14,8 +14,8 @@ public class DeleteCategoryCommand implements Command<Void> {
 
 	@Override
 	public Void execute() throws BusinessException {
-		Persistence.getTaskDao().deleteAllFromCategory( catId );
-		Persistence.getCategoryDao().delete( catId );
+		Persistence.getTaskDao().deleteAllFromCategory(catId);
+		Persistence.getCategoryDao().delete(catId);
 		return null;
 	}
 

@@ -19,45 +19,45 @@ public class UpdateUserDetailsCommand implements Command<Void> {
 	@Override
 	public Void execute() throws BusinessException {
 		UserDao uDao = Persistence.getUserDao();
-		User previous = uDao.findById( user.getId() );
+		User previous = uDao.findById(user.getId());
 
-		checkUserExist( previous );
-		checkStatusIsNotChanged( previous, user );
-		checkIsAdminNotChanged( previous, user );
-		UserCheck.isValidEmailSyntax( user ); 
-		UserCheck.minLoginLength( user );
-		UserCheck.minPasswordLength( user );
-		
-		if (loginIsChanged(previous, user) ) {
-			UserCheck.notRepeatedLogin( user );
+		checkUserExist(previous);
+		checkStatusIsNotChanged(previous, user);
+		checkIsAdminNotChanged(previous, user);
+		UserCheck.isValidEmailSyntax(user);
+		UserCheck.minLoginLength(user);
+		UserCheck.minPasswordLength(user);
+
+		if (loginIsChanged(previous, user)) {
+			UserCheck.notRepeatedLogin(user);
 		}
 
-		uDao.update( user );
+		uDao.update(user);
 		return null;
 	}
 
 	private void checkIsAdminNotChanged(User previous, User current)
 			throws BusinessException {
-		BusinessCheck.isTrue( isAdminNotChanged( previous, current ),
-				"A user cannot be upgraded or downgraded" );
+		BusinessCheck.isTrue(isAdminNotChanged(previous, current),
+				"A user cannot be upgraded or downgraded");
 	}
 
 	private void checkUserExist(User previous) throws BusinessException {
-		BusinessCheck.isNotNull( previous, "The user does not exist");
+		BusinessCheck.isNotNull(previous, "The user does not exist");
 	}
 
 	private void checkStatusIsNotChanged(User previous, User current)
 			throws BusinessException {
-		BusinessCheck.isTrue( statusIsNotChanged(previous, current), 
+		BusinessCheck.isTrue(statusIsNotChanged(previous, current),
 				"Only the admin can change the satus");
 	}
 
 	private boolean statusIsNotChanged(User previous, User current) {
-		return previous.getStatus().equals( current.getStatus() );
+		return previous.getStatus().equals(current.getStatus());
 	}
 
 	private boolean loginIsChanged(User previous, User current) {
-		return ! previous.getLogin().equals( current.getLogin() );
+		return !previous.getLogin().equals(current.getLogin());
 	}
 
 	private boolean isAdminNotChanged(User previous, User current) {
