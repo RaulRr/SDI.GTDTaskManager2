@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -29,26 +28,11 @@ import com.sdi.tests.utils.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PlantillaSDI2_Tests1617 {
 
-	static WebDriver driver;
-	static String URL = "http://localhost:8180/sdi2-n";
-
+	WebDriver driver;
 	List<WebElement> elementos = null;
 	boolean prepararBD = true;
 
 	public PlantillaSDI2_Tests1617() {
-		getDriver();
-	}
-
-	public static void getDriver() {
-
-		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
-
-		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
-
-		FirefoxProfile firefoxProfile = new FirefoxProfile();
-
-		driver = new FirefoxDriver(ffBinary, firefoxProfile);
-
 	}
 
 	@Before
@@ -56,21 +40,15 @@ public class PlantillaSDI2_Tests1617 {
 
 		compobarBD();
 
-		driver.navigate().to(URL);
-	}
-
-	@After
-	public void tearDown() {
-
-		driver.manage().deleteAllCookies();
-
-	}
-
-	@AfterClass
-	static public void end() {
-
-		driver.quit();
-
+		// Este código es para ejecutar con la versión portale de Firefox 46.0
+		File pathToBinary = new File("S:\\firefox\\FirefoxPortable.exe");
+		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+		FirefoxProfile firefoxProfile = new FirefoxProfile();
+		driver = new FirefoxDriver(ffBinary, firefoxProfile);
+		driver.get("http://localhost:8180/sdi2-20");
+		// Este código es para ejecutar con una versión instalada de Firex 46.0
+		// driver = new FirefoxDriver();
+		// driver.get("http://localhost:8180/sdi2-n");
 	}
 
 	private void compobarBD() {
@@ -85,6 +63,11 @@ public class PlantillaSDI2_Tests1617 {
 		}
 	}
 
+	@After
+	public void end() {
+		// Cerramos el navegador
+		driver.close();
+	}
 
 	private void validarUsuario(String ulogin, String upassword) {
 
@@ -139,7 +122,7 @@ public class PlantillaSDI2_Tests1617 {
 	@Test
 	public void prueba03() {
 		// Estamos en el login-introducimos mal la password
-		validarUsuario("admin1", "adn");
+		validarUsuario("admin", "adn");
 
 		// No accedemos al listado por tanto seguimos en el index
 		driver.getCurrentUrl().equals(
@@ -1115,23 +1098,7 @@ public class PlantillaSDI2_Tests1617 {
 		assertTrue(title.get(4).getText().equals("TaskInbox"));// 5 elemento
 
 		// Reseteamos la bbdd
-		By button = By
-				.xpath("//a[contains(@id, 'form-template:cerrarsesion')]");
-		driver.findElement(button).click();// Pulsamos sobre cerrar sesion
-
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-login", 10);
-
-		// Validamos con el admin
-		validarUsuario("admin1", "admin1");
-
-		// Esperamos a que se cargue la pagina del admin
-		// concretamente al link de iniciar la BD
-		SeleniumUtils.EsperaCargaPagina(driver, "id",
-				"form-template:form-admin:reiniciarbd", 10);
-		// Pulsamos sobre el enlace
-		By link = By.id("form-template:form-admin:reiniciarbd");
-		driver.findElement(link).click();
+		prepararBD=true;
 	}
 
 	// PR28: Crear una tarea con categoría categoria1 y fecha planeada Hoy y

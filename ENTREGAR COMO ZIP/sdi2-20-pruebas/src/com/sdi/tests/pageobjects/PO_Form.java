@@ -31,7 +31,7 @@ public class PO_Form {
 		driver.findElement(boton).click();
 	}
 
-	public void rellenaLogin(WebDriver driver, String ulogin, String upassword) {
+	public void rellenaLogin(WebDriver driver, String ulogin, String upassword){
 		WebElement login = driver.findElement(By
 				.id("form-template:form-login:login-text"));
 		login.click();
@@ -41,7 +41,7 @@ public class PO_Form {
 				.id("form-template:form-login:password-text"));
 		password.click();
 		password.clear();
-		password.sendKeys(ulogin);
+		password.sendKeys(upassword);
 		// Pulsar el boton de validacion
 		By boton = By.id("form-template:form-login:validation-button");
 		driver.findElement(boton).click();
